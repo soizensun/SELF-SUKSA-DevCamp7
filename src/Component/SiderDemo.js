@@ -81,7 +81,7 @@ class SiderDemo extends React.Component{
                 <div style={{ padding: 24, background: '#fff', minHeight: 1000 }}>
                   {/* <i class="fas fa-biohazard fa-5x"></i> */}
                   <Button type="primary" onClick={this.showDrawer}>
-                    <Icon type="plus" /> New account
+                    <Icon type="plus" /> add new question
                   </Button>
                 </div>
               </Content>
