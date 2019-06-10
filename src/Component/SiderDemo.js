@@ -92,7 +92,7 @@ class SiderDemo extends React.Component{
 
         <Drawer
           title="Create a new account"
-          width={700}
+          width={500}
           onClose={this.onClose}
           visible={this.state.visible}
         >
@@ -107,7 +107,8 @@ class SiderDemo extends React.Component{
               padding: '10px 16px',
               background: '#fff',
               textAlign: 'right',
-            }}>             
+            }}
+          >             
           </div>
         </Drawer>
 

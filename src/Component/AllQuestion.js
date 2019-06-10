@@ -8,46 +8,44 @@ class AllQuestion extends React.Component {
             allData: [],
         }
     }
-
-    getData = () => {
+    componentDidMount(){
+      
         const db = fire.firestore();
-        db.settings({
-          timestampsInSnapshots: true
-        });
         var wholeData = [];
-        db.collection('question').orderBy('desc').get()
+        db.collection('question').get()
         .then(snapshot => {
           snapshot.forEach(doc => {
             // console.log(doc.id, '=>', doc.data());
-            // console.log(doc.data().name + doc.data().age);
-            console.log(doc.data());
+            // console.log(doc.data().topic + doc.data().detail);
+            // console.log(doc.data());
             wholeData.push(doc.data())
-          });
-          console.log(wholeData)
-          this.setState({allData: wholeData})
-          console.log(this.state.allData)
-        })
-        .catch(error => {
-          console.log('Error!', error);
-        })
-      }
+            });
+            // console.log(wholeData)
+            this.setState({allData: wholeData})
+            console.log(this.state.allData)
+          })
+          .catch(error => {
+            console.log('Error!', error);
+          })
+    }
 
     render(){
 
         var listOfQuestion = this.state.allData.map((val, i)=>{
+            // console.log(val);
             var topic = val.topic
             var detail = val.detail
             return (
-              <li key={i}>{topic} ({detail})</li>
+              <li key={i}>{topic} {detail}</li>
             ) 
         })
 
 
         return(
             <div>
-                <button onClick={this.getData}>
+                {/* <button onClick={this.getData}>
                 Get Data
-                </button>
+                </button> */}
                 <ul>{listOfQuestion}</ul>
             </div>
         );

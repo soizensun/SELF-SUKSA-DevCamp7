@@ -52,7 +52,7 @@ class Field extends React.Component {
                 value={this.state.topic} 
                 name="topic"
               />
-                <br/>
+              <br/>
               <TextArea 
                 name="detail"
                 placeholder="detail"
@@ -60,7 +60,7 @@ class Field extends React.Component {
                 value={this.state.detail}
                 autosize
               />
-                <br/>
+              <br/>
               <button type="submit">Submit</button>
             </form>
 
