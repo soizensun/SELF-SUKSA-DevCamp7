@@ -3,7 +3,7 @@ import React from 'react';
 // import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import '../cssFile/SiderDemo.css';
-import Field from './TextField';
+import Field from './Field';
 import { Layout, Menu, Icon,  Drawer, Button } from 'antd';
 import { rgbToHex } from '@material-ui/core/styles';
 import { borderColor } from '@material-ui/system';
@@ -99,9 +99,8 @@ class SiderDemo extends React.Component{
           onClose={this.onClose}
           visible={this.state.visible}
         >
-          <div>
             <Field/>
-            <div   
+            <div  
               style = {{            
                 position: 'absolute',
                 left: 0,
@@ -112,16 +111,13 @@ class SiderDemo extends React.Component{
                 background: '#fff',
                 textAlign: 'right',
             }}>
-              <Button onClick={this.onClose} style={{ marginRight: 10, marginBottom: 10 }}>
+              <Button type = 'danger' onClick={this.onClose} style={{ marginRight: 10, marginBottom: 10 }}>
                 Cancel
               </Button>
               <Button onClick={this.onClose} style={{ marginRight: 10, marginBottom: 10, backgroundColor: '#FFE361',  borderColor: '#FFE361'  }}>
                 Submit
               </Button>
             </div>
-            
-
-          </div>
         </Drawer>
 
       </div>

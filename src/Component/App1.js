@@ -19,12 +19,7 @@ class App1 extends React.Component {
         });
     }
 
-
-
     render(){
-
-
-
         return(
             <div>
                 <Button type="primary"> {this.state.text} </Button>
