@@ -2,6 +2,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import '../cssFile/SiderDemo.css';
+import AllQuestion from './AllQuestion';
 import Field from './Field';
 import { Layout, Menu, Icon,  Drawer, Button } from 'antd';
 
@@ -76,7 +77,7 @@ class SiderDemo extends React.Component{
               <Content style={{ margin: '24px 16px 0' }}>
                 <div style={{ padding: 24, background: '#fff', minHeight: 1000 }}>
                   {/* <i class="fas fa-biohazard fa-5x"></i> */}
-
+                  <AllQuestion/>
                   <Button type="primary" onClick={this.showDrawer}>
                     <Icon type="plus" /> add new question
                   </Button>
