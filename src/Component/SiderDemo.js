@@ -1,14 +1,10 @@
 
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import '../cssFile/SiderDemo.css';
 import Field from './Field';
 import { Layout, Menu, Icon,  Drawer, Button } from 'antd';
-import { rgbToHex } from '@material-ui/core/styles';
-import { borderColor } from '@material-ui/system';
 
-// const { Option } = Select;
 const { Header, Content, Footer, Sider } = Layout;
 
 class SiderDemo extends React.Component{
@@ -29,8 +25,6 @@ class SiderDemo extends React.Component{
       visible: false,
     });
   };
-
-  
 
   render(){
     return(
@@ -82,9 +76,11 @@ class SiderDemo extends React.Component{
               <Content style={{ margin: '24px 16px 0' }}>
                 <div style={{ padding: 24, background: '#fff', minHeight: 1000 }}>
                   {/* <i class="fas fa-biohazard fa-5x"></i> */}
+
                   <Button type="primary" onClick={this.showDrawer}>
                     <Icon type="plus" /> add new question
                   </Button>
+
                 </div>
               </Content>
               
@@ -99,25 +95,19 @@ class SiderDemo extends React.Component{
           onClose={this.onClose}
           visible={this.state.visible}
         >
-            <Field/>
-            <div  
-              style = {{            
-                position: 'absolute',
-                left: 0,
-                bottom: 0,
-                width: '100%',
-                // borderTop: '1px solid #e9e9e9',
-                padding: '10px 16px',
-                background: '#fff',
-                textAlign: 'right',
-            }}>
-              <Button type = 'danger' onClick={this.onClose} style={{ marginRight: 10, marginBottom: 10 }}>
-                Cancel
-              </Button>
-              <Button onClick={this.onClose} style={{ marginRight: 10, marginBottom: 10, backgroundColor: '#FFE361',  borderColor: '#FFE361'  }}>
-                Submit
-              </Button>
-            </div>
+          <Field/>
+          <div  
+            style = {{            
+              position: 'absolute',
+              left: 0,
+              bottom: 0,
+              width: '100%',
+              // borderTop: '1px solid #e9e9e9',
+              padding: '10px 16px',
+              background: '#fff',
+              textAlign: 'right',
+            }}>             
+          </div>
         </Drawer>
 
       </div>

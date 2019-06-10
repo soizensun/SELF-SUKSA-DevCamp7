@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-// import { withStyles } from '@material-ui/core/styles';
-// import TextField from '@material-ui/core/TextField';
-// import MenuItem from '@material-ui/core/MenuItem';
+import 'antd/dist/antd.css';
+import { message, Input } from 'antd';
 import fire from '../Config';
-
+const { TextArea } = Input;
 
 class Field extends React.Component {
     state = {
@@ -22,49 +21,53 @@ class Field extends React.Component {
     addData = e => {
       e.preventDefault();
       const db = fire.firestore();
-
       db.settings({
         timestampsInSnapshots: true
       });
-
-      db.collection('question').add({
-        topic: this.state.topic,
-        detail: this.state.detail
-      });
-
-      this.setState({
-        topic: '',
-        detail: ''
-      });
+      if ( this.state.topic != "" && this.state.detail != "" ){
+        message.loading('saving your question', 1.0).then(() => message.success('already ask', 2.5))
+        db.collection('question').add({
+          topic: this.state.topic,
+          detail: this.state.detail
+        });
+        this.setState({
+          topic: '',
+          detail: ''
+        });
+      }
+      else {
+        message.error('Please fill in all of textField');
+      }
     };
     
     render(){
         return (
           <div>
-              <form onSubmit={this.addData}>
-                <input
-                  type="text"
-                  name="topic"
-                  placeholder="Input your name..."
-                  onChange={this.updateInput}
-                  // value={this.state.topic}
-                />
+            <form onSubmit={this.addData}>
+              <Input 
+                size="large"
+                placeholder="your topic" 
+                allowClear 
+                onChange={this.updateInput} 
+                value={this.state.topic} 
+                name="topic"
+              />
                 <br/>
-                <input
-                  type="text"
-                  name="detail"
-                  placeholder="detail"
-                  onChange={this.updateInput}
-                  // value={this.state.age1}
-                />
+              <TextArea 
+                name="detail"
+                placeholder="detail"
+                onChange={this.updateInput}
+                value={this.state.detail}
+                autosize
+              />
                 <br/>
-                <button type="submit">Submit</button>
-              </form>
+              <button type="submit">Submit</button>
+            </form>
 
-              {/* <button onClick={this.getData}>
-                Get Data
-              </button> */}
-             </div>
+            {/* <button onClick={this.getData}>
+              Get Data
+            </button> */}
+            </div>
         );
     }
 }
