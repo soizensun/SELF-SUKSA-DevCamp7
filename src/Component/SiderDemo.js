@@ -4,9 +4,11 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../cssFile/SiderDemo.css';
 import Field from './TextField';
-import { Layout, Menu, Icon,  Drawer, Button, Input, Select } from 'antd';
+import { Layout, Menu, Icon,  Drawer, Button } from 'antd';
+import { rgbToHex } from '@material-ui/core/styles';
+import { borderColor } from '@material-ui/system';
 
-const { Option } = Select;
+// const { Option } = Select;
 const { Header, Content, Footer, Sider } = Layout;
 
 class SiderDemo extends React.Component{
@@ -86,10 +88,8 @@ class SiderDemo extends React.Component{
                 </div>
               </Content>
               
-              <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+              <Footer style={{ textAlign: 'center' }}>footer</Footer>
             </Layout>
-
-
           </Layout>
 
 
@@ -99,25 +99,27 @@ class SiderDemo extends React.Component{
           onClose={this.onClose}
           visible={this.state.visible}
         >
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              bottom: 0,
-              width: '100%',
-              borderTop: '1px solid #e9e9e9',
-              padding: '10px 16px',
-              background: '#fff',
-              textAlign: 'right',
-            }}
-          >
+          <div>
             <Field/>
-            {/* <Button onClick={this.onClose} style={{ marginRight: 8 }}>
-              Cancel
-            </Button> */}
-            <Button onClick={this.onClose} type="primary">
-              Submit
-            </Button>
+            <div   
+              style = {{            
+                position: 'absolute',
+                left: 0,
+                bottom: 0,
+                width: '100%',
+                // borderTop: '1px solid #e9e9e9',
+                padding: '10px 16px',
+                background: '#fff',
+                textAlign: 'right',
+            }}>
+              <Button onClick={this.onClose} style={{ marginRight: 10, marginBottom: 10 }}>
+                Cancel
+              </Button>
+              <Button onClick={this.onClose} style={{ marginRight: 10, marginBottom: 10, backgroundColor: '#FFE361',  borderColor: '#FFE361'  }}>
+                Submit
+              </Button>
+            </div>
+            
 
           </div>
         </Drawer>

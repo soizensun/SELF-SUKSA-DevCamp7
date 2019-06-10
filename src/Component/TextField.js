@@ -100,109 +100,106 @@ class Field extends React.Component {
     render(){
         const { classes } = this.props;
         return (
-        <form className={classes.container} noValidate autoComplete="off">
-
-        <TextField
-          id="outlined-with-placeholder"
-          label="N A M E"
-          placeholder="Your name"
-          style={{ width: "100%" }}
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-        />
-        <TextField
-          id="outlined-with-placeholder"
-          label="N A M E"
-          placeholder="Your name"
-          style={{ width: "100%" }}
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-        />
-        
-        <TextField
-          id="outlined-with-placeholder"
-          label="N A M E"
-          placeholder="Your name"
-          style={{ width: "100%" }}
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-        />
-        {/* <div className = "dateOfBirth"> */}
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="D A Y"
-            className={classes.textField}
-            value={this.state.currency}
-            onChange={this.handleChange('currency')}
-            SelectProps={{
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            helperText=""
-            margin="normal"
-            variant="outlined"
-            style={{ width: "20%" }}
-          >
-            {day.map(option => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="M O N T H"
-            className={classes.textField}
-            value={this.state.currency}
-            onChange={this.handleChange('currency')}
-            SelectProps={{
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            helperText=""
-            margin="normal"
-            variant="outlined"
-            style={{ width: "41%" }}
-          >
-            {month.map(option => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="Y E A R"
-            className={classes.textField}
-            value={this.state.currency}
-            onChange={this.handleChange('currency')}
-            SelectProps={{
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            helperText="AD Born"
-            margin="normal"
-            variant="outlined"
-            style={{ width: "27%" }}
-          >
-            {currencies.map(option => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        {/* </div> */}
-        
-         </form>
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="outlined-with-placeholder"
+              label="N A M E"
+              placeholder="Your name"
+              style={{ width: "100%" }}
+              className={classes.textField}
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              id="outlined-with-placeholder"
+              label="N A M E"
+              placeholder="Your name"
+              style={{ width: "100%" }}
+              className={classes.textField}
+              margin="normal"
+              variant="outlined"
+            />
+            
+            <TextField
+              id="outlined-with-placeholder"
+              label="N A M E"
+              placeholder="Your name"
+              style={{ width: "100%" }}
+              className={classes.textField}
+              margin="normal"
+              variant="outlined"
+            />
+            {/* <div className = "dateOfBirth"> */}
+              <TextField
+                id="outlined-select-currency"
+                select
+                label="D A Y"
+                className={classes.textField}
+                value={this.state.currency}
+                onChange={this.handleChange('currency')}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText=""
+                margin="normal"
+                variant="outlined"
+                style={{ width: "20%" }}
+              >
+                {day.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="outlined-select-currency"
+                select
+                label="M O N T H"
+                className={classes.textField}
+                value={this.state.currency}
+                onChange={this.handleChange('currency')}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText=""
+                margin="normal"
+                variant="outlined"
+                style={{ width: "41%" }}
+              >
+                {month.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="outlined-select-currency"
+                select
+                label="Y E A R"
+                className={classes.textField}
+                value={this.state.currency}
+                onChange={this.handleChange('currency')}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText="AD Born"
+                margin="normal"
+                variant="outlined"
+                style={{ width: "27%" }}
+              >
+                {currencies.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+          </form>
         );
     }
 }
