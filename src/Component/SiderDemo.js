@@ -29,13 +29,6 @@ export class SiderDemo extends Component {
     });
   };
 
-  handleButon = (res) => {
-    console.log(res.key);
-    // console.log(this.state.tag)
-    // this.setState({
-    //   tag : res.key
-    // })
-  }
 
   render() {
     return (

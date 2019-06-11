@@ -3,6 +3,15 @@ import Menu from 'antd/lib/menu'
 import Icon from 'antd/lib/icon'
 
 export class SubjectsMenu extends Component {
+
+    handleButon = (res) => {
+        console.log(res.key);
+        // console.log(this.state.tag)
+        // this.setState({
+        //   tag : res.key
+        // })
+      }
+
     render() {
         return (
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} >
