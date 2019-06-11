@@ -9,10 +9,10 @@ class AllQuestion extends React.Component {
         }
     }
     componentDidMount(){
-        this.interval = setInterval(() => this.addData(), 1000);
+        this.interval = setInterval(() => this.getData(), 1000);
     }
 
-    addData = () => {
+    getData = () => {
         const db = fire.firestore();
         var wholeData = [];
         db.collection('question').get()
