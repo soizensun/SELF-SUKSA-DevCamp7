@@ -13,6 +13,8 @@ class SiderDemo extends React.Component{
     super();
     this.state = {
       visible: false,
+
+      tag : ""
     }
   }
   showDrawer = () => {
@@ -26,6 +28,14 @@ class SiderDemo extends React.Component{
       visible: false,
     });
   };
+
+  handleButon = (res) => {
+    console.log(res.key);
+    // console.log(this.state.tag)
+    // this.setState({
+    //   tag : res.key
+    // })
+  }
 
   render(){
     return(
@@ -42,26 +52,26 @@ class SiderDemo extends React.Component{
             }}
           >
               <div className="logo">
-                <i class="fas fa-biohazard fa-2x" style={{color: "#FFE361" }}></i>
+                 
               </div>
 
-              <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+              <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} >
 
-                <Menu.Item key="1">
-                  <Icon type="user" />
-                  <span className="nav-text">nav 1</span>
+                <Menu.Item key="math" onClick={this.handleButon}>
+                  <Icon type="file-excel" />
+                  <span className="nav-text" >math</span>
                 </Menu.Item>
-                <Menu.Item key="2">
-                  <Icon type="video-camera" />
-                  <span className="nav-text">nav 2</span>
+                <Menu.Item key="science" onClick={this.handleButon}>
+                <Icon type="thunderbolt" />
+                  <span className="nav-text">science</span>
                 </Menu.Item>
-                <Menu.Item key="3">
-                  <Icon type="upload" />
-                  <span className="nav-text">nav 3</span>
+                <Menu.Item key="language" onClick={this.handleButon}>
+                <Icon type="flag" />
+                  <span className="nav-text">language</span>
                 </Menu.Item>
-                <Menu.Item key="4">
-                  <Icon type="user" />
-                  <span className="nav-text">nav 4</span>
+                <Menu.Item key="programming" onClick={this.handleButon}>
+                  <Icon type="code" />
+                  <span className="nav-text">programming</span>
                 </Menu.Item>
 
               </Menu>

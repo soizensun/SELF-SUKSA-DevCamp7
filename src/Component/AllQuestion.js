@@ -9,12 +9,15 @@ class AllQuestion extends React.Component {
         }
     }
     componentDidMount(){
-      
+        this.interval = setInterval(() => this.addData(), 1000);
+    }
+
+    addData = () => {
         const db = fire.firestore();
         var wholeData = [];
         db.collection('question').get()
         .then(snapshot => {
-          snapshot.forEach(doc => {
+        snapshot.forEach(doc => {
             // console.log(doc.id, '=>', doc.data());
             // console.log(doc.data().topic + doc.data().detail);
             // console.log(doc.data());
@@ -22,15 +25,15 @@ class AllQuestion extends React.Component {
             });
             // console.log(wholeData)
             this.setState({allData: wholeData})
-            console.log(this.state.allData)
-          })
-          .catch(error => {
+            // console.log(this.state.allData)
+        })
+        .catch(error => {
             console.log('Error!', error);
-          })
+        })
     }
+    
 
     render(){
-
         var listOfQuestion = this.state.allData.map((val, i)=>{
             // console.log(val);
             var topic = val.topic
@@ -39,7 +42,6 @@ class AllQuestion extends React.Component {
               <li key={i}>{topic} {detail}</li>
             ) 
         })
-
 
         return(
             <div>
