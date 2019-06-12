@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Tag} from 'antd'
 import fire from '../Config';
 
 class AllQuestion extends React.Component {
@@ -10,6 +11,7 @@ class AllQuestion extends React.Component {
     }
     componentDidMount(){
         // this.interval = setInterval(() => this.getData(), 1000);
+        this.getData();   
     }
 
     getData = () => {
@@ -34,21 +36,28 @@ class AllQuestion extends React.Component {
     
 
     render(){
-        var listOfQuestion = this.state.allData.map((val, i)=>{
-            // console.log(val);
+
+        var listOfQuestion = this.state.allData.map((val)=>{
             var topic = val.topic
             var detail = val.detail
+            var tag = val.tag.map((tag) => {
+                return <Tag>{tag}</Tag>
+            })
+            var component = <li>
+                                {tag}<br/>
+                                topic => {topic}<br/>
+                                detail => {detail}
+                            </li>
             return (
-              <li key={i}>{topic} {detail}</li>
+              <div>
+                  {component}<br/>
+              </div>
             ) 
         })
 
         return(
             <div>
-                {/* <button onClick={this.getData}>
-                Get Data
-                </button> */}
-                <ul>{listOfQuestion}</ul>
+                <ul> { listOfQuestion } </ul>
             </div>
         );
     }

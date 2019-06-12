@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
-import { message, Input, Tag, Tooltip, Icon } from 'antd';
+import { message, Input, Tag, Tooltip, Icon, Menu, Dropdown, Button } from 'antd';
 import fire from '../Config';
 const { TextArea } = Input;
 
@@ -15,6 +15,10 @@ class Field extends React.Component {
       inputValue: '',
     }
     
+    handleMenuClick = () => {
+      console.log("asdf")
+    }
+
     updateInput = e => {
       // console.log(e.target.name);
       this.setState({
@@ -74,45 +78,74 @@ class Field extends React.Component {
     };
 
     saveInputRef = input => (this.input = input);
+
+    
 ////////////////////////////////////////////////
+
+
     render(){
       const { tags, inputVisible, inputValue } = this.state;
+
+      const menu = (
+        <Menu onClick={this.handleMenuClick}>
+          <Menu.Item key="1">
+            <Icon type="user" />
+            1st menu item
+          </Menu.Item>
+          <Menu.Item key="2">
+            <Icon type="user" />
+            2nd menu item
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Icon type="user" />
+            3rd item
+          </Menu.Item>
+        </Menu>
+      );
+
         return (
           <div>
-                  <div>
-        {tags.map((tag, index) => {
-          const isLongTag = tag.length > 10;
-          const tagElem = (
-            <Tag key={tag} closable={index !== -1} onClose={() => this.handleClose(tag)}>
-              {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-            </Tag>
-          );
-          return isLongTag ? (
-            <Tooltip title={tag} key={tag}>
-              {tagElem}
-            </Tooltip>
-          ) : (
-            tagElem
-          );
-        })}
-        {inputVisible && (
-          <Input
-            ref={this.saveInputRef}
-            type="text"
-            size="small"
-            style={{ width: 78 }}
-            value={inputValue}
-            onChange={this.handleInputChange}
-            onBlur={this.handleInputConfirm}
-            onPressEnter={this.handleInputConfirm}
-          />
-        )}
-        {!inputVisible && (
-          <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-            <Icon type="plus" /> New Tag
-          </Tag>
-        )}
-      </div>
+            <div>
+              {tags.map((tag, index) => {
+                const isLongTag = tag.length > 10;
+                const tagElem = (
+                  <Tag key={tag} closable={index !== -1} onClose={() => this.handleClose(tag)}>
+                    {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                  </Tag>
+                );
+                return isLongTag ? (
+                  <Tooltip title={tag} key={tag}>
+                    {tagElem}
+                  </Tooltip>
+                ) : (
+                  tagElem
+                );
+              })}
+              {inputVisible && (
+                <Input
+                  ref={this.saveInputRef}
+                  type="text"
+                  size="small"
+                  style={{ width: 78 }}
+                  value={inputValue}
+                  onChange={this.handleInputChange}
+                  onBlur={this.handleInputConfirm}
+                  onPressEnter={this.handleInputConfirm}
+                />
+              )}
+              {!inputVisible && (
+                <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
+                  <Icon type="plus" /> New Tag
+                </Tag>
+              )}
+            </div>
+
+            <Dropdown overlay={menu}>
+              <Button>
+                type <Icon type="down" />
+              </Button>
+            </Dropdown>
+
             <form onSubmit={this.addData}>
               <Input 
                 size="large"
@@ -133,11 +166,7 @@ class Field extends React.Component {
               <br/>
               <button type="submit">Submit</button>
             </form>
-
-            {/* <button onClick={this.getData}>
-              Get Data
-            </button> */}
-            </div>
+          </div>
         );
     }
 }
