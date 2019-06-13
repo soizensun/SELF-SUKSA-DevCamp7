@@ -13,32 +13,25 @@ export class SubjectsMenu extends Component {
         }
     }
 
-    handleButon = (res) => {
-        console.log(res.key);
-        // console.log(this.state.tag)
-        // this.setState({
-        //   tag : res.key
+    handleButon = (tag) => {
+        console.log(tag.key);
+        // const db = fire.firestore();
+        // var wholeData = [];
+        // db.collection('question').get()
+        // .then(snapshot => {
+        // snapshot.forEach(doc => {
+        //     // console.log(doc.id, '=>', doc.data());
+        //     // console.log(doc.data().topic + doc.data().detail);
+        //     // console.log(doc.data());
+        //     wholeData.push(doc.data())
+        //     });
+        //     // console.log(wholeData)
+        //     this.setState({allData: wholeData})
+        //     // console.log(this.state.allData)
         // })
-
-
-        const db = fire.firestore();
-        var wholeData = [];
-        db.collection('question').get()
-        .then(snapshot => {
-        snapshot.forEach(doc => {
-            // console.log(doc.id, '=>', doc.data());
-            // console.log(doc.data().topic + doc.data().detail);
-            // console.log(doc.data());
-            wholeData.push(doc.data())
-            });
-            // console.log(wholeData)
-            this.setState({allData: wholeData})
-            // console.log(this.state.allData)
-        })
-        .catch(error => {
-            console.log('Error!', error);
-        })
-
+        // .catch(error => {
+        //     console.log('Error!', error);
+        // })
       }
 
     render() {
@@ -50,9 +43,37 @@ export class SubjectsMenu extends Component {
                     title={
                         <span>
                             <Icon type="mail" /> 
-                            <span>Navigation One</span>
+                            <span>prepare for exam</span>
                         </span>
-                    }>
+                    }
+                >
+                    <Menu.Item key="PAT1" onClick={this.handleButon}>
+                        <Icon type="file-excel" />
+                        <span className="nav-text" >PAT1</span>
+                    </Menu.Item>
+                    <Menu.Item key="PAT2" onClick={this.handleButon}>
+                        <Icon type="thunderbolt" />
+                        <span className="nav-text">PAT2</span>
+                    </Menu.Item>
+                    <Menu.Item key="GAT" onClick={this.handleButon}>
+                        <Icon type="flag" />
+                        <span className="nav-text">GAT</span>
+                    </Menu.Item>
+                    <Menu.Item key="O-NET" onClick={this.handleButon}>
+                        <Icon type="code" />
+                        <span className="nav-text">O-NET</span>
+                    </Menu.Item>
+                </SubMenu>
+
+                <SubMenu
+                    key="sub2"
+                    title={
+                        <span>
+                            <Icon type="mail" /> 
+                            <span>classroom</span>
+                        </span>
+                    }
+                >
                     <Menu.Item key="math" onClick={this.handleButon}>
                         <Icon type="file-excel" />
                         <span className="nav-text" >math</span>
@@ -68,6 +89,24 @@ export class SubjectsMenu extends Component {
                     <Menu.Item key="programming" onClick={this.handleButon}>
                         <Icon type="code" />
                         <span className="nav-text">programming</span>
+                    </Menu.Item>
+                </SubMenu>
+                <SubMenu
+                    key="sub3"
+                    title={
+                        <span>
+                            <Icon type="mail" /> 
+                            <span>living room</span>
+                        </span>
+                    }
+                >
+                    <Menu.Item key="other" onClick={this.handleButon}>
+                        <Icon type="file-excel" />
+                        <span className="nav-text" >other</span>
+                    </Menu.Item>
+                    <Menu.Item key="life" onClick={this.handleButon}>
+                        <Icon type="thunderbolt" />
+                        <span className="nav-text">life</span>
                     </Menu.Item>
                 </SubMenu>
 

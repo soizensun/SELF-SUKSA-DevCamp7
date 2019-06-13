@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './cssFile/App.css';
-import firebase from 'firebase';
-import SiderDemo from './Component/SiderDemo'
+import Layout from './Component/Layout'
 
 class App extends React.Component {
   constructor(){
@@ -17,7 +16,7 @@ class App extends React.Component {
   render(){
     return (
       <div className="App">
-        <SiderDemo/>
+        <Layout/>
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import 'antd/dist/antd.css';
 import '../cssFile/SiderDemo.css';
 import AllQuestion from './AllQuestion';
-import Field from './Field';
+import InputQuestion from './InputQuestion';
 import { Layout, Icon, Drawer, Button } from 'antd';
 import SubjectsMenu from './SubjectsMenu';
 
@@ -78,7 +78,7 @@ export class SiderDemo extends Component {
           onClose={this.onClose}
           visible={this.state.visible}
         >
-          <Field />
+          <InputQuestion />
           <div
             style={{
               position: 'absolute',

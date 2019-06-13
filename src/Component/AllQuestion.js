@@ -38,20 +38,20 @@ class AllQuestion extends React.Component {
     render(){
 
         var listOfQuestion = this.state.allData.map((val)=>{
+            var type = val.type
             var topic = val.topic
             var detail = val.detail
             var tag = val.tag.map((tag) => {
-                return <Tag>{tag}</Tag>
+                return <Tag color="cyan">{tag}</Tag>
             })
             var component = <li>
                                 {tag}<br/>
+                                type => {type}<br/>
                                 topic => {topic}<br/>
                                 detail => {detail}
                             </li>
             return (
-              <div>
-                  {component}<br/>
-              </div>
+              <div> {component} <br/> </div>
             ) 
         })
 
