@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React from 'react';
 import 'antd/dist/antd.css';
-import { message, Input, Tag, Tooltip, Icon, Menu, Dropdown, Form, Select, Button } from 'antd';
+import { message, Input, Tag, Tooltip, Icon, Form, Select, Button } from 'antd';
 import fire from '../Config';
 
 const { TextArea } = Input;
@@ -27,14 +27,19 @@ class InputQuestion extends React.Component {
     });
   }
 
+  handleDropdown = e =>{
+    this.setState({
+      type : e
+    })
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const db = fire.firestore();
-    
     db.settings({
       timestampsInSnapshots: true
     });
-    if ( this.state.topic != "" && this.state.detail != "" ){
+    if ( this.state.topic !== "" && this.state.detail !== "" && this.state.type !== ""){
       message.loading('saving your question', 1.0).then(() => message.success('already ask', 2.5))
       db.collection('question').add({
         topic: this.state.topic,
@@ -50,7 +55,7 @@ class InputQuestion extends React.Component {
       });
     }
     else {
-      message.error('Please fill in all of textField');
+      message.error('Please fill in all of form');
     }
   };
 
@@ -85,14 +90,6 @@ class InputQuestion extends React.Component {
 
     saveInputRef = input => (this.input = input);
 ////////////////////////////////////////////////////////
-
-      handleSelectChange = (res) => {
-        // console.log(type)
-        this.setState({
-          type : res
-        })
-      };
-
 
     render(){
       const { tags, inputVisible, inputValue } = this.state;
@@ -135,45 +132,35 @@ class InputQuestion extends React.Component {
               )}
             </div>
 
-            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
+            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} onSubmit={this.handleSubmit} >
 
-               <Form.Item label="TOPIC">
-                  {getFieldDecorator('topic', {
-                    rules: [{ required: true, message: 'Please input your TOPIC !' }],
-                  })(
+               <Form.Item label="TOPIC" style = {{margin: 0}}>
                     <Input allowClear 
                       placeholder="your topic" 
                       onChange={this.updateInput} 
                       value={this.state.topic} 
                       name="topic"
                     />
-                  )}
                </Form.Item>
 
-               <Form.Item label="DETAIL">
-                  {getFieldDecorator('detail', {
-                    rules: [{ required: true, message: 'Please input your DETAIL !' }],
-                  })(
+               <Form.Item label="DETAIL" style = {{margin: 0}}>
                     <TextArea autosize
                       name="detail"
                       placeholder="detail"
                       onChange={this.updateInput}
                       value={this.state.detail}
                     />
-                  )}
                </Form.Item>
 
-               <Form.Item label="TYPE">
+               <Form.Item label="TYPE" style = {{margin: 0}}>
                  {getFieldDecorator('gender', {
-                   rules: [{ required: true, message: 'Please select your type!' }],
+                   rules: [{ required: false, message: 'Please select your type!' }],
                  })(
                    <Select
                      placeholder="Select your type of question"
-                     onChange={this.handleSelectChange}
-                     style={{}}
-                     value={this.state.type}
+                     onChange={this.handleDropdown}
                   >
-                    <Option value="PAT1">  
+                    <Option value="PAT1" style={{backgroundColor: 'gray'}}>  
                       <Icon type="file-excel" />
                       <span className="nav-text">    PAT1</span>
                      </Option>

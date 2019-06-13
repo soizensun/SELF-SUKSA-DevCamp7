@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Menu from 'antd/lib/menu';
 import Icon from 'antd/lib/icon';
-import fire from '../Config'
+
 
 const { SubMenu }  = Menu;
 
