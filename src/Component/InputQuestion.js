@@ -34,6 +34,11 @@ class InputQuestion extends React.Component {
   }
 
   handleSubmit = e => {
+
+    console.log(
+      "topic : " + this.state.topic + " detail : " + this.state.detail + " type : " + this.state.type
+    )
+
     e.preventDefault();
     const db = fire.firestore();
     db.settings({
@@ -51,12 +56,14 @@ class InputQuestion extends React.Component {
         topic: '',
         detail: '',
         tag: '',
-        type: '',
+        type: this.state.type,
       });
     }
     else {
       message.error('Please fill in all of form');
     }
+
+    
   };
 
 ////////////////////// TAG CONTROL ///////////////////
@@ -159,6 +166,7 @@ class InputQuestion extends React.Component {
                    <Select
                      placeholder="Select your type of question"
                      onChange={this.handleDropdown}
+                     value={this.state.type}
                   >
                     <Option value="PAT1" style={{backgroundColor: 'gray'}}>  
                       <Icon type="file-excel" />
