@@ -112,7 +112,7 @@ class InputQuestion extends React.Component {
         
       }
       else {
-        message.error('Please fill in all of formeeeeeee');
+        message.error('error');
       }
     });
   };
@@ -233,55 +233,77 @@ class InputQuestion extends React.Component {
           required={false}
           key={k}
         >
-          { getFieldDecorator(`question[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })(
-              <Input placeholder="passenger name" style={{ width: '80%', marginRight: 8 }} />) }
-          { getFieldDecorator(`choice1[${k}]]`,  { validateTrigger: ['onChange', 'onBlur'] })(
+
+          {
+            getFieldDecorator(`question[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            (
+              <Input placeholder="question" style={{ width: '80%', marginRight: 8 }} />
+            ) 
+          }
+          { 
+            getFieldDecorator(`choice1[${k}]]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            (
               <div><div>choice1</div>
                 <Input placeholder="detail" style={{ width: '80%', marginRight: 8 }} />
               </div>
-            )}
-          { getFieldDecorator(`reason1[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            )
+          }
+          { 
+            getFieldDecorator(`reason1[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div>
                 <TextArea autosize name="detail" placeholder="reason" style={{ width: '80%', marginRight: 8 }}/>
               </div>
-            )}
-          { getFieldDecorator(`choice2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            )
+          }
+          { 
+            getFieldDecorator(`choice2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div><div>choice2</div>
                 <Input placeholder="detail" style={{ width: '80%', marginRight: 8 }} />
               </div>
-            )}
-          { getFieldDecorator(`reason2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            )
+          }
+          { 
+            getFieldDecorator(`reason2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div>
                 <TextArea autosize name="detail" placeholder="reason" style={{ width: '80%', marginRight: 8 }}/>
               </div>
-            )}
-          { getFieldDecorator(`choice3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            )
+          }
+          { 
+            getFieldDecorator(`choice3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div><div>choice3</div>
                 <Input placeholder="detail" style={{ width: '80%', marginRight: 8 }} />
               </div>
-            )}
-          { getFieldDecorator(`reason3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            )
+          }
+          { 
+            getFieldDecorator(`reason3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div>
                 <TextArea autosize name="detail" placeholder="reason" style={{ width: '80%', marginRight: 8 }}/>
               </div>
-            )}
-          { getFieldDecorator(`choice4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            )
+          }
+          { 
+            getFieldDecorator(`choice4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div><div>choice4</div>
                 <Input placeholder="detail" style={{ width: '80%', marginRight: 8 }} />
               </div>
-            )}
-          { getFieldDecorator(`reason4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+            )
+          }
+          { 
+            getFieldDecorator(`reason4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div>
                 <TextArea autosize name="detail" placeholder="reason" style={{ width: '80%', marginRight: 8 }}/>
               </div>
-            )}
+            )
+          }
           {
               keys.length > 1 ? (
                 <div>
