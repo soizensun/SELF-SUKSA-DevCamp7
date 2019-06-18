@@ -25,15 +25,16 @@ class InputQuestion extends React.Component {
       reason3: [],
       choice4: [],
       reason4: [],
-   
-
+   ///////////////////////////////////
       tags: [],
       inputVisible: false,
       inputValue: '',
 
-
+      test: 0,
     }
   }
+
+
 
   remove = k => {
     const { form } = this.props;
@@ -63,6 +64,9 @@ class InputQuestion extends React.Component {
   };
 
   smallSubmit = e => {
+    this.setState({
+      test: 1,
+    });
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -108,8 +112,6 @@ class InputQuestion extends React.Component {
           else{
             message.error('Please fill in all of form');
           }
-
-        
       }
       else {
         message.error('error');
@@ -201,7 +203,26 @@ class InputQuestion extends React.Component {
 
     saveInputRef = input => (this.input = input);
 ////////////////////////////////////////////////////////
-
+    checkStatus = () => {
+      if(this.state.test == 0){
+        return(
+          <div>
+            <Button disabled type="primary" onClick={this.handleSubmit} style={{padding: '100', width: '100%'}}>
+              Submit quiz
+            </Button>
+          </div>
+        );
+      }
+      else {
+        return(
+          <div>
+            <Button  type="primary" onClick={this.handleSubmit} style={{padding: '100', width: '100%'}}>
+            Submit quiz
+            </Button>
+          </div>
+        );
+      }
+    }
     render(){
       const { tags, inputVisible, inputValue } = this.state;
       const { getFieldDecorator } = this.props.form;
@@ -224,6 +245,8 @@ class InputQuestion extends React.Component {
         },
       };
 
+      var submitQuiz =  this.checkStatus();
+
       getFieldDecorator('keys', { initialValue: [] });
       const keys = getFieldValue('keys');
       const formItems = keys.map((k, index) => (
@@ -244,7 +267,7 @@ class InputQuestion extends React.Component {
             getFieldDecorator(`choice1[${k}]]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div><div>choice1</div>
-                <Input placeholder="detail" style={{ width: '80%', marginRight: 8 }} />
+                <Input placeholder="choice 1" style={{ width: '80%', marginRight: 8 }} />
               </div>
             )
           }
@@ -252,7 +275,7 @@ class InputQuestion extends React.Component {
             getFieldDecorator(`reason1[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div>
-                <TextArea autosize name="detail" placeholder="reason" style={{ width: '80%', marginRight: 8 }}/>
+                <TextArea autosize placeholder="reason 1" style={{ width: '80%', marginRight: 8 }}/>
               </div>
             )
           }
@@ -260,7 +283,7 @@ class InputQuestion extends React.Component {
             getFieldDecorator(`choice2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div><div>choice2</div>
-                <Input placeholder="detail" style={{ width: '80%', marginRight: 8 }} />
+                <Input placeholder="choice 2" style={{ width: '80%', marginRight: 8 }} />
               </div>
             )
           }
@@ -268,7 +291,7 @@ class InputQuestion extends React.Component {
             getFieldDecorator(`reason2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div>
-                <TextArea autosize name="detail" placeholder="reason" style={{ width: '80%', marginRight: 8 }}/>
+                <TextArea autosize  placeholder="reason 2" style={{ width: '80%', marginRight: 8 }}/>
               </div>
             )
           }
@@ -276,7 +299,7 @@ class InputQuestion extends React.Component {
             getFieldDecorator(`choice3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div><div>choice3</div>
-                <Input placeholder="detail" style={{ width: '80%', marginRight: 8 }} />
+                <Input placeholder="choice 3" style={{ width: '80%', marginRight: 8 }} />
               </div>
             )
           }
@@ -284,7 +307,7 @@ class InputQuestion extends React.Component {
             getFieldDecorator(`reason3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div>
-                <TextArea autosize name="detail" placeholder="reason" style={{ width: '80%', marginRight: 8 }}/>
+                <TextArea autosize  placeholder="reason 3" style={{ width: '80%', marginRight: 8 }}/>
               </div>
             )
           }
@@ -292,7 +315,7 @@ class InputQuestion extends React.Component {
             getFieldDecorator(`choice4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div><div>choice4</div>
-                <Input placeholder="detail" style={{ width: '80%', marginRight: 8 }} />
+                <Input placeholder="choice 4" style={{ width: '80%', marginRight: 8 }} />
               </div>
             )
           }
@@ -300,7 +323,7 @@ class InputQuestion extends React.Component {
             getFieldDecorator(`reason4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
             (
               <div>
-                <TextArea autosize name="detail" placeholder="reason" style={{ width: '80%', marginRight: 8 }}/>
+                <TextArea autosize  placeholder="reason 4" style={{ width: '80%', marginRight: 8 }}/>
               </div>
             )
           }
@@ -357,7 +380,7 @@ class InputQuestion extends React.Component {
               )}
             </div>
 
-            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} onSubmit={this.handleSubmit} >
+            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
 
                <Form.Item label="TOPIC" style = {{margin: 0}}>
                     <Input allowClear 
@@ -411,7 +434,7 @@ class InputQuestion extends React.Component {
               <Form>
                 {formItems}
                 <Form.Item {...formItemLayoutWithOutLabel}>
-                  <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+                  <Button type="dashed" onClick={this.add} style={{ width: '80%' }}>
                     <Icon type="plus" /> Add field
                   </Button>
                 </Form.Item>
@@ -422,11 +445,11 @@ class InputQuestion extends React.Component {
                 </Form.Item>
               </Form>
 
-              <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
-                <Button type="primary" htmlType="submit">
-                  Submit quiz
-                </Button>
+              <Form.Item wrapperCol={{ span: 10, offset: 5 }}>
+
+                {submitQuiz}
               </Form.Item>
+              
             </Form>
           </div>
         );

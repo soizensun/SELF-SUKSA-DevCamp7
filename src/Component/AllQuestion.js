@@ -56,7 +56,7 @@ class AllQuestion extends React.Component {
         })
 
         return(
-            <div>asdfasdf
+            <div>
                 <ul> { listOfQuestion } </ul>
             </div>
         );
