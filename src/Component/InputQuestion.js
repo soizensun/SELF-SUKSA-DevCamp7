@@ -26,7 +26,7 @@ class InputQuestion extends React.Component {
       reason3: [],
       choice4: [],
       reason4: [],
-   ///////////////////////////////////
+      ///////////////////////////////////
       tags: [],
       inputVisible: false,
       inputValue: '',
@@ -55,7 +55,7 @@ class InputQuestion extends React.Component {
     });
   };
 
-  add = () => {
+  add = () => {    
     const { form } = this.props;
     const keys = form.getFieldValue('keys');
     const nextKeys = keys.concat(id++);
