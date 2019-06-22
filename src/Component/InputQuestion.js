@@ -35,6 +35,7 @@ class InputQuestion extends React.Component {
       value: [],
     }
   }
+  
 
   onChangeRadio = e => {
     // console.log(e.target.value);
