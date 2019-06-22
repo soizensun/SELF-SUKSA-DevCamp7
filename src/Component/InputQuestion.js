@@ -2,12 +2,10 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { message, Input, Tag, Tooltip, Icon, Form, Select, Button, Radio  } from 'antd';
 import fire from '../Config';
-import ColumnGroup from 'antd/lib/table/ColumnGroup';
 
 const { TextArea } = Input;
 const { Option, OptGroup } = Select;
 let id = 0;
-
 
 class InputQuestion extends React.Component {
   constructor(){
@@ -35,7 +33,6 @@ class InputQuestion extends React.Component {
       value: [],
     }
   }
-  
 
   onChangeRadio = e => {
     // console.log(e.target.value);
@@ -65,36 +62,32 @@ class InputQuestion extends React.Component {
     });
   };
 
-  smallSubmit = e => {
-    e.preventDefault();
+  smallSubmit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         var checkQuestion = true;
-        values.question.map((res) =>{if(res == undefined){checkQuestion = false}})
+        values.question.map((res) =>{if(res == "" || res == undefined){checkQuestion = false}})
         var checkChoice1 = true; 
-        values.choice1.map((res) =>{if(res == undefined){checkChoice1 = false}})
+        values.choice1.map((res) =>{if(res == "" || res == undefined){checkChoice1 = false}})
         var checkChoice2 = true;
-        values.choice2.map((res) =>{if(res == undefined){checkChoice2 = false}})
+        values.choice2.map((res) =>{if(res == "" || res == undefined){checkChoice2 = false}})
         var checkChoice3 = true;
-        values.choice3.map((res) =>{if(res == undefined){checkChoice3 = false}})
+        values.choice3.map((res) =>{if(res == "" || res == undefined){checkChoice3 = false}})
         var checkChoice4 = true;
-        values.choice4.map((res) =>{if(res == undefined){checkChoice4 = false}})
+        values.choice4.map((res) =>{if(res == "" || res == undefined){checkChoice4 = false}})
         
         var checkReason1 = true;
-        values.reason1.map((res) =>{if(res == undefined){checkReason1 = false}})
+        values.reason1.map((res) =>{if(res == "" || res == undefined){checkReason1 = false}})
         var checkReason2 = true;
-        values.reason2.map((res) =>{if(res == undefined){checkReason2 = false}})
+        values.reason2.map((res) =>{if(res == "" || res == undefined){checkReason2 = false}})
         var checkReason3 = true;
-        values.reason3.map((res) =>{if(res == undefined){checkReason3 = false}})
+        values.reason3.map((res) =>{if(res == "" || res == undefined){checkReason3 = false}})
         var checkReason4 = true;
-        values.reason4.map((res) =>{if(res == undefined){checkReason4 = false}})
-
-        // var checkCorrectChoice = true;
-        // (this.state.value).map((res) => {if(res == ''){ checkCorrectChoice = false }})
+        values.reason4.map((res) =>{if(res == "" || res == undefined){checkReason4 = false}})
 
         if(checkQuestion == true && checkChoice1 == true && checkChoice2 == true && checkChoice3 == true && checkChoice4 == true &&
           checkReason1 == true && checkReason2 == true && checkReason3 == true && checkReason4 == true){
-            message.success('confirm question', 2.5)    
+            // message.success('confirm question', 2.5)    
             this.setState({
               test: 1,
             });
@@ -110,7 +103,7 @@ class InputQuestion extends React.Component {
               reason4: values.reason4,
             })
           }
-          else{ message.error('Please fill in all of form'); }
+          // else{ message.error('Please fill in all of form question'); }
       }
       else { message.error('error'); }
     });
@@ -119,7 +112,8 @@ class InputQuestion extends React.Component {
   updateInput = e => { this.setState({ [e.target.name]: e.target.value }); }
   handleDropdown = e =>{ this.setState({ type : e }) }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
+    await this.smallSubmit() 
     e.preventDefault();
     const db = fire.firestore();
     db.settings({ timestampsInSnapshots: true });
@@ -177,26 +171,7 @@ class InputQuestion extends React.Component {
     };
     saveInputRef = input => (this.input = input);
 ////////////////////////////////////////////////////////
-    checkStatus = () => {
-      if(this.state.test == 0){
-        return(
-          <div>
-            <Button disabled type="primary" onClick={this.handleSubmit} style={{padding: '100', width: '155%', marginLeft: 0}}>
-              Submit quiz
-            </Button>
-          </div>
-        );
-      }
-      else {
-        return(
-          <div>
-            <Button  type="primary" onClick={this.handleSubmit} style={{padding: '100', width: '155%', marginLeft: 0}}>
-            Submit quiz
-            </Button>
-          </div>
-        );
-      }
-    }
+
     render(){
       const { tags, inputVisible, inputValue } = this.state;
       const { getFieldDecorator } = this.props.form;
@@ -209,8 +184,6 @@ class InputQuestion extends React.Component {
       const formItemLayoutWithOutLabel = {
         wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 19, offset: 5 }, },
       };
-
-      var submitQuiz =  this.checkStatus();
 
       getFieldDecorator('keys', { initialValue: [] });
       const keys = getFieldValue('keys');
@@ -412,15 +385,12 @@ class InputQuestion extends React.Component {
                     <Icon type="plus" /> Add field
                   </Button>
                 </Form.Item>
-                <Form.Item {...formItemLayoutWithOutLabel}>
-                  <Button type="ghost" onClick={this.smallSubmit} style={{ marginLeft: 150}}>
-                    confirm question
-                  </Button>
-                </Form.Item>
               </Form>
 
               <Form.Item wrapperCol={{ span: 10, offset: 5 }}>
-                {submitQuiz}
+              <Button type="primary" onClick={this.handleSubmit} style={{padding: '100', width: '155%', marginLeft: 0}}>
+               Submit quiz
+              </Button>
               </Form.Item>
             </Form>
           </div>
