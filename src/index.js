@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './cssFile/index.css';
 import App from './App';
+
+import { createStore } from 'redux';
+import reducer from './redux/reducer';
+
 // import * as firebase from 'firebase';
 
 // var firebaseConfig = {
@@ -14,6 +18,8 @@ import App from './App';
 //     appId: "1:431699431079:web:7fcfa494794187d3"
 // };
 // firebase.initializeApp(firebaseConfig);
+
+const store = createStore(reducer);
 
 ReactDOM.render(
     <App />,
