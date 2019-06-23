@@ -4,7 +4,8 @@ import './cssFile/index.css';
 import App from './App';
 
 import { createStore } from 'redux';
-import reducer from './redux/reducer';
+import { Provider } from 'react-redux';
+import reducer from './reduxFile/reducer';
 
 // import * as firebase from 'firebase';
 
@@ -22,7 +23,9 @@ import reducer from './redux/reducer';
 const store = createStore(reducer);
 
 ReactDOM.render(
-    <App />,
-    document.getElementById('root')
+    <Provider store={store}>
+        <App />
+    </Provider>
+    , document.getElementById('root')
 );
 
