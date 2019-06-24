@@ -30,28 +30,28 @@ class InputQuestion extends React.Component {
       inputValue: '',
 
       test: 0,
-      value: [],
+      correctChoice: [],
     }
   }
 
   onChangeRadio = e => {
     // console.log(e.target.value);
     this.setState({
-      value: this.state.value.concat(e.target.value)
+      correctChoice: this.state.correctChoice.concat(e.target.value)
     });
-    console.log(this.state.value);
+    console.log(this.state.correctChoice);
   };
 
-  remove = k => {
-    const { form } = this.props;
-    const keys = form.getFieldValue('keys');
-    if (keys.length === 1) {
-      return;
-    }
-    form.setFieldsValue({
-      keys: keys.filter(key => key !== k),
-    });
-  };
+  // remove = k => {
+  //   const { form } = this.props;
+  //   const keys = form.getFieldValue('keys');
+  //   if (keys.length === 1) {
+  //     return;
+  //   }
+  //   form.setFieldsValue({
+  //     keys: keys.filter(key => key !== k),
+  //   });
+  // };
 
   add = () => {    
     const { form } = this.props;
@@ -62,7 +62,7 @@ class InputQuestion extends React.Component {
     });
   };
 
-  smallSubmit = () => {
+  checkAllQuestion = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         var checkQuestion = true;
@@ -113,7 +113,8 @@ class InputQuestion extends React.Component {
   handleDropdown = e =>{ this.setState({ type : e }) }
 
   handleSubmit = async e => {
-    await this.smallSubmit() 
+    await this.checkAllQuestion() 
+    let timestamp = new Date();
     e.preventDefault();
     const db = fire.firestore();
     db.settings({ timestampsInSnapshots: true });
@@ -123,7 +124,7 @@ class InputQuestion extends React.Component {
       message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
       db.collection('question').add({
         topic: this.state.topic,
-        detail: this.state.detail,
+        topicDetail: this.state.detail,
         tag : this.state.tags,
         type : this.state.type,
 
@@ -136,7 +137,9 @@ class InputQuestion extends React.Component {
         reason3: this.state.reason3,
         choice4: this.state.choice4,
         reason4: this.state.reason4,
-        // correctChoice: this.state.value,
+        
+        correctChoice: this.state.correctChoice,
+        // timestamp: timestamp.toISOString(),
       });
       this.setState({
         topic: '',
@@ -151,11 +154,14 @@ class InputQuestion extends React.Component {
 ////////////////////// TAG CONTROL ///////////////////
     handleClose = removedTag => {
       const tags = this.state.tags.filter(tag => tag !== removedTag);
-      console.log(tags);
+      // console.log(tags);
       this.setState({ tags });
     };
+
     showInput = () => { this.setState({ inputVisible: true }, () => this.input.focus()); };
+
     handleInputChange = e => { this.setState({ inputValue: e.target.value }); };
+
     handleInputConfirm = () => {
       const { inputValue } = this.state;
       let { tags } = this.state;
@@ -171,7 +177,6 @@ class InputQuestion extends React.Component {
     };
     saveInputRef = input => (this.input = input);
 ////////////////////////////////////////////////////////
-
     render(){
       const { tags, inputVisible, inputValue } = this.state;
       const { getFieldDecorator } = this.props.form;
@@ -188,104 +193,102 @@ class InputQuestion extends React.Component {
       getFieldDecorator('keys', { initialValue: [] });
       const keys = getFieldValue('keys');
       const formItems = keys.map((k, index) => (
-        <Radio.Group onChange={this.onChangeRadio} >
-        <Form.Item
-          {...( formItemLayout )}
-          label={index + 1}
-          required={false}
-          key={k}
-        >
-
-          {
-            getFieldDecorator(`question[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <Input placeholder="question" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
-            ) 
-          }
-          { 
-            getFieldDecorator(`choice1[${k}]]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <div><div>choice1</div>
-                <Input placeholder="choice 1" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
-              </div>
-            )
-          }
-          { 
-            getFieldDecorator(`reason1[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <div>
-                <TextArea autosize placeholder="reason 1" style={{ width: '76%', marginRight: 8, marginLeft: 22 }}/>
-                <Radio value={1} style={{ marginLeft: 22 }}>choice 1 is correct choice</Radio>
-              </div>
-            )
-          }
-          { 
-            getFieldDecorator(`choice2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <div><div>choice2</div>
-                <Input placeholder="choice 2" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
-              </div>
-            )
-          }
-          { 
-            getFieldDecorator(`reason2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <div>
-                <TextArea autosize  placeholder="reason 2" style={{ width: '76%', marginRight: 8, marginLeft: 22 }}/>
-                <Radio value={2} style={{ marginLeft: 22 }}>choice 2 is correct choice</Radio>
-              </div>
-            )
-          }
-          { 
-            getFieldDecorator(`choice3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <div><div>choice3</div>
-                <Input placeholder="choice 3" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
-              </div>
-            )
-          }
-          { 
-            getFieldDecorator(`reason3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <div>
-                <TextArea autosize  placeholder="reason 3" style={{ width: '76%', marginRight: 8, marginLeft: 22 }}/>
-                <Radio value={3} style={{ marginLeft: 22 }}>choice 3 is correct choice</Radio>
-              </div>
-            )
-          }
-          { 
-            getFieldDecorator(`choice4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <div><div>choice4</div>
-                <Input placeholder="choice 4" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
-              </div>
-            )
-          }
-          { 
-            getFieldDecorator(`reason4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
-            (
-              <div>
-                <TextArea autosize  placeholder="reason 4" style={{ width: '76%', marginRight: 8, marginLeft: 22 }}/>
-                <Radio value={4} style={{ marginLeft: 22 }}>choice 4 is correct choice</Radio>
-              </div>
-            )
-          }
-          {
-              keys.length > 1 ? (
-                <div>
-                  <Icon
-                    className="dynamic-delete-button"
-                    type="minus-circle-o"
-                    onClick={() => this.remove(k)}
-                  />
-                  <hr/>
+        <Radio.Group onChange={this.onChangeRadio}>
+          <Form.Item
+            {...( formItemLayout )}
+            label={index + 1}
+            required={false}
+            key={k}
+          >
+            {
+              getFieldDecorator(`question[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <Input allowClear placeholder="question" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
+              ) 
+            }
+            { 
+              getFieldDecorator(`choice1[${k}]]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <div><div>choice1</div>
+                  <Input placeholder="choice 1" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
                 </div>
-            ) : null
-          }
-        </Form.Item>
+              )
+            }
+            { 
+              getFieldDecorator(`reason1[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <div>
+                  <TextArea autosize placeholder="reason 1" style={{ width: '76%', marginRight: 8, marginLeft: 22 }}/>
+                  <Radio value={1} style={{ marginLeft: 22 }}>choice 1 is correct choice</Radio>
+                </div>
+              )
+            }
+            { 
+              getFieldDecorator(`choice2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <div><div>choice2</div>
+                  <Input placeholder="choice 2" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
+                </div>
+              )
+            }
+            { 
+              getFieldDecorator(`reason2[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <div>
+                  <TextArea autosize  placeholder="reason 2" style={{ width: '76%', marginRight: 8, marginLeft: 22 }}/>
+                  <Radio value={2} style={{ marginLeft: 22 }}>choice 2 is correct choice</Radio>
+                </div>
+              )
+            }
+            { 
+              getFieldDecorator(`choice3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <div><div>choice3</div>
+                  <Input placeholder="choice 3" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
+                </div>
+              )
+            }
+            { 
+              getFieldDecorator(`reason3[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <div>
+                  <TextArea autosize  placeholder="reason 3" style={{ width: '76%', marginRight: 8, marginLeft: 22 }}/>
+                  <Radio value={3} style={{ marginLeft: 22 }}>choice 3 is correct choice</Radio>
+                </div>
+              )
+            }
+            { 
+              getFieldDecorator(`choice4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <div><div>choice4</div>
+                  <Input placeholder="choice 4" style={{ width: '76%', marginRight: 8, marginLeft: 22 }} />
+                </div>
+              )
+            }
+            { 
+              getFieldDecorator(`reason4[${k}]`,  { validateTrigger: ['onChange', 'onBlur'] })
+              (
+                <div>
+                  <TextArea autosize  placeholder="reason 4" style={{ width: '76%', marginRight: 8, marginLeft: 22 }}/>
+                  <Radio value={4} style={{ marginLeft: 22 }}>choice 4 is correct choice</Radio>
+                </div>
+              )
+            }
+            {/* {
+                keys.length > 1 ? (
+                  <div>
+                    <Icon
+                      className="dynamic-delete-button"
+                      type="minus-circle-o"
+                      onClick={() => this.remove(k)}
+                    />
+                    <hr/>
+                  </div>
+              ) : null
+            } */}
+          </Form.Item>
         </Radio.Group>
       ));
-
         return (
           <div>
             <div>
@@ -355,25 +358,24 @@ class InputQuestion extends React.Component {
                     <OptGroup label="test1">
                       <Option value="PAT1">  
                         <Icon type="file-excel" />
-                        <span className="nav-text">    PAT1</span>
+                        <span className="nav-text">    PAT1 </span>
                       </Option>
                       <Option value="PAT2">
                         <Icon type="thunderbolt" />
-                        <span className="nav-text">    PAT2</span>
+                        <span className="nav-text">    PAT2 </span>
                       </Option>
                     </OptGroup>
                     <OptGroup label="test2">
                       <Option value="GAT">
                           <Icon type="flag" />
-                          <span className="nav-text">    GAT</span>
+                          <span className="nav-text">    GAT </span>
                       </Option>
                       <Option value="O-NET">
                           <Icon type="code" />
-                          <span className="nav-text">    O-NET</span>
+                          <span className="nav-text">    O-NET </span>
                       </Option>  
                     </OptGroup>
                         
-
                   </Select>,
                 )}
               </Form.Item>

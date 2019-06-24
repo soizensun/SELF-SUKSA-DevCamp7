@@ -13,10 +13,10 @@ export class SiderDemo extends Component {
     super();
     this.state = {
       visible: false,
-
       tag: ""
     }
   }
+
   showDrawer = () => {
     this.setState({
       visible: true,
@@ -29,7 +29,6 @@ export class SiderDemo extends Component {
     });
   };
 
-
   render() {
     return (
       <div>
@@ -38,7 +37,6 @@ export class SiderDemo extends Component {
             APP NAME
           </div>
         </Header>
-
 
         <Layout>
           <Sider
@@ -55,7 +53,6 @@ export class SiderDemo extends Component {
           </Sider>
           
           <Layout>
-            
             <Content style={{ margin: '24px 16px 0' }}>
               <div style={{ padding: 24, background: '#fff', minHeight: 1000 }}>
                 {/* <i class="fas fa-biohazard fa-5x"></i> */}
@@ -65,7 +62,6 @@ export class SiderDemo extends Component {
                       </Button>
               </div>
             </Content>
-
             <Footer style={{ textAlign: 'center' }}>footer</Footer>
           </Layout>
 

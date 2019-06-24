@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tag} from 'antd'
+import {Tag, Card} from 'antd'
 import fire from '../Config';
 
 class AllQuestion extends React.Component {
@@ -22,10 +22,16 @@ class AllQuestion extends React.Component {
         snapshot.forEach(doc => {
             // console.log(doc.id, '=>', doc.data());
             // console.log(doc.data().topic + doc.data().detail);
-            // console.log(doc.data());
-            wholeData.push(doc.data())
+            // console.log(doc.id);
+
+            let temp = []
+            temp.push(doc.id)
+            temp.push(doc.data())
+            
+            wholeData.push(temp)
+            // wholeData.push(doc.id)
             });
-            // console.log(wholeData)
+            console.log(wholeData)  
             this.setState({allData: wholeData})
             // console.log(this.state.allData)
         })
@@ -34,24 +40,28 @@ class AllQuestion extends React.Component {
         })
     }
     
-
     render(){
-
         var listOfQuestion = this.state.allData.map((val)=>{
-            var type = val.type
-            var topic = val.topic
-            var detail = val.detail
-            var tag = val.tag.map((tag) => {
+            // console.log("id : " + val[0]);            
+            
+            var type = val[1].type
+            var topic = val[1].topic
+            var detail = val[1].topicDetail
+            var tag = val[1].tag.map((tag) => {
                 return <Tag color="cyan">{tag}</Tag>
             })
-            var component = <li>
-                                {tag}<br/>
-                                type => {type}<br/>
-                                topic => {topic}<br/>
-                                detail => {detail}
-                            </li>
+            var component = 
+                    <Card 
+                        hoverable 
+                        style={{ width: '100%' }}
+                        title = {topic}
+                        extra = {tag}
+                    >
+                        type => {type}<br/>
+                        {detail}
+                    </Card>
             return (
-              <div> {component} <br/> </div>
+            <div> {component} <br/> </div>
             ) 
         })
 
