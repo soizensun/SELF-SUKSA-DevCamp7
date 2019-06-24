@@ -67,6 +67,7 @@ class InputQuestion extends React.Component {
       if (!err) {
         var checkQuestion = true;
         values.question.map((res) =>{if(res == "" || res == undefined){checkQuestion = false}})
+
         var checkChoice1 = true; 
         values.choice1.map((res) =>{if(res == "" || res == undefined){checkChoice1 = false}})
         var checkChoice2 = true;
@@ -139,7 +140,7 @@ class InputQuestion extends React.Component {
         reason4: this.state.reason4,
         
         correctChoice: this.state.correctChoice,
-        // timestamp: timestamp.toISOString(),
+        timestamp: timestamp.toTimeString()
       });
       this.setState({
         topic: '',
@@ -181,7 +182,6 @@ class InputQuestion extends React.Component {
       const { tags, inputVisible, inputValue } = this.state;
       const { getFieldDecorator } = this.props.form;
       const { getFieldValue } = this.props.form;
-
       const formItemLayout = {
         labelCol: { xs: { span: 24 }, sm: { span: 4 }, },
         wrapperCol: { xs: { span: 24 }, sm: { span: 20 }, },

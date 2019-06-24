@@ -17,28 +17,18 @@ class AllQuestion extends React.Component {
     getData = () => {
         const db = fire.firestore();
         var wholeData = [];
-        db.collection('question').get()
-        .then(snapshot => {
-        snapshot.forEach(doc => {
-            // console.log(doc.id, '=>', doc.data());
-            // console.log(doc.data().topic + doc.data().detail);
-            // console.log(doc.id);
-
-            let temp = []
-            temp.push(doc.id)
-            temp.push(doc.data())
-            
-            wholeData.push(temp)
-            // wholeData.push(doc.id)
+        db.collection('question').onSnapshot((snapshot) => {   
+            snapshot.forEach(doc => {
+                let temp = []
+                temp.push(doc.id)
+                temp.push(doc.data())
+                wholeData.push(temp)
             });
             console.log(wholeData)  
             this.setState({allData: wholeData})
-            // console.log(this.state.allData)
-        })
-        .catch(error => {
-            console.log('Error!', error);
         })
     }
+
     
     render(){
         var listOfQuestion = this.state.allData.map((val)=>{
