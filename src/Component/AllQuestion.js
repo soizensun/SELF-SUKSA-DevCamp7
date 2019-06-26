@@ -1,17 +1,20 @@
 import React from 'react';
-import {Tag, Card} from 'antd'
+import {Tag, Card, Carousel,Icon} from 'antd'
 import fire from '../Config';
+// import 'antd/dist/antd.css';
+
 
 class AllQuestion extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             allData: [],
         }
+        this.carousel = React.createRef();
     }
     componentDidMount(){
         // this.interval = setInterval(() => this.getData(), 1000);
-        this.getData();   
+        this.getData();
     }
 
     getData = () => {
@@ -31,9 +34,25 @@ class AllQuestion extends React.Component {
 
     
     render(){
+
+        const props = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        };
+
         var listOfQuestion = this.state.allData.map((val)=>{
             // console.log("id : " + val[0]);            
-            
+            var next = () => {
+                console.log(this.state.carousel);
+                
+                this.carousel.next();
+            }
+            var previous = () => {
+                this.carousel.prev();
+            }
             var type = val[1].type
             var topic = val[1].topic
             var detail = val[1].topicDetail
@@ -46,10 +65,32 @@ class AllQuestion extends React.Component {
                         style={{ width: '100%' }}
                         title = {topic}
                         extra = {tag}
-                    >
-                        type => {type}<br/>
-                        {detail}
+                    >   
+                        <Carousel ref={node => (this.carousel = node)} {...props}>
+                            <div>
+                                type => {type}<br/>
+                                {detail}
+                                <Icon type="left-circle" onClick={previous} />
+                                <Icon type="right-circle" onClick={next} />
+                            </div>
+                            <div>
+                                <h3>2</h3>
+                                <Icon type="left-circle" onClick={previous} />
+                                <Icon type="right-circle" onClick={next} />
+                            </div>
+                            <div>
+                                <h3>3</h3>
+                                <Icon type="left-circle" onClick={previous} />
+                                <Icon type="right-circle" onClick={next} />
+                            </div>
+                            <div>
+                                <h3>4</h3>
+                                <Icon type="left-circle" onClick={previous} />
+                                <Icon type="right-circle" onClick={next} />
+                            </div>
+                        </Carousel>
                     </Card>
+                
             return (
             <div> {component} <br/> </div>
             ) 

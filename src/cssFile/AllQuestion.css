@@ -1,0 +1,13 @@
+/* For demo */
+.ant-carousel .slick-slide {
+    padding: 0px;
+    text-align: center;
+    height: 300px;
+    /* line-height: 30px; */
+    background: #f3955f;
+    overflow: hidden;
+  }
+  
+  .ant-carousel .slick-slide h3 {
+    color: #fff;
+  }
