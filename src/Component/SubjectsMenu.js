@@ -76,25 +76,6 @@ export class SubjectsMenu extends Component {
                         <span className="nav-text">programming</span>
                     </Menu.Item>
                 </SubMenu>
-                <SubMenu
-                    key="sub3"
-                    title={
-                        <span>
-                            <Icon type="mail" /> 
-                            <span>living room</span>
-                        </span>
-                    }
-                >
-                    <Menu.Item key="other" onClick={this.handleButon}>
-                        <Icon type="file-excel" />
-                        <span className="nav-text" >other</span>
-                    </Menu.Item>
-                    <Menu.Item key="life" onClick={this.handleButon}>
-                        <Icon type="heart" />
-                        <span className="nav-text">life</span>
-                    </Menu.Item>
-                </SubMenu>
-
             </Menu>
         )
     }
