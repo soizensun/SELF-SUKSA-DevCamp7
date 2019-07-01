@@ -19,7 +19,7 @@ class InputQuestion extends React.Component {
   constructor() {
     super();
     this.state = {
-      topic: '',
+      topic: '',  
       detail: '',
       type: '',
       ////////////////////
