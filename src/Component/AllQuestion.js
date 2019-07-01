@@ -1,8 +1,16 @@
 import React from 'react';
-import {Tag, Card, Carousel,Icon} from 'antd'
-import fire from '../Config';
+import {Tag, Card, Carousel,Icon} from 'antd';
 // import 'antd/dist/antd.css';
+import { connect } from 'react-redux';
 
+const {fire} = require('../redux-firebase/firebaseControl');
+
+const mapStateToProps = (state) => {
+   return {
+       test: state.subject,
+       questionType: state.questionType
+   }
+}
 
 class AllQuestion extends React.Component {
     constructor(props){
@@ -12,6 +20,7 @@ class AllQuestion extends React.Component {
         }
         this.carousel = React.createRef();
     }
+
     componentDidMount(){
         // this.interval = setInterval(() => this.getData(), 1000);
         this.getData();
@@ -27,7 +36,7 @@ class AllQuestion extends React.Component {
                 temp.push(doc.data())
                 wholeData.push(temp)
             });
-            console.log(wholeData)  
+            console.log(wholeData)
             this.setState({allData: wholeData})
         })
     }
@@ -99,9 +108,10 @@ class AllQuestion extends React.Component {
         return(
             <div>
                 <ul> { listOfQuestion } </ul>
+                <h1>{this.props.test}</h1>
             </div>
         );
     }
 }
 
-export default AllQuestion;
+export default connect(mapStateToProps)(AllQuestion);

@@ -2,42 +2,31 @@ import React, { Component } from 'react';
 import Menu from 'antd/lib/menu';
 import Icon from 'antd/lib/icon';
 
+import { connect } from 'react-redux'
 
 const { SubMenu }  = Menu;
 
-export class SubjectsMenu extends Component {
-    constructor(){
-        super();
-        this.state = {
-            allData: [],
-        }
+const mapStateToProps = (state) => {
+    return {
+        questionType: state.questionType
     }
+}
+
+export class SubjectsMenu extends Component {
 
     handleButon = (tag) => {
-        console.log(tag.key);
-        // const db = fire.firestore();
-        // var wholeData = [];
-        // db.collection('question').get()
-        // .then(snapshot => {
-        // snapshot.forEach(doc => {
-        //     // console.log(doc.id, '=>', doc.data());
-        //     // console.log(doc.data().topic + doc.data().detail);
-        //     // console.log(doc.data());
-        //     wholeData.push(doc.data())
-        //     });
-        //     // console.log(wholeData)
-        //     this.setState({allData: wholeData})
-        //     // console.log(this.state.allData)
-        // })
-        // .catch(error => {
-        //     console.log('Error!', error);
-        // })
+        this.props.dispatch({
+            type: 'SET_SUBJECT',
+            payload: tag.key
+        })
       }
 
     render() {
         return (
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} >
-
+                {this.props.questionType.forEach(function(doc) {
+                    
+                })}
                 <SubMenu
                     key="sub1"
                     title={
@@ -115,4 +104,4 @@ export class SubjectsMenu extends Component {
     }
 }
 
-export default SubjectsMenu;
+export default connect(mapStateToProps)(SubjectsMenu);

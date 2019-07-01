@@ -59,7 +59,7 @@ export class SiderDemo extends Component {
                 <AllQuestion />
                 <Button type="primary" onClick={this.showDrawer}>
                   <Icon type="plus" /> add new question
-                      </Button>
+                </Button>
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>footer</Footer>
@@ -70,7 +70,7 @@ export class SiderDemo extends Component {
 
         <Drawer
           title="Create a new account"
-          width={500}
+          width={'65%'}
           onClose={this.onClose}
           visible={this.state.visible}
         >

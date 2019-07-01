@@ -5,9 +5,17 @@ import App from './App';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './reduxFile/reducer';
+import reducer from './redux-firebase/reducer';
 
-const store = createStore(reducer);
+const { getQuestionType } = require('./redux-firebase/firebaseControl')
+
+const initialState = {
+    subject: '',
+    tagsInput: [],
+    questionType: getQuestionType(),
+}
+
+const store = createStore(reducer(initialState));
 
 ReactDOM.render(
     <Provider store={store}>
@@ -15,4 +23,3 @@ ReactDOM.render(
     </Provider>
     , document.getElementById('root')
 );
-
