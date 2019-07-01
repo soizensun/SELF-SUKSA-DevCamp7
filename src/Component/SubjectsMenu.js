@@ -6,12 +6,6 @@ import { connect } from 'react-redux'
 
 const { SubMenu }  = Menu;
 
-const mapStateToProps = (state) => {
-    return {
-        questionType: state.questionType
-    }
-}
-
 export class SubjectsMenu extends Component {
 
     handleButon = (tag) => {
@@ -24,9 +18,6 @@ export class SubjectsMenu extends Component {
     render() {
         return (
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} >
-                {this.props.questionType.forEach(function(doc) {
-                    
-                })}
                 <SubMenu
                     key="sub1"
                     title={
@@ -104,4 +95,4 @@ export class SubjectsMenu extends Component {
     }
 }
 
-export default connect(mapStateToProps)(SubjectsMenu);
+export default connect()(SubjectsMenu);

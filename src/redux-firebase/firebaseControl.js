@@ -23,17 +23,4 @@ const createQuiz = (quizID, type, tags, questionObjs) => {
   })
 }
 
-const getQuestionType = () => {
-  const questionType = [];
-  db.collection('QuestionType').onSnapshot((snapshot) => {
-    snapshot.forEach(doc => {
-      questionType.push({
-        key: doc.id,
-        values: doc.data().values
-      })
-    })
-  });
-  return questionType;
-}
-
-module.exports = { fire, getQuestionType};
+module.exports = { fire };
