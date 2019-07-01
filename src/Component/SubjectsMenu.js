@@ -23,7 +23,7 @@ export class SubjectsMenu extends Component {
                     title={
                         <span>
                             <Icon type="mail" /> 
-                            <span>prepare for exam</span>
+                            <span>เตรียมสอบ</span>
                         </span>
                     }
                 >
@@ -43,6 +43,11 @@ export class SubjectsMenu extends Component {
                         <Icon type="code" />
                         <span className="nav-text">O-NET</span>
                     </Menu.Item>
+                    <Menu.Item key="ประเมินตนเอง" onClick={this.handleButon}>
+                        <Icon type="file-search" />
+                        <span className="nav-text">ประเมินตนเอง</span>
+                    </Menu.Item>
+                    
                 </SubMenu>
 
                 <SubMenu
@@ -50,7 +55,7 @@ export class SubjectsMenu extends Component {
                     title={
                         <span>
                             <Icon type="mail" /> 
-                            <span>classroom</span>
+                            <span>แบบฝึกหัด</span>
                         </span>
                     }
                 >
@@ -85,7 +90,7 @@ export class SubjectsMenu extends Component {
                         <span className="nav-text" >other</span>
                     </Menu.Item>
                     <Menu.Item key="life" onClick={this.handleButon}>
-                        <Icon type="thunderbolt" />
+                        <Icon type="heart" />
                         <span className="nav-text">life</span>
                     </Menu.Item>
                 </SubMenu>
