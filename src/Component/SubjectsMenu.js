@@ -94,5 +94,5 @@ export class SubjectsMenu extends Component {
         )
     }
 }
-
+re
 export default connect()(SubjectsMenu);
