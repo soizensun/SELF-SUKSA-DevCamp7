@@ -120,13 +120,16 @@ class InputQuestion extends React.Component {
   handleSubmit = async e => {
     await this.checkAllQuestion()
     let timestamp = new Date();
+
     e.preventDefault();
     const db = fire.firestore();
     db.settings({ timestampsInSnapshots: true });
+
     if (this.state.topic !== "" && this.state.detail !== "" && this.state.type !== "" && this.state.question !== "" &&
       this.state.choice1 !== "" && this.state.choice2 !== "" && this.state.choice3 !== "" && this.state.choice4 !== "" &&
       this.state.reason1 !== "" && this.state.reason2 !== "" && this.state.reason3 !== "" && this.state.reason4 !== "" && this.state.value != "") {
       message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
+
       db.collection('question').add({
         topic: this.state.topic,
         topicDetail: this.state.detail,
