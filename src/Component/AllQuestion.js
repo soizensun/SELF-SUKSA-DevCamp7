@@ -2,6 +2,7 @@ import React from 'react';
 import {Tag, Card, Button, Modal, Steps, message} from 'antd';
 // import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
+// import DoQuiz from './DoQuiz';
 
 const { Step } = Steps;
 const {fire} = require('../redux-firebase/firebaseControl');
@@ -25,7 +26,7 @@ const steps = [
       title: 'Last',
       content: 'Last-content',
     },
-  ];
+];
   
 
 class AllQuestion extends React.Component {
@@ -36,7 +37,6 @@ class AllQuestion extends React.Component {
             visible: false,
             current: 0,
         }
-        this.carousel = React.createRef();
     }
 
     componentDidMount(){
@@ -127,23 +127,25 @@ class AllQuestion extends React.Component {
                 >
                     <div className="steps-content" style={{backgroundColor:"red", width:"100%", height:"400px"}}>{steps[current].content}</div>
                     <div className="steps-action">
-                    {current < steps.length - 1 && (
-                        <Button type="primary" onClick={() => this.next()}>
-                        Next
-                        </Button>
-                    )}
-                    {current === steps.length - 1 && (
-                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                        Done
-                        </Button>
-                    )}
-                    {current > 0 && (
-                        <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-                        Previous
-                        </Button>
-                    )}
+                        {current < steps.length - 1 && (
+                            <Button type="primary" onClick={() => this.next()}>
+                            Next
+                            </Button>
+                        )}
+                        {current === steps.length - 1 && (
+                            <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                            Done
+                            </Button>
+                        )}
+                        {current > 0 && (
+                            <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
+                            Previous
+                            </Button>
+                        )}
                     </div>
                 </Modal>
+                {/* <DoQuiz/> */}
+
                 <ul> { listOfQuestion } </ul>
                 <h1>{this.props.test}</h1>
             </div>
