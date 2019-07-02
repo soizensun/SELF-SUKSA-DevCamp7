@@ -6,6 +6,9 @@ import InputQuestion from './InputQuestion';
 import { Layout, Icon, Drawer, Button } from 'antd';
 import SubjectsMenu from './SubjectsMenu';
 import Login from './Login';
+import Home from './Home';
+import '../cssFile/Layout.css';
+const {fire} = require('../redux-firebase/firebaseControl');
 
 const { Header, Content, Footer , Sider} = Layout;
 
@@ -14,8 +17,10 @@ export class SiderDemo extends Component {
     super();
     this.state = {
       visible: false,
-      tag: ""
+      tag: "",
+      user:{},
     }
+    this.authListener = this.authListener.bind(this);
   }
 
   showDrawer = () => {
@@ -30,19 +35,34 @@ export class SiderDemo extends Component {
     });
   };
 
+  componentDidMount() {
+    this.authListener();
+  }
+
+  authListener() {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      } else {
+        this.setState({ user: null });
+      }
+    })
+  }
+  
   render() {
     return (
       
-      <div>
+      <div className= "header_tool">
         
-        <Header style={{ background: '#fff', padding: 0, marginLeft: 0 }} >
-        <div textAlign='center'>
-            <Login/>
-            </div>
-          <div style={{ marginLeft: 20, fontSize: 20 }}>
+        
+          <div style={{ marginLeft: 20, fontSize: 30, justifyContent: 'center',}}>
             APP NAME
           </div>
-        </Header>
+          <div className= "header_login">
+              { this.state.user ? 'You are Logged In' : ( <Login /> ) }
+          </div>
+          
+        
 
         <Layout>
           <Sider

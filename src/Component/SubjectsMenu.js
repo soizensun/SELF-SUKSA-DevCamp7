@@ -28,12 +28,32 @@ export class SubjectsMenu extends Component {
                     }
                 >
                     <Menu.Item key="PAT1" onClick={this.handleButon}>
-                        <Icon type="file-excel" />
+                        <Icon type="file-text" />
                         <span className="nav-text" >PAT1</span>
                     </Menu.Item>
                     <Menu.Item key="PAT2" onClick={this.handleButon}>
-                        <Icon type="thunderbolt" />
+                     <Icon type="file-text" />
                         <span className="nav-text">PAT2</span>
+                    </Menu.Item>
+                    <Menu.Item key="PAT3" onClick={this.handleButon}>
+                        <Icon type="file-text" />
+                        <span className="nav-text">PAT3</span>
+                    </Menu.Item>
+                    <Menu.Item key="PAT4" onClick={this.handleButon}>
+                        <Icon type="file-text" />
+                        <span className="nav-text">PAT4</span>
+                    </Menu.Item>
+                    <Menu.Item key="PAT5" onClick={this.handleButon}>
+                        <Icon type="file-text" />
+                        <span className="nav-text">PAT5</span>
+                    </Menu.Item>
+                    <Menu.Item key="PAT6" onClick={this.handleButon}>
+                        <Icon type="file-text" />
+                        <span className="nav-text">PAT6</span>
+                    </Menu.Item>
+                    <Menu.Item key="PAT7" onClick={this.handleButon}>
+                        <Icon type="file-text" />
+                        <span className="nav-text">PAT7</span>
                     </Menu.Item>
                     <Menu.Item key="GAT" onClick={this.handleButon}>
                         <Icon type="flag" />
@@ -55,25 +75,37 @@ export class SubjectsMenu extends Component {
                     title={
                         <span>
                             <Icon type="mail" /> 
-                            <span>แบบฝึกหัด</span>
+                            <span>Practice</span>
                         </span>
                     }
                 >
-                    <Menu.Item key="math" onClick={this.handleButon}>
-                        <Icon type="file-excel" />
-                        <span className="nav-text" >math</span>
+                    <Menu.Item key="Math" onClick={this.handleButon}>
+                        <Icon type="line-chart" />
+                        <span className="nav-text" >Math</span>
                     </Menu.Item>
-                    <Menu.Item key="science" onClick={this.handleButon}>
+                    <Menu.Item key="Physics" onClick={this.handleButon}>
                         <Icon type="thunderbolt" />
-                        <span className="nav-text">science</span>
+                        <span className="nav-text">Physics</span>
                     </Menu.Item>
-                    <Menu.Item key="language" onClick={this.handleButon}>
+                    <Menu.Item key="Chemistry" onClick={this.handleButon}>
+                        <Icon type="experiment" />
+                        <span className="nav-text">Chemistry </span>
+                    </Menu.Item>
+                    <Menu.Item key="Biology" onClick={this.handleButon}>
+                        <Icon type="cluster" /> 
+                        <span className="nav-text">Biology</span>
+                    </Menu.Item>
+                    <Menu.Item key="Language" onClick={this.handleButon}>
                         <Icon type="flag" />
-                        <span className="nav-text">language</span>
+                        <span className="nav-text">Language</span>
+                    </Menu.Item>
+                    <Menu.Item key="History" onClick={this.handleButon}>
+                        <Icon type="search" />
+                        <span className="nav-text">History</span>
                     </Menu.Item>
                     <Menu.Item key="programming" onClick={this.handleButon}>
                         <Icon type="code" />
-                        <span className="nav-text">programming</span>
+                        <span className="nav-text">Programming</span>
                     </Menu.Item>
                 </SubMenu>
             </Menu>
