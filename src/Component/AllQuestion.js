@@ -3,7 +3,6 @@ import {Tag, Card, Button, Modal, Steps, message} from 'antd';
 // import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 // import DoQuiz from './DoQuiz';
-
 const { Step } = Steps;
 const {fire} = require('../redux-firebase/firebaseControl');
 
@@ -48,6 +47,14 @@ class AllQuestion extends React.Component {
         this.setState({
           visible: true,
         });
+        const db = fire.firestore();
+        
+        db.collection('User/user3/Quiz').get()
+        .then((res) => {   
+            res.forEach(doc => {
+                console.log(doc.data())
+            });
+        })
     };
 
     handleOk = e => {
@@ -76,30 +83,33 @@ class AllQuestion extends React.Component {
 
     getData = () => {
         const db = fire.firestore();
-        var wholeData = [];
-        db.collection('question').get()
-        .then((snapshot) => {   
-            snapshot.forEach(doc => {
-                let temp = []
-                temp.push(doc.id)
-                temp.push(doc.data())
-                wholeData.push(temp)
+        let wholeData = [];
+        db.collection('User/user3/Quiz').get()
+        .then((res) => {   
+            res.forEach(doc => {
+                console.log(1)
+                wholeData.push(doc.data())
             });
-            console.log(wholeData)
             this.setState({allData: wholeData})
+
         })
+
     }
 
     
     render(){
         const { current } = this.state;
-        var listOfQuestion = this.state.allData.map((val)=>{          
-            var type = val[1].type
-            var topic = val[1].topic
-            var detail = val[1].topicDetail
-            var tag = val[1].tag.map((tag) => {
-                return <Tag color="cyan">{tag}</Tag>
-            })
+        // console.log(this.state.allData)
+        var listOfQuestion = this.state.allData.map((val, index)=>{ 
+            console.log(val.tags.tags.length);
+                                 
+            var type = val.type
+            var topic = val.topic
+            var detail = val.topicDetail
+            let tag = val.tags.tags.length > 0 ? (val.tags.tags.map((tag, index) => {
+                console.log(tag)
+                return <Tag color="cyan" key={index}>{tag}</Tag>
+            })):2
             var component = 
                     <Card 
                         hoverable 
@@ -113,7 +123,7 @@ class AllQuestion extends React.Component {
                     </Card>
                 
             return (
-            <div> {component} <br/> </div>
+                <div key={index}> {component} <br/> </div>
             ) 
         })
 
