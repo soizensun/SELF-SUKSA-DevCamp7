@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Button, Form, Icon, Input, Checkbox } from 'antd';
 const { fire } = require('../redux-firebase/firebaseControl');
 
+
 class Login extends React.Component {
     state = { visible: false };
 
@@ -24,17 +25,17 @@ class Login extends React.Component {
             })
     }
 
-    login =()=> {
-        console.log(this.state)
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => {
-                console.log('Successfully Logged In');
-            })
-            .catch((err) => {
-                console.log('Error: ' + err.toString());
-                console.log('test')
-            })
-    }
+    // login =()=> {
+    //     console.log(this.state)
+    //     fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    //         .then((u) => {
+    //             console.log('Successfully Logged In');
+    //         })
+    //         .catch((err) => {
+    //             console.log('Error: ' + err.toString());
+    //             console.log('test')
+    //         })
+    // }
     componentDidMount() {
         this.authListener();
         console.log(this.state)
@@ -104,23 +105,35 @@ class Login extends React.Component {
                         <Button key="back" onClick={this.handleCancel}>
                             Cancel
                         </Button>,
-                        <Button key="back" onClick={this.signUp}>
-                            Signup
+                        <Button key="submit" type="primary" onClick={this.signUp}>
+                            Sign up
                         </Button>,
-                        <Button key="submit" type="primary" onClick={this.login}>
-                            Login
-                        </Button>,
+                        // <Button key="submit" type="primary" onClick={this.login}>
+                        //     Login
+                        // </Button>,
                     ]}
                 >
                     <Form onSubmit={this.handleSubmit} className="login-form">
-                        <Form.Item>
+                    <Form.Item>
                             {getFieldDecorator('username', {
-                                rules: [{ required: true, message: 'Please input your username!' }],
-                                onChange: (e) => this.handleUserName(e),
+                                rules: [{ required: true, message: 'Please input your Username!' }],
+                                onChange: (e) => this.handlePassword(e),
                             })(
                                 <Input
                                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    type="username"
                                     placeholder="Username"
+                                />,
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            {getFieldDecorator('e-mail', {
+                                rules: [{ required: true, message: 'Please input your email!' }],
+                                onChange: (e) => this.handleUserName(e),
+                            })(
+                                <Input
+                                    prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    placeholder="E-mail"
                                 />,
                             )}
                         </Form.Item>
