@@ -52,18 +52,16 @@ export class SiderDemo extends Component {
   render() {
     return (
       
-      <div className= "header_tool">
-        
-        
-          <div style={{ marginLeft: 20, fontSize: 30, justifyContent: 'center',}}>
-            APP NAME
+    <div className= "header_tool">
+        <nav className= "header_bar">
+          <div className= "header_logo">
+              APP NAME
           </div>
-          <div className= "header_login">
-              { this.state.user ? 'You are Logged In' : ( <Login /> ) }
+          <div className= "login">
+            { this.state.user ? 'You are Logged In' : ( <Login /> ) }
           </div>
-          
-        
-
+        </nav>
+            
         <Layout>
           <Sider
             breakpoint="lg"
