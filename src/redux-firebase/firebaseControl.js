@@ -26,4 +26,7 @@ const createQuiz = (topic, detail, type, tags, questionObjs) => {
   })
 }
 
+
+
+
 module.exports = { fire };
