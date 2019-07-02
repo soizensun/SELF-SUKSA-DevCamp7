@@ -1,8 +1,9 @@
 import React from 'react';
-import {Tag, Card, Carousel,Icon} from 'antd';
+import {Tag, Card, Button, Modal, Steps, message} from 'antd';
 // import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 
+const { Step } = Steps;
 const {fire} = require('../redux-firebase/firebaseControl');
 
 const mapStateToProps = (state) => {
@@ -11,12 +12,29 @@ const mapStateToProps = (state) => {
        questionType: state.questionType
    }
 }
+const steps = [
+    {
+      title: 'First',
+      content: 'First-content',
+    },
+    {
+      title: 'Second',
+      content: 'Second-content',
+    },
+    {
+      title: 'Last',
+      content: 'Last-content',
+    },
+  ];
+  
 
 class AllQuestion extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             allData: [],
+            visible: false,
+            current: 0,
         }
         this.carousel = React.createRef();
     }
@@ -26,10 +44,41 @@ class AllQuestion extends React.Component {
         this.getData();
     }
 
+    showModal = () => {
+        this.setState({
+          visible: true,
+        });
+    };
+
+    handleOk = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
+    
+    handleCancel = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
+
+    next() {
+        const current = this.state.current + 1;
+        this.setState({ current });
+      }
+    
+    prev() {
+        const current = this.state.current - 1;
+        this.setState({ current });
+    }
+
     getData = () => {
         const db = fire.firestore();
         var wholeData = [];
-        db.collection('question').onSnapshot((snapshot) => {   
+        db.collection('question').get()
+        .then((snapshot) => {   
             snapshot.forEach(doc => {
                 let temp = []
                 temp.push(doc.id)
@@ -43,25 +92,8 @@ class AllQuestion extends React.Component {
 
     
     render(){
-
-        const props = {
-            dots: true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 1,
-            slidesToScroll: 1
-        };
-
-        var listOfQuestion = this.state.allData.map((val)=>{
-            // console.log("id : " + val[0]);            
-            var next = () => {
-                console.log(this.state.carousel);
-                
-                this.carousel.next();
-            }
-            var previous = () => {
-                this.carousel.prev();
-            }
+        const { current } = this.state;
+        var listOfQuestion = this.state.allData.map((val)=>{          
             var type = val[1].type
             var topic = val[1].topic
             var detail = val[1].topicDetail
@@ -71,33 +103,13 @@ class AllQuestion extends React.Component {
             var component = 
                     <Card 
                         hoverable 
-                        style={{ width: '100%' }}
+                        style={{ width: '95%' }}
                         title = {topic}
-                        extra = {tag}
+                        extra = {[<Button type="primary" onClick={this.showModal}>do</Button>]} 
                     >   
-                        <Carousel ref={node => (this.carousel = node)} {...props}>
-                            <div>
-                                type => {type}<br/>
-                                {detail}
-                                <Icon type="left-circle" onClick={previous} />
-                                <Icon type="right-circle" onClick={next} />
-                            </div>
-                            <div>
-                                <h3>2</h3>
-                                <Icon type="left-circle" onClick={previous} />
-                                <Icon type="right-circle" onClick={next} />
-                            </div>
-                            <div>
-                                <h3>3</h3>
-                                <Icon type="left-circle" onClick={previous} />
-                                <Icon type="right-circle" onClick={next} />
-                            </div>
-                            <div>
-                                <h3>4</h3>
-                                <Icon type="left-circle" onClick={previous} />
-                                <Icon type="right-circle" onClick={next} />
-                            </div>
-                        </Carousel>
+                        {tag} <br/>
+                        type => {type}<br/>
+                        {detail}
                     </Card>
                 
             return (
@@ -107,6 +119,31 @@ class AllQuestion extends React.Component {
 
         return(
             <div>
+                <Modal
+                    title="Basic Modal"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                >
+                    <div className="steps-content" style={{backgroundColor:"red", width:"100%", height:"400px"}}>{steps[current].content}</div>
+                    <div className="steps-action">
+                    {current < steps.length - 1 && (
+                        <Button type="primary" onClick={() => this.next()}>
+                        Next
+                        </Button>
+                    )}
+                    {current === steps.length - 1 && (
+                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                        Done
+                        </Button>
+                    )}
+                    {current > 0 && (
+                        <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
+                        Previous
+                        </Button>
+                    )}
+                    </div>
+                </Modal>
                 <ul> { listOfQuestion } </ul>
                 <h1>{this.props.test}</h1>
             </div>
