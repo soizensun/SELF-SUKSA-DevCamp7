@@ -5,6 +5,7 @@ import AllQuestion from './AllQuestion';
 import InputQuestion from './InputQuestion';
 import { Layout, Icon, Drawer, Button } from 'antd';
 import SubjectsMenu from './SubjectsMenu';
+import Login from './Login';
 
 const { Header, Content, Footer , Sider} = Layout;
 
@@ -31,8 +32,13 @@ export class SiderDemo extends Component {
 
   render() {
     return (
+      
       <div>
+        
         <Header style={{ background: '#fff', padding: 0, marginLeft: 0 }} >
+        <div textAlign='center'>
+            <Login/>
+            </div>
           <div style={{ marginLeft: 20, fontSize: 20 }}>
             APP NAME
           </div>
