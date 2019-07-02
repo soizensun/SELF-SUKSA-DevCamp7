@@ -3,9 +3,10 @@ import {Tag, Card, Button, Modal, Steps, message} from 'antd';
 // import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 // import DoQuiz from './DoQuiz';
-const { Step } = Steps;
-const {fire} = require('../redux-firebase/firebaseControl');
 
+
+const {fire} = require('../redux-firebase/firebaseControl');
+const db = fire.firestore();
 const mapStateToProps = (state) => {
    return {
        test: state.subject,
@@ -14,18 +15,12 @@ const mapStateToProps = (state) => {
 }
 const steps = [
     {
-      title: 'First',
-      content: 'First-content',
-    },
-    {
-      title: 'Second',
-      content: 'Second-content',
-    },
-    {
-      title: 'Last',
-      content: 'Last-content',
+        content : <div>
+
+                </div>
     },
 ];
+
   
 
 class AllQuestion extends React.Component {
@@ -35,27 +30,22 @@ class AllQuestion extends React.Component {
             allData: [],
             visible: false,
             current: 0,
+            aQuiz : [],
         }
     }
 
     componentDidMount(){
-        // this.interval = setInterval(() => this.getData(), 1000);
+        // steps[0].content = 
+        // (
+        //     <div>
+        //         <h1>Hello</h1>
+        //     </div>
+        // )
+
+        // steps.push({content : <div>add 1 </div>})
+        // steps.push({content : <div>add 2 </div>})
         this.getData();
     }
-
-    showModal = () => {
-        this.setState({
-          visible: true,
-        });
-        const db = fire.firestore();
-        
-        db.collection('User/user3/Quiz').get()
-        .then((res) => {   
-            res.forEach(doc => {
-                console.log(doc.data())
-            });
-        })
-    };
 
     handleOk = e => {
         console.log(e);
@@ -65,57 +55,99 @@ class AllQuestion extends React.Component {
     };
     
     handleCancel = e => {
-        console.log(e);
+        
         this.setState({
             visible: false,
         });
     };
 
-    next() {
+    next(){ 
         const current = this.state.current + 1;
         this.setState({ current });
-      }
+    }
     
-    prev() {
+    prev(){
         const current = this.state.current - 1;
         this.setState({ current });
     }
 
+    showModal = (id) => {
+        this.setState({
+          visible: true,
+        });        
+        let aQuiz = [];
+        db.collection(`User/user3/Quiz/${id}/Questions`).get()
+        .then((res) => {
+            res.forEach(doc => {
+                // console.log(doc.data());
+                aQuiz.push(doc.data())
+            })
+            console.log(aQuiz);
+
+            aQuiz.map((item) => {
+                console.log(item.question);
+                var question = item.question
+                var correctChoice = item.correctChoice
+                var choices = item.choices
+                // var reasons = item.reasons;
+
+                // console.log(question);
+                // console.log(correctChoice);
+                steps.push(
+                    {content : 
+                        <div>
+                            {question}<br/>
+                            {correctChoice}
+                            <Button>{choices[0]}</Button>
+                            <Button>{choices[1]}</Button>
+                            <Button>{choices[2]}</Button>
+                            <Button>{choices[3]}</Button>
+                        </div>
+                    })
+
+                }
+            )
+            // console.log("question : " + question);
+            
+
+        }
+    )
+        
+    };
+
     getData = () => {
-        const db = fire.firestore();
         let wholeData = [];
         db.collection('User/user3/Quiz').get()
         .then((res) => {   
             res.forEach(doc => {
-                console.log(1)
-                wholeData.push(doc.data())
+                var temp= [];
+                temp.push(doc.id)
+                temp.push(doc.data())
+                wholeData.push(temp)
             });
             this.setState({allData: wholeData})
-
         })
-
     }
-
     
     render(){
         const { current } = this.state;
         // console.log(this.state.allData)
         var listOfQuestion = this.state.allData.map((val, index)=>{ 
-            console.log(val.tags.tags.length);
-                                 
-            var type = val.type
-            var topic = val.topic
-            var detail = val.topicDetail
-            let tag = val.tags.tags.length > 0 ? (val.tags.tags.map((tag, index) => {
-                console.log(tag)
+            // console.log(val[0]);
+            var id = val[0]
+            var type = val[1].type
+            var topic = val[1].topic
+            var detail = val[1].topicDetail
+            let tag = val[1].tags.length > 0 ? (val[1].tags.map((tag, index) => {
                 return <Tag color="cyan" key={index}>{tag}</Tag>
             })):2
+
             var component = 
                     <Card 
                         hoverable 
-                        style={{ width: '95%' }}
+                        style = {{ width: '95%' }}
                         title = {topic}
-                        extra = {[<Button type="primary" onClick={this.showModal}>do</Button>]} 
+                        extra = {[<Button type="primary" onClick={() => this.showModal(id)}>do</Button>]} 
                     >   
                         {tag} <br/>
                         type => {type}<br/>
@@ -135,7 +167,7 @@ class AllQuestion extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    <div className="steps-content" style={{backgroundColor:"red", width:"100%", height:"400px"}}>{steps[current].content}</div>
+                    <div className="steps-content" style={{backgroundColor:"", width:"100%", height:"400px"}}>{steps[current].content}</div>
                     <div className="steps-action">
                         {current < steps.length - 1 && (
                             <Button type="primary" onClick={() => this.next()}>
