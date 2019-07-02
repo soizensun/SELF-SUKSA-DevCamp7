@@ -40,13 +40,12 @@ class InputQuestion extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      // message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
-      // createQuiz(, this.state.detail, this.state.type, this.props.tags, this.state.questionObjs);
-        const { keys, names } = values;
-        console.log("Received values of form: ", values);
-        console.log("Merged values:", keys.map(key => names[key]));
-      
-    });
+      if (!err) {
+      console.log("Received values of form: ", values); 
+      createQuiz(values.topic, values.detail, values.type, this.props.tags, values.questionObjs);
+      message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
+      }
+    })
   };
 
   render() {
@@ -213,6 +212,7 @@ class InputQuestion extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <TagsInput/>
         <Form.Item label="TOPIC: " hasFeedback>
           {getFieldDecorator("topic", {
             rules: [{ required: true, message: "Please enter your TOPIC !" }]

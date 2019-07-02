@@ -11,17 +11,16 @@ const createQuiz = (topic, detail, type, tags, questionObjs) => {
     const docRefQuiz = db.collection('User/user3/Quiz').doc();
     docRefQuiz.set({
       type: `${type}`,
-      tags: {tags},
+      tags: tags,
       topic: `${topic}`,
       detail: `${detail}`,
-      timeStamp: new Date().toISOString()
+      timeStamp: new Date().toLocaleString()
     }).then(() => {
-      console.log(questionObjs);
       questionObjs.map((questionObj, index) => {
         db.collection(`${docRefQuiz.path}/Questions`).doc(`${index}`).set(
           { questionObj }
         ).then(() => {
-          console.log('Created');
+          console.log('Created!! -> ', questionObjs);
         })
       })
     })
