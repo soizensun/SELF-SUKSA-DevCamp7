@@ -4,25 +4,17 @@ import { Tag, Card, Button, Modal, Steps, message } from 'antd';
 import { connect } from 'react-redux';
 // import DoQuiz from './DoQuiz';
 
-
 const { fire } = require('../redux-firebase/firebaseControl');
 const db = fire.firestore();
+
 const mapStateToProps = (state) => {
     return {
         test: state.subject,
         questionType: state.questionType
     }
 }
-const steps = [
-    // {
-    //     content: <div>
 
-    //     </div>
-    // },
-];
-
-
-
+const steps = [];
 class AllQuestion extends React.Component {
     constructor(props) {
         super(props);
@@ -35,15 +27,6 @@ class AllQuestion extends React.Component {
     }
 
     componentDidMount() {
-        // steps[0].content = 
-        // (
-        //     <div>
-        //         <h1>Hello</h1>
-        //     </div>
-        // )
-
-        // steps.push({content : <div>add 1 </div>})
-        // steps.push({content : <div>add 2 </div>})
         this.getData();
     }
 
@@ -55,11 +38,9 @@ class AllQuestion extends React.Component {
     };
 
     handleCancel = e => {
-        console.log("close");
         while(steps.length > 0) {
             steps.pop();
         }
-        
         this.setState({
             visible: false,
             current: 0,
@@ -94,8 +75,6 @@ class AllQuestion extends React.Component {
                     var choices = item.choices
                     // var reasons = item.reasons;
 
-                    // console.log(question);
-                    // console.log(correctChoice);
                     steps.push(
                         {
                             content:
@@ -108,9 +87,7 @@ class AllQuestion extends React.Component {
                                     <Button>{choices[3]}</Button>
                                 </div>
                         })
-
-                }
-                )
+                })
                 this.setState({
                     visible: true,
                 });
@@ -154,7 +131,7 @@ class AllQuestion extends React.Component {
                     hoverable
                     style={{ width: '95%' }}
                     title={topic}
-                    extra={[<Button type="primary" onClick={() => this.showModal(id)}>do</Button>]}
+                    extra={[<Button type="primary" onClick={() => this.showModal(id)}>start doing !!</Button>]}
                 >
                     {tag} <br />
                     type => {type}<br />
@@ -174,7 +151,14 @@ class AllQuestion extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    {steps[current] !== undefined && (<div className="steps-content" style={{ backgroundColor: "", width: "100%", height: "400px" }}>{steps[current].content}</div>)}
+                    {
+                        steps[current] !== undefined && 
+                        (
+                            <div className="steps-content" style={{width: "900px", height: "350px" }}>
+                                {steps[current].content}
+                            </div>
+                        )
+                    }
                     <div className="steps-action">
                         {current < steps.length - 1 && (
                             <Button type="primary" onClick={() => this.next()}>
@@ -182,7 +166,10 @@ class AllQuestion extends React.Component {
                             </Button>
                         )}
                         {current === steps.length - 1 && (
-                            <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                            <Button type="primary" onClick={() =>  message
+                                .loading('Saving your score', 1)
+                                .then(() => message.success('Loading finished', 2))}
+                            >
                                 Done
                             </Button>
                         )}

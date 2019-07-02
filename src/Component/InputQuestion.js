@@ -41,7 +41,7 @@ class InputQuestion extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       // message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
-      createQuiz(, this.state.detail, this.state.type, this.props.tags, this.state.questionObjs);
+      // createQuiz(, this.state.detail, this.state.type, this.props.tags, this.state.questionObjs);
         const { keys, names } = values;
         console.log("Received values of form: ", values);
         console.log("Merged values:", keys.map(key => names[key]));

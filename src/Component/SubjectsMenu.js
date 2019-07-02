@@ -21,11 +21,14 @@ export class SubjectsMenu extends Component {
         return (
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} >
                 <br/>
-                <Search
-                    placeholder="input search text"
-                    onSearch={value => console.log(value)}
-                    style={{ width: 200 }}
+                <div style={{padding: 8 }}>
+                    <Search
+                        placeholder="search your tag"
+                        onSearch={value => console.log(value)}
+                        style={{ width: 183 }}
                     />
+                </div>
+
                 <SubMenu
                     key="sub1"
                     title={
