@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Menu from 'antd/lib/menu';
 import Icon from 'antd/lib/icon';
+import { Input } from 'antd';
 
 import { connect } from 'react-redux'
 
 const { SubMenu }  = Menu;
+const { Search } = Input;
 
 export class SubjectsMenu extends Component {
 
@@ -18,12 +20,18 @@ export class SubjectsMenu extends Component {
     render() {
         return (
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} >
+                <br/>
+                <Search
+                    placeholder="input search text"
+                    onSearch={value => console.log(value)}
+                    style={{ width: 200 }}
+                    />
                 <SubMenu
                     key="sub1"
                     title={
                         <span>
                             <Icon type="mail" /> 
-                            <span>เตรียมสอบ</span>
+                            <span>Prepare-Exam</span>
                         </span>
                     }
                 >
@@ -65,7 +73,7 @@ export class SubjectsMenu extends Component {
                     </Menu.Item>
                     <Menu.Item key="ประเมินตนเอง" onClick={this.handleButon}>
                         <Icon type="file-search" />
-                        <span className="nav-text">ประเมินตนเอง</span>
+                        <span className="nav-text">Self-Evaluation</span>
                     </Menu.Item>
                     
                 </SubMenu>
