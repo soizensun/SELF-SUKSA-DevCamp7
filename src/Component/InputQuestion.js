@@ -16,16 +16,7 @@ const mapStateToProps = (state) => {
 }
 
 class InputQuestion extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      topic: '',  
-      detail: '',
-      type: '',
-      test: 0,
-    }
-  }
-
+  
   handleAddQuestion = () => {
     const { form } = this.props;
     let keysQuestionArr = form.getFieldValue('keysOfQuestionObjs');
