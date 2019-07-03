@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 }
 
 class InputQuestion extends React.Component {
-  
+
   handleAddQuestion = () => {
     const { form } = this.props;
     let keysQuestionArr = form.getFieldValue('keysOfQuestionObjs');
@@ -41,8 +41,11 @@ class InputQuestion extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+<<<<<<< Updated upstream
         // console.log('values.questionObjs: ',values.questionObjs);
          
+=======
+>>>>>>> Stashed changes
         createQuiz(values.topic, values.detail, values.type, this.props.tags, values.questionObjs);
         message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
       }
@@ -63,7 +66,7 @@ class InputQuestion extends React.Component {
     const keysOfQuestionObjs = getFieldValue("keysOfQuestionObjs");
     const questionForm = keysOfQuestionObjs.map((key, index) => (
       <Form.Item
-        label={`Questions ${index+1}`}
+        label={`Questions ${index + 1}`}
         required={false}
         key={key}
       >
@@ -87,7 +90,7 @@ class InputQuestion extends React.Component {
                 className="dynamic-delete-button"
                 type="minus-circle-o"
                 onClick={() => this.handleRemoveQuestion(key)}
-                style={{alignSelf:'flex-start'}}
+                style={{ alignSelf: 'flex-start' }}
               />
             ) : null}
             {getFieldDecorator(`questionObjs[${key}].choices[0]`, {
@@ -112,11 +115,11 @@ class InputQuestion extends React.Component {
                   placeholder="Please enter a reason of this choice."
                   style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
                 />
-                
-                  <Radio value={1} style={{ marginLeft: 22 }}>
-                    This choice is correct.
+
+                <Radio value={1} style={{ marginLeft: 22 }}>
+                  This choice is correct.
                   </Radio>
-                
+
               </div>
             )}
             {getFieldDecorator(`questionObjs[${key}].choices[1]`, {
@@ -141,11 +144,11 @@ class InputQuestion extends React.Component {
                   placeholder="Please enter a reason of this choice."
                   style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
                 />
-                
-                  <Radio value={2} style={{ marginLeft: 22 }}>
-                    This choice is correct.
+
+                <Radio value={2} style={{ marginLeft: 22 }}>
+                  This choice is correct.
                   </Radio>
-                
+
               </div>
             )}
             {getFieldDecorator(`questionObjs[${key}].choices[2]`, {
@@ -170,11 +173,11 @@ class InputQuestion extends React.Component {
                   placeholder="Please enter a reason of this choice."
                   style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
                 />
-                
-                  <Radio value={3} style={{ marginLeft: 22 }}>
-                    This choice is correct.
+
+                <Radio value={3} style={{ marginLeft: 22 }}>
+                  This choice is correct.
                   </Radio>
-                
+
               </div>
             )}
             {getFieldDecorator(`questionObjs[${key}].choices[3]`, {
@@ -199,11 +202,11 @@ class InputQuestion extends React.Component {
                   placeholder="Please enter a reason of this choice."
                   style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
                 />
-                
-                  <Radio value={4} style={{ marginLeft: 22 }}>
-                    This choice is correct.
+
+                <Radio value={4} style={{ marginLeft: 22 }}>
+                  This choice is correct.
                   </Radio>
-                
+
               </div>
             )}
           </Radio.Group>
@@ -213,7 +216,7 @@ class InputQuestion extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-        <TagsInput/>
+        <TagsInput />
         <Form.Item label="TOPIC: " hasFeedback>
           {getFieldDecorator("topic", {
             rules: [{ required: true, message: "Please enter your TOPIC !" }]

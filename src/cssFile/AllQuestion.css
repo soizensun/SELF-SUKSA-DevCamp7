@@ -11,3 +11,15 @@
   .ant-carousel .slick-slide h3 {
     color: #fff;
   }
+
+  .bottonChoice{
+    background-color: #808B96;
+    width: 233px;
+    height: 100px;
+  }
+
+  .bottonChoice:hover{
+    background-color: #EEF819;
+    width: 233px;
+    height: 100px;
+  }

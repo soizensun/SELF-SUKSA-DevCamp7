@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tag, Card, Button, Modal, Steps, message, Row, Col } from 'antd';
 // import 'antd/dist/antd.css';
+import '../cssFile/AllQuestion.css';
 import { connect } from 'react-redux';
 // import DoQuiz from './DoQuiz';
 
@@ -74,33 +75,30 @@ class AllQuestion extends React.Component {
                     var correctChoice = item.correctChoice
                     var choices = item.choices
                     // var reasons = item.reasons;
-
                     steps.push(
                         {
                             content:
                                 <div>
                                     {question}<br />
                                     {/* {correctChoice} */}
-                                    
-                                    <Row  span={1}>
-                                        <Col span={10}><Button>{choices[0]}</Button></Col>
-                                        <Col span={10}><Button>{choices[1]}</Button></Col>
-                                    </Row>
-                                    <Row  span={1}>
-                                        <Col span={10}><Button>{choices[2]}</Button></Col>
-                                        <Col span={10}><Button>{choices[3]}</Button></Col>
-                                    </Row>
+                                    <div style={{ marginTop: "100px" }}>
+                                        <Row gutter={8} style={{ width: "565px" }}>
+                                            <Col span={10}><Button className="bottonChoice">{choices[0]}</Button></Col>
+                                            <Col span={10}><Button className="bottonChoice">{choices[1]}</Button></Col>
+                                        </Row>
+                                        <Row gutter={8} style={{ width: "565px" }}>
+                                            <Col span={10}><Button className="bottonChoice">{choices[2]}</Button></Col>
+                                            <Col span={10}><Button className="bottonChoice">{choices[3]}</Button></Col>
+                                        </Row>
+                                    </div>
+
                                 </div>
                         })
                 })
                 this.setState({
                     visible: true,
                 });
-
             })
-
-
-
     };
 
     getData = () => {
@@ -151,10 +149,11 @@ class AllQuestion extends React.Component {
         return (
             <div>
                 <Modal
-                    title="Basic Modal"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    visible = {this.state.visible}
+                    onOk = {this.handleOk}
+                    onCancel = {this.handleCancel}
+                    footer = {null}
+                    bodyStyle = {{width:"500px"}}
                 >
                     {
                         steps[current] !== undefined &&
