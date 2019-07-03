@@ -16,10 +16,21 @@
     background-color: #808B96;
     width: 233px;
     height: 100px;
+    transition: 0.5s;
   }
 
   .bottonChoice:hover{
     background-color: #EEF819;
     width: 233px;
     height: 100px;
+  }
+  .box {
+    text-align: center;
+    /* align-content: center; */
+    width: 468px;
+    height: 105px;
+    background-color: #566573;
+    margin-top: 15px;
+    /* padding: 55px; */
+    color: white;
   }
