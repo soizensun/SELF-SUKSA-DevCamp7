@@ -21,19 +21,18 @@ class AllQuestion extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allData: [],
+            quizs: [],
             visible: false,
             current: 0,
-            aQuiz: [],
             a: true,
         }
     }
 
     componentDidMount() {
-        this.getData();
+        this.getQuizs();
     }  
 
-    getData = () => {
+    getQuizs = () => {
         let quizs = [];
         db.collection('Quizs').get()
             .then((res) => {
@@ -44,16 +43,10 @@ class AllQuestion extends React.Component {
                     }
                     quizs.push(quiz)
                 });
-                this.setState({ allData: quizs })
+                this.setState({ quizs: quizs })
             })
     }
 /////////////////////////////////////////////
-    handleOk = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
     handleCancel = e => {
         while (steps.length > 0) {
             steps.pop();
@@ -127,7 +120,7 @@ class AllQuestion extends React.Component {
   
     render() {
         const { current } = this.state;
-        var cardOfQuiz = this.state.allData.map((val, index) => {
+        var cardOfQuiz = this.state.quizs.map((val, index) => {
             // console.log(val[0]);
             var id = val.id
             var type = val.data.type
@@ -160,7 +153,6 @@ class AllQuestion extends React.Component {
             <div>
                 <Modal
                     visible={this.state.visible}
-                    onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={null}
                     style={{ right: this.state.a ? "0" : "28%" }}
