@@ -235,40 +235,52 @@ class InputQuestion extends React.Component {
             rules: [{ required: true, message: "Please select your TYPE !" }]
           })(
             <Select placeholder="Please select a TYPE.">
-              <OptGroup label="เตรียมสอบ">
+              <OptGroup label="Prepare-Exam">
                 <Option value="PAT1">
-                  <Icon type="file-excel" />
+                  <Icon type="file-text" />
                   <span className="nav-text"> PAT1 </span>
                 </Option>
                 <Option value="PAT2">
-                  <Icon type="thunderbolt" />
+                  <Icon type="file-text" />
                   <span className="nav-text"> PAT2 </span>
                 </Option>
                 <Option value="GAT">
-                  <Icon type="thunderbolt" />
+                  <Icon type="file-text" />
                   <span className="nav-text"> GAT </span>
                 </Option>
                 <Option value="O-NET">
-                  <Icon type="thunderbolt" />
+                  <Icon type="code" />
                   <span className="nav-text"> O-NET </span>
                 </Option>
-                <Option value="ประเมินตนเอง">
-                  <Icon type="thunderbolt" />
-                  <span className="nav-text"> ประเมินตนเอง </span>
+                <Option value="Self-Evaluation">
+                  <Icon type="file-search" />
+                  <span className="nav-text"> Self-Evaluation </span>
                 </Option>
               </OptGroup>
-              <OptGroup label="แบบฝึกหัด">
+              <OptGroup label="Practice">
                 <Option value="Math">
-                  <Icon type="flag" />
+                  <Icon type="line-chart" />
                   <span className="nav-text"> Math </span>
                 </Option>
-                <Option value="Science">
-                  <Icon type="code" />
-                  <span className="nav-text"> Science </span>
+                <Option value="Physics">
+                  <Icon type="thunderbolt" />
+                  <span className="nav-text"> Physics </span>
+                </Option>
+                <Option value="Chemistry">
+                  <Icon type="experiment" />
+                  <span className="nav-text"> Chemistry </span>
+                </Option>
+                <Option value="Biology">
+                  <Icon type="cluster" />
+                  <span className="nav-text"> Biology </span>
                 </Option>
                 <Option value="Language">
-                  <Icon type="thunderbolt" />
+                  <Icon type="flag" />
                   <span className="nav-text"> Language </span>
+                </Option>
+                <Option value="History">
+                  <Icon type="search" />
+                  <span className="nav-text"> History </span>
                 </Option>
                 <Option value="Programming">
                   <Icon type="thunderbolt" />

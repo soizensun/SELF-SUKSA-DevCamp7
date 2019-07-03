@@ -6,7 +6,7 @@ import InputQuestion from './InputQuestion';
 import { Layout, Icon, Drawer, Button } from 'antd';
 import SubjectsMenu from './SubjectsMenu';
 import SignIn from './SignIn';
-import SignOut from './SignOut';
+import Avatar from './Avatar';
 import '../cssFile/Layout.css';
 const {fire} = require('../redux-firebase/firebaseControl');
 
@@ -63,7 +63,7 @@ export class SiderDemo extends Component {
               APP NAME
           </div>
           <div className= "login">
-            { this.state.user ? <SignOut/> : ( <SignIn /> ) }
+            { this.state.user ? <Avatar/> : ( <SignIn /> ) }
           </div>
         </nav>
             

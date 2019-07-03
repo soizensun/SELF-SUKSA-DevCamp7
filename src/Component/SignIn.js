@@ -74,7 +74,7 @@ class Signin extends React.Component {
         })
     }
 
-    handleUserName = e => {
+    handleEmail = e => {
         console.log(e.target.value)
         this.setState({ email: e.target.value })
     }
@@ -108,7 +108,7 @@ class Signin extends React.Component {
                         <Form.Item>
                             {getFieldDecorator('e-mail', {
                                 rules: [{ required: true, message: 'Please input your email!' }],
-                                onChange: (e) => this.handleUserName(e),
+                                onChange: (e) => this.handleEmail(e),
                             })(
                                 <Input
                                     prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}

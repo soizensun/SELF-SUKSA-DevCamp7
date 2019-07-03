@@ -52,7 +52,7 @@ export class SubjectsMenu extends Component {
                     </Menu.Item>
                     <Menu.Item key="PAT4" onClick={this.handleButon}>
                         <Icon type="file-text" />
-                        <span className="nav-text">PAT4</span>
+                            
                     </Menu.Item>
                     <Menu.Item key="PAT5" onClick={this.handleButon}>
                         <Icon type="file-text" />
@@ -74,7 +74,7 @@ export class SubjectsMenu extends Component {
                         <Icon type="code" />
                         <span className="nav-text">O-NET</span>
                     </Menu.Item>
-                    <Menu.Item key="ประเมินตนเอง" onClick={this.handleButon}>
+                    <Menu.Item key="Self-Evaluation" onClick={this.handleButon}>
                         <Icon type="file-search" />
                         <span className="nav-text">Self-Evaluation</span>
                     </Menu.Item>
