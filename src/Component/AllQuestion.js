@@ -34,16 +34,17 @@ class AllQuestion extends React.Component {
     }  
 
     getData = () => {
-        let wholeData = [];
-        db.collection('User/user3/Quiz').get()
+        let quizs = [];
+        db.collection('Quizs').get()
             .then((res) => {
                 res.forEach(doc => {
-                    var temp = [];
-                    temp.push(doc.id)
-                    temp.push(doc.data())
-                    wholeData.push(temp)
+                    var quiz = {
+                        id: doc.id,
+                        data: doc.data()
+                    }
+                    quizs.push(quiz)
                 });
-                this.setState({ allData: wholeData })
+                this.setState({ allData: quizs })
             })
     }
 /////////////////////////////////////////////
@@ -77,14 +78,14 @@ class AllQuestion extends React.Component {
         console.log(e.target.value);
     }
 
-    showModal = (id) => {
-        let aQuiz = [];
-        db.collection(`User/user3/Quiz/${id}/Questions`).get()
+    showModal = (quizId) => {
+        let questions = [];
+        db.collection(`Quizs/${quizId}/Questions`).get()
             .then((res) => {
                 res.forEach(doc => {
-                    aQuiz.push(doc.data())
+                    questions.push(doc.data())
                 })
-                aQuiz.map((item) => {
+                questions.map((item) => {
                     var question = item.question
                     var correctChoice = item.correctChoice
                     var choices = item.choices
@@ -128,13 +129,13 @@ class AllQuestion extends React.Component {
         const { current } = this.state;
         var cardOfQuiz = this.state.allData.map((val, index) => {
             // console.log(val[0]);
-            var id = val[0]
-            var type = val[1].type
-            var topic = val[1].topic
-            var detail = val[1].topicDetail
-            let tag = val[1].tags.length > 0 ? (val[1].tags.map((tag, index) => {
+            var id = val.id
+            var type = val.data.type
+            var topic = val.data.topic
+            var detail = val.data.detail
+            let tag = val.data.tags.map((tag, index) => {
                 return <Tag color="cyan" key={index}>{tag}</Tag>
-            })) : 2
+            })
 
             var component =
                 <Card

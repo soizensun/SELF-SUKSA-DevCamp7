@@ -166,7 +166,7 @@ class InputQuestion extends React.Component {
                 />
               </div>
             )}
-            {getFieldDecorator(`questionObjs[${key}]reasons[2]`, {
+            {getFieldDecorator(`questionObjs[${key}].reasons[2]`, {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "What is REASON of this choice !" }]
             })(

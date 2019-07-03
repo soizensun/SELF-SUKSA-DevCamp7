@@ -7,8 +7,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './redux-firebase/reducer';
 
-const { getQuestionType } = require('./redux-firebase/firebaseControl')
-
 const initialState = {
     subject: '',
     tagsInput: [],
