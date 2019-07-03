@@ -17,6 +17,7 @@ class SignUp extends React.Component {
         fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((u) => {
                 console.log('Successfully Signed Up');
+                
             })
             .catch((err) => {
                 
