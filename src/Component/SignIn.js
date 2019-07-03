@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Modal, Button, Form, Icon, Input, Checkbox } from 'antd';
+import { Modal, Button, Form, Icon, Input, Checkbox, message } from 'antd';
+import '../cssFile/Layout.css';
 const { fire } = require('../redux-firebase/firebaseControl');
 
 
-class Login extends React.Component {
+class Signin extends React.Component {
     state = { visible: false };
 
     constructor(props) {
@@ -15,27 +16,31 @@ class Login extends React.Component {
         this.authListener = this.authListener.bind(this);
     }
 
-    signUp=()=> {
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => {
-                console.log('Successfully Signed Up');
-            })
-            .catch((err) => {
-                console.log('Error: ' + err.toString());
-            })
-    }
-
-    // login =()=> {
-    //     console.log(this.state)
-    //     fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    // signUp=()=> {
+    //     fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     //         .then((u) => {
-    //             console.log('Successfully Logged In');
+    //             console.log('Successfully Signed Up');
     //         })
     //         .catch((err) => {
     //             console.log('Error: ' + err.toString());
-    //             console.log('test')
     //         })
     // }
+
+    login =()=> {
+        console.log(this.state)
+        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then((u) => {
+                message.success('Login success');
+                console.log('Successfully Logged In');
+            }).then(()=>{
+                console.log('isSignin: ', fire.auth().isSignInWithEmailLink)
+            })
+            .catch((err) => {
+                message.error('Login Failed');
+                console.log('Error: ' + err.toString());
+                console.log('test')
+            })
+    }
     componentDidMount() {
         this.authListener();
         console.log(this.state)
@@ -105,16 +110,16 @@ class Login extends React.Component {
                         <Button key="back" onClick={this.handleCancel}>
                             Cancel
                         </Button>,
-                        <Button key="submit" type="primary" onClick={this.signUp}>
-                            Sign up
-                        </Button>,
-                        // <Button key="submit" type="primary" onClick={this.login}>
-                        //     Login
+                        // <Button key="submit" type="primary" onClick={this.signUp}>
+                        //     Sign up
                         // </Button>,
+                        <Button key="submit" type="primary" onClick={this.login}>
+                            Login
+                        </Button>,
                     ]}
                 >
                     <Form onSubmit={this.handleSubmit} className="login-form">
-                    <Form.Item>
+                    {/* <Form.Item>
                             {getFieldDecorator('username', {
                                 rules: [{ required: true, message: 'Please input your Username!' }],
                                 onChange: (e) => this.handlePassword(e),
@@ -125,7 +130,7 @@ class Login extends React.Component {
                                     placeholder="Username"
                                 />,
                             )}
-                        </Form.Item>
+                        </Form.Item> */}
                         <Form.Item>
                             {getFieldDecorator('e-mail', {
                                 rules: [{ required: true, message: 'Please input your email!' }],
@@ -149,6 +154,13 @@ class Login extends React.Component {
                                 />,
                             )}
                         </Form.Item>
+                        <Form.Item>
+                            {getFieldDecorator('remember', {
+                                valuePropName: 'checked',
+                                initialValue: true,
+                            })(<Checkbox>Remember me</Checkbox>)}
+
+                        </Form.Item>
                     </Form>
 
                 </Modal>
@@ -157,5 +169,5 @@ class Login extends React.Component {
     }
 }
 
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Login);
+const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Signin);
 export default WrappedNormalLoginForm;

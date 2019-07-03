@@ -20,3 +20,6 @@
 .signout{
     justify-content: space-around;
 }
+.login-form {
+    max-width: 300px;
+  }
