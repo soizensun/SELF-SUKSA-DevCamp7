@@ -5,10 +5,7 @@ const fire = firebase.initializeApp(config);
 const db = fire.firestore();
 
 const createQuiz = (topic, detail, type, tags, questionObjs) => {
-  db.collection('User').doc('user3').set({
-    name: 'Zen',
-  }).then(() => {
-    const docRefQuiz = db.collection('User/user3/Quiz').doc();
+    const docRefQuiz = db.collection('Quizs').doc();
     docRefQuiz.set({
       type: `${type}`,
       tags: tags,
@@ -29,7 +26,6 @@ const createQuiz = (topic, detail, type, tags, questionObjs) => {
         })
       })
     })
-  })
 }
 
 module.exports = { fire, createQuiz };
