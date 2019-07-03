@@ -146,7 +146,7 @@ class AllQuestion extends React.Component {
                         <Button type="primary" onClick={() => this.showModal(id)}>start doing !!</Button>
                     ]}
                 >
-                    {tag} <br />
+                    {/* {tag} <br /> */}
                     type => {type}<br />
                     {detail}
                 </Card>

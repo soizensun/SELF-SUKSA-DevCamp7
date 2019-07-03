@@ -6,15 +6,16 @@
 }
 .header_bar{
     display: flex;
-    padding: 0 2rem;
+    padding: 0 5rem;
     height: 200%;
-    padding: 4;
+    left: 0;
     align-items: center;
     justify-content: space-between;
 }
 .header_logo{
-    text-decoration: none;
+    justify-content: flex-start;
     font-size: 1.5rem;
+    margin-left: -50px;
 
 }
 .signout{

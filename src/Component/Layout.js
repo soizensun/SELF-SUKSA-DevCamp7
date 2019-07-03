@@ -64,8 +64,8 @@ export class SiderDemo extends Component {
           <div className= "header_logo">
               APP NAME
           </div>
-          <div className= "login">
-            { this.state.user ? <Avatar/> : ( <SignIn /> ) }
+          <div className= "logout">
+            { this.state.user ? <div><Avatar/></div> : ( <SignIn /> ) }
           </div>
         </nav>
             

@@ -283,7 +283,7 @@ class InputQuestion extends React.Component {
                   <span className="nav-text"> History </span>
                 </Option>
                 <Option value="Programming">
-                  <Icon type="thunderbolt" />
+                  <Icon type="code" />
                   <span className="nav-text"> Programming </span>
                 </Option>
               </OptGroup>

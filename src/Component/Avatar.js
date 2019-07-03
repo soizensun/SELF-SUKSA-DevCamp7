@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 const {fire} = require('../redux-firebase/firebaseControl');
 
 
+
 class SignOut extends React.Component {
 
   logout() {
@@ -30,7 +31,7 @@ class SignOut extends React.Component {
     return (
       <div>
         
-          <Popover placement="bottom"  content={content} trigger="click" >
+          <Popover placement="bottom"  content={content} onClick='click' >
           <Avatar  style={{ backgroundColor: '#87d068'}} size="large" icon="user"/>
           </Popover>
         

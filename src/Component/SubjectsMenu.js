@@ -52,7 +52,7 @@ export class SubjectsMenu extends Component {
                     </Menu.Item>
                     <Menu.Item key="PAT4" onClick={this.handleButon}>
                         <Icon type="file-text" />
-                            
+                        <span className="nav-text">PAT4</span>
                     </Menu.Item>
                     <Menu.Item key="PAT5" onClick={this.handleButon}>
                         <Icon type="file-text" />
