@@ -25,21 +25,34 @@ class AllQuestion extends React.Component {
             visible: false,
             current: 0,
             aQuiz: [],
-            checkReasonPage: false,
+            a: true,
         }
     }
 
     componentDidMount() {
         this.getData();
-    }
+    }  
 
+    getData = () => {
+        let wholeData = [];
+        db.collection('User/user3/Quiz').get()
+            .then((res) => {
+                res.forEach(doc => {
+                    var temp = [];
+                    temp.push(doc.id)
+                    temp.push(doc.data())
+                    wholeData.push(temp)
+                });
+                this.setState({ allData: wholeData })
+            })
+    }
+/////////////////////////////////////////////
     handleOk = e => {
         console.log(e);
         this.setState({
             visible: false,
         });
     };
-
     handleCancel = e => {
         while (steps.length > 0) {
             steps.pop();
@@ -55,7 +68,6 @@ class AllQuestion extends React.Component {
         const current = this.state.current + 1;
         this.setState({ current });
     }
-
     prev() {
         const current = this.state.current - 1;
         this.setState({ current });
@@ -63,23 +75,14 @@ class AllQuestion extends React.Component {
 
     onSelectChoice = (e) => {
         console.log(e.target.value);
-        
-    }
-
-    showReason = () => {
-        console.log("click show reason");
-        
     }
 
     showModal = (id) => {
-        console.log(this.state.checkReasonPage);
-        
         let aQuiz = [];
         db.collection(`User/user3/Quiz/${id}/Questions`).get()
             .then((res) => {
                 res.forEach(doc => {
                     aQuiz.push(doc.data())
-                    console.log(doc.id);
                 })
                 aQuiz.map((item) => {
                     var question = item.question
@@ -99,14 +102,15 @@ class AllQuestion extends React.Component {
                                             <Col span={10}><button value="1" onClick={this.onSelectChoice} className="bottonChoice">{choices[0]}</button></Col>
                                             <Col span={10}><button value="2" onClick={this.onSelectChoice} className="bottonChoice">{choices[1]}</button></Col>
                                         </Row>
-                                        <Row gutter={8} style={{ width: "565px" }}>
+                                        <Row gutter={8} style={{ width: "565px" }}> 
                                             <Col span={10}><button value="3" onClick={this.onSelectChoice} className="bottonChoice">{choices[2]}</button></Col>
                                             <Col span={10}><button value="4" onClick={this.onSelectChoice} className="bottonChoice">{choices[3]}</button></Col>
                                         </Row>
                                     </div>
 
                                 </div>
-                        })
+                        }
+                    )
                 })
                 this.setState({
                     visible: true,
@@ -114,24 +118,15 @@ class AllQuestion extends React.Component {
             })
     };
 
-    getData = () => {
-        let wholeData = [];
-        db.collection('User/user3/Quiz').get()
-            .then((res) => {
-                res.forEach(doc => {
-                    var temp = [];
-                    temp.push(doc.id)
-                    temp.push(doc.data())
-                    wholeData.push(temp)
-                });
-                this.setState({ allData: wholeData })
-            })
+    showReason = () => {
+        console.log("show question");
+        
     }
 
+  
     render() {
         const { current } = this.state;
-        // console.log(this.state.allData)
-        var listOfQuestion = this.state.allData.map((val, index) => {
+        var cardOfQuiz = this.state.allData.map((val, index) => {
             // console.log(val[0]);
             var id = val[0]
             var type = val[1].type
@@ -144,9 +139,9 @@ class AllQuestion extends React.Component {
             var component =
                 <Card
                     hoverable
-                    style = {{ width: '95%' }}
-                    title = {topic}
-                    extra = {[
+                    style={{ width: '95%' }}
+                    title={topic}
+                    extra={[
                         <Button type="primary" onClick={() => this.showModal(id)}>start doing !!</Button>
                     ]}
                 >
@@ -167,8 +162,7 @@ class AllQuestion extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={null}
-                    style={{}}
-                    styteBody={{height: "500px"}}
+                    style={{ right: this.state.a ? "0" : "28%" }}
                 >
                     <Steps current={current}>
                         {steps.map(item => (<Step key={item.title} title={item.title} />))}
@@ -181,7 +175,7 @@ class AllQuestion extends React.Component {
                             </div>
                         )
                     }
-                    <div className="steps-action">
+                    <div className="steps-action-button">
                         {current < steps.length - 1 && (
                             <Button type="primary" onClick={() => this.next()}>
                                 Next
@@ -195,18 +189,16 @@ class AllQuestion extends React.Component {
                                 Done
                             </Button>
                         )}
-                        {current > 0 && (
+                        {/* {current > 0 && (
                             <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
                                 Previous
                             </Button>
-                        )}
+                        )} */}
                         <Button style={{ marginLeft: 8 }} onClick={this.showReason}>Show reason</Button>
                     </div>
                 </Modal>
-                {/* <DoQuiz/> */}
-
-                <ul> {listOfQuestion} </ul>
-                <h1>{this.props.test}</h1>
+                <ul> {cardOfQuiz} </ul>
+                {/* <h1>{this.props.test}</h1> */}
             </div>
         );
     }
