@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag, Card, Button, Modal, Steps, message } from 'antd';
+import { Tag, Card, Button, Modal, Steps, message, Row, Col } from 'antd';
 // import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 // import DoQuiz from './DoQuiz';
@@ -38,7 +38,7 @@ class AllQuestion extends React.Component {
     };
 
     handleCancel = e => {
-        while(steps.length > 0) {
+        while (steps.length > 0) {
             steps.pop();
         }
         this.setState({
@@ -80,11 +80,16 @@ class AllQuestion extends React.Component {
                             content:
                                 <div>
                                     {question}<br />
-                                    {correctChoice}
-                                    <Button>{choices[0]}</Button>
-                                    <Button>{choices[1]}</Button>
-                                    <Button>{choices[2]}</Button>
-                                    <Button>{choices[3]}</Button>
+                                    {/* {correctChoice} */}
+                                    
+                                    <Row  span={1}>
+                                        <Col span={10}><Button>{choices[0]}</Button></Col>
+                                        <Col span={10}><Button>{choices[1]}</Button></Col>
+                                    </Row>
+                                    <Row  span={1}>
+                                        <Col span={10}><Button>{choices[2]}</Button></Col>
+                                        <Col span={10}><Button>{choices[3]}</Button></Col>
+                                    </Row>
                                 </div>
                         })
                 })
@@ -152,9 +157,9 @@ class AllQuestion extends React.Component {
                     onCancel={this.handleCancel}
                 >
                     {
-                        steps[current] !== undefined && 
+                        steps[current] !== undefined &&
                         (
-                            <div className="steps-content" style={{width: "900px", height: "350px" }}>
+                            <div className="steps-content" style={{ width: "900px", height: "350px" }}>
                                 {steps[current].content}
                             </div>
                         )
@@ -166,7 +171,7 @@ class AllQuestion extends React.Component {
                             </Button>
                         )}
                         {current === steps.length - 1 && (
-                            <Button type="primary" onClick={() =>  message
+                            <Button type="primary" onClick={() => message
                                 .loading('Saving your score', 1)
                                 .then(() => message.success('Loading finished', 2))}
                             >
