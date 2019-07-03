@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import { message, Input, Icon, Form, Select, Button, Radio } from 'antd';
 import TagsInput from './TagsInput';
 
-const { fire, createQuiz } = require('../redux-firebase/firebaseControl');
+const { createQuiz } = require('../redux-firebase/firebaseControl');
 const { TextArea } = Input;
 const { Option, OptGroup } = Select;
 
@@ -15,8 +15,15 @@ const mapStateToProps = (state) => {
 }
 
 class InputQuestion extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      isAddQuestionHandle: true,
+    }
+  }
 
   handleAddQuestion = () => {
+    this.setState({isAddQuestionHandle: false})
     const { form } = this.props;
     let keysQuestionArr = form.getFieldValue('keysOfQuestionObjs');
     keysQuestionArr = keysQuestionArr.concat(keysQuestionArr.length)
@@ -39,6 +46,7 @@ class InputQuestion extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+
       if (!err) {
         console.log("Received values of form: ", values);
         createQuiz(values.topic, values.detail, values.type, this.props.tags, values.questionObjs);
@@ -283,7 +291,7 @@ class InputQuestion extends React.Component {
         </Form.Item>
 
         <Form.Item {...formItemLayoutWithOutLabel}>
-          <Button type="primary" onClick={this.handleSubmit}>
+          <Button type="primary" onClick={this.handleSubmit} disabled={this.state.isAddQuestionHandle}>
             Submit quiz
           </Button>
         </Form.Item>
