@@ -16,6 +16,8 @@ const createQuiz = (topic, detail, type, tags, questionObjs) => {
       detail: `${detail}`,
       timeStamp: new Date().toLocaleString()
     }).then(() => {
+      console.log(docRefQuiz.path);
+      
       questionObjs.map((questionObj, index) => {
         db.collection(`${docRefQuiz.path}/Questions`).doc(`${index}`).set({  
           question: questionObj.question,

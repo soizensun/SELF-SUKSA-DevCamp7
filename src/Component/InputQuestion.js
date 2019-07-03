@@ -7,7 +7,6 @@ import TagsInput from './TagsInput';
 const { fire, createQuiz } = require('../redux-firebase/firebaseControl');
 const { TextArea } = Input;
 const { Option, OptGroup } = Select;
-let id = 0;
 
 const mapStateToProps = (state) => {
   return {
@@ -41,9 +40,11 @@ class InputQuestion extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-      console.log("Received values of form: ", values); 
-      createQuiz(values.topic, values.detail, values.type, this.props.tags, values.questionObjs);
-      message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
+        console.log("Received values of form: ", values);
+        // console.log('values.questionObjs: ',values.questionObjs);
+         
+        createQuiz(values.topic, values.detail, values.type, this.props.tags, values.questionObjs);
+        message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
       }
     })
   };
@@ -66,7 +67,7 @@ class InputQuestion extends React.Component {
         required={false}
         key={key}
       >
-        {getFieldDecorator(`questionObjs[${key}].correctChoices`, {
+        {getFieldDecorator(`questionObjs[${key}].correctChoice`, {
           validateTrigger: ["onChange", "onBlur"],
           rules: [{ required: true, message: "Please select your CORRECT CHOICE !" }]
         })(
