@@ -11,22 +11,20 @@ const createQuiz = (topic, detail, type, tags, questionObjs) => {
     const docRefQuiz = db.collection('User/user3/Quiz').doc();
     docRefQuiz.set({
       type: `${type}`,
-      tags: {tags},
+      tags: tags,
       topic: `${topic}`,
-      detail: `${detail}`
+      detail: `${detail}`,
+      timeStamp: new Date().toLocaleString()
     }).then(() => {
       questionObjs.map((questionObj, index) => {
-        db.collection(`${docRefQuiz}/Questions`).doc(`${index}`).set(
+        db.collection(`${docRefQuiz.path}/Questions`).doc(`${index}`).set(
           { questionObj }
         ).then(() => {
-          console.log('Created');
+          console.log('Created!! -> ', questionObjs);
         })
       })
     })
   })
 }
 
-
-
-
-module.exports = { fire };
+module.exports = { fire, createQuiz };
