@@ -4,8 +4,6 @@ const { fire } = require('../redux-firebase/firebaseControl');
 
 
 class SignUp extends React.Component {
-    state = { visible: false };
-
     constructor(props) {
         super(props);
         this.state = {
@@ -16,29 +14,19 @@ class SignUp extends React.Component {
     }
 
     signUp=()=> {
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => {
-                fire.auth().currentUser.sendEmailVerification();
-                alert('Email Verification Sent ! Please check your email address')
-                console.log('Successfully Signed Up');
-            })
-            .catch((err) => {
+        // fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        //     .then((u) => {
+        //         // fire.auth().currentUser.sendEmailVerification();
+        //         alert('Email Verification Sent ! Please check your email address')
+        //         console.log('Successfully Signed Up');
+        //     })
+        //     .catch((err) => {
                 
-                console.log('Error: ' + err.toString());
-            })
+        //         console.log('Error: ' + err.toString());
+        //     })
+            this.props.toggleSignUp();
     }
 
-    // login =()=> {
-    //     console.log(this.state)
-    //     fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    //         .then((u) => {
-    //             console.log('Successfully Logged In');
-    //         })
-    //         .catch((err) => {
-    //             console.log('Error: ' + err.toString());
-    //             console.log('test')
-    //         })
-    // }
     componentDidMount() {
         this.authListener();
         console.log(this.state)
@@ -53,34 +41,6 @@ class SignUp extends React.Component {
             }
         })
     }
-    handleSubmit = e => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
-    };
-
-    showModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
-
-    handleOk = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
-
-    handleCancel = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
 
     handleUserName = e => {
         console.log(e.target.value)
@@ -96,27 +56,20 @@ class SignUp extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div>
-                <Button type="primary" onClick={this.showModal}>
-                    Sign in
-                </Button>
                 <Modal
-                    title="Sign in"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    title="Sign Up"
+                    visible={this.props.signUpVisible}
+                    onCancel={()=>{this.props.closeModal(); this.props.toggleSignUp()}}
                     footer={[
-                        <Button key="back" onClick={this.handleCancel}>
+                        <Button key="back" onClick={()=>this.props.toggleSignUp()}>
                             Cancel
                         </Button>,
-                        <Button key="submit" type="primary" onClick={this.signUp}>
+                        <Button key="submit" type="primary" onClick={()=>this.signUp()}>
                             Sign up
-                        </Button>,
-                        // <Button key="submit" type="primary" onClick={this.login}>
-                        //     Login
-                        // </Button>,
+                        </Button>
                     ]}
                 >
-                    <Form onSubmit={this.handleSubmit} className="login-form">
+                    <Form className="login-form">
                     <Form.Item>
                             {getFieldDecorator('username', {
                                 rules: [{ required: true, message: 'Please input your Username!' }],

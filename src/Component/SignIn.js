@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import { Modal, Button, Form, Icon, Input, Checkbox, message } from 'antd';
 import '../cssFile/Layout.css';
+import SignUp from './SignUp';
 const { fire } = require('../redux-firebase/firebaseControl');
 
 
 class Signin extends React.Component {
-    state = { visible: false };
 
     constructor(props) {
         super(props);
         this.state = {
             email: null,
             password: null,
+            visible: false,
+            signUpVisible: false
         };
         this.authListener = this.authListener.bind(this);
     }
@@ -53,14 +55,12 @@ class Signin extends React.Component {
             }
         })
     }
-    handleSubmit = e => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
+
+    closeModal = () => {
+        this.setState({
+            visible: false,
         });
-    };
+    }
 
     showModal = () => {
         this.setState({
@@ -68,19 +68,11 @@ class Signin extends React.Component {
         });
     };
 
-    handleOk = e => {
-        console.log(e);
+    toggleSignUp = () => {
         this.setState({
-            visible: false,
-        });
-    };
-
-    handleCancel = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
-        });
-    };
+            signUpVisible: !this.state.signUpVisible,
+        })
+    }
 
     handleUserName = e => {
         console.log(e.target.value)
@@ -101,34 +93,18 @@ class Signin extends React.Component {
                 </Button>
                 <Modal
                     title="Sign in"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    visible={this.state.visible && !this.state.signUpVisible}
+                    onCancel={this.closeModal}
                     footer={[
-                        <Button key="back" onClick={this.handleCancel}>
+                        <Button key="back" onClick={this.closeModal}>
                             Cancel
                         </Button>,
-                        // <Button key="submit" type="primary" onClick={this.signUp}>
-                        //     Sign up
-                        // </Button>,
                         <Button key="submit" type="primary" onClick={this.login}>
                             Login
                         </Button>,
                     ]}
                 >
-                    <Form onSubmit={this.handleSubmit} className="login-form">
-                    {/* <Form.Item>
-                            {getFieldDecorator('username', {
-                                rules: [{ required: true, message: 'Please input your Username!' }],
-                                onChange: (e) => this.handlePassword(e),
-                            })(
-                                <Input
-                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    type="username"
-                                    placeholder="Username"
-                                />,
-                            )}
-                        </Form.Item> */}
+                    <Form className="login-form">
                         <Form.Item>
                             {getFieldDecorator('e-mail', {
                                 rules: [{ required: true, message: 'Please input your email!' }],
@@ -159,9 +135,14 @@ class Signin extends React.Component {
                             })(<Checkbox>Remember me</Checkbox>)}
 
                         </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" onClick={() => this.toggleSignUp()}>
+                                Sign Up
+                            </Button>
+                        </Form.Item>
                     </Form>
-
                 </Modal>
+                <SignUp signUpVisible={this.state.signUpVisible} toggleSignUp={this.toggleSignUp} closeModal={this.closeModal}/>
             </div>
         );
     }

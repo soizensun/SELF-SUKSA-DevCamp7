@@ -22,27 +22,29 @@ export class SiderDemo extends Component {
     }
     this.authListener = this.authListener.bind(this);
   }
+  componentDidMount() {
+    this.authListener();
+  }
 
+  //==================================== DrawerAction
   showDrawer = () => {
     this.setState({
       visible: true,
     });
   };
-
   onClose = () => {
     this.setState({
       visible: false,
     });
   };
-
-  componentDidMount() {
-    this.authListener();
-  }
+  //=================================================
 
   authListener() {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
+        console.log('user: ', user);
+        
       } else {
         this.setState({ user: null });
       }
