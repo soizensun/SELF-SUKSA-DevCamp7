@@ -20,8 +20,7 @@ export class SubjectsMenu extends Component {
     render() {
         return (
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} >
-                <br/>
-                <Search
+                <Search //Text Search
                     placeholder="input search text"
                     onSearch={value => console.log(value)}
                     style={{ width: 200 }}

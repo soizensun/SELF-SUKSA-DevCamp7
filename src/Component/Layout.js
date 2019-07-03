@@ -6,7 +6,7 @@ import InputQuestion from './InputQuestion';
 import { Layout, Icon, Drawer, Button } from 'antd';
 import SubjectsMenu from './SubjectsMenu';
 import Login from './Login';
-import Home from './Home';
+import SignOut from './SignOut';
 import '../cssFile/Layout.css';
 const {fire} = require('../redux-firebase/firebaseControl');
 
@@ -48,7 +48,10 @@ export class SiderDemo extends Component {
       }
     })
   }
-  
+  logout() {
+    fire.auth().signOut();
+  }
+
   render() {
     return (
       
@@ -58,7 +61,7 @@ export class SiderDemo extends Component {
               APP NAME
           </div>
           <div className= "login">
-            { this.state.user ? 'You are Logged In' : ( <Login /> ) }
+            { this.state.user ? <SignOut/> : ( <Login /> ) }
           </div>
         </nav>
             
