@@ -17,9 +17,12 @@ const createQuiz = (topic, detail, type, tags, questionObjs) => {
       timeStamp: new Date().toLocaleString()
     }).then(() => {
       questionObjs.map((questionObj, index) => {
-        db.collection(`${docRefQuiz.path}/Questions`).doc(`${index}`).set(
-          { questionObj }
-        ).then(() => {
+        db.collection(`${docRefQuiz.path}/Questions`).doc(`${index}`).set({  
+          question: questionObj.question,
+          choices: questionObj.choices,
+          reasons: questionObj.reasons,
+          correctChoice: questionObj.correctChoice
+        }).then(() => {
           console.log('Created!! -> ', questionObjs);
         })
       })
