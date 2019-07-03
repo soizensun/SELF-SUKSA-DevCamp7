@@ -80,31 +80,48 @@ class AllQuestion extends React.Component {
                 })
                 questions.map((item) => {
                     var question = item.question
-                    var correctChoice = item.correctChoice
+                    // var correctChoice = item.correctChoice
                     var choices = item.choices
-                    // var reasons = item.reasons;
-                    steps.push(
-                        {
-                            content:
-                                <div>
-                                    <div className="box">
-                                        {question}
-                                    </div>
-                                    {/* {correctChoice} */}
-                                    <div style={{ marginTop: "10px" }}>
-                                        <Row gutter={8} style={{ width: "565px" }}>
-                                            <Col span={10}><button value="1" onClick={this.onSelectChoice} className="bottonChoice">{choices[0]}</button></Col>
-                                            <Col span={10}><button value="2" onClick={this.onSelectChoice} className="bottonChoice">{choices[1]}</button></Col>
-                                        </Row>
-                                        <Row gutter={8} style={{ width: "565px" }}> 
-                                            <Col span={10}><button value="3" onClick={this.onSelectChoice} className="bottonChoice">{choices[2]}</button></Col>
-                                            <Col span={10}><button value="4" onClick={this.onSelectChoice} className="bottonChoice">{choices[3]}</button></Col>
-                                        </Row>
-                                    </div>
-
-                                </div>
-                        }
-                    )
+                    var reasons = item.reasons;
+                    console.log(item.reasons);
+                    
+                    var choicesButton = 
+                        <div>
+                            <div className="box">
+                                {question}
+                            </div>
+                            {/* {correctChoice} */}
+                            <div style={{ marginTop: "10px" }}>
+                                <Row gutter={8} style={{ width: "565px" }}>
+                                    <Col span={10}><button value="1" onClick={this.onSelectChoice} className="bottonChoice">{choices[0]}</button></Col>
+                                    <Col span={10}><button value="2" onClick={this.onSelectChoice} className="bottonChoice">{choices[1]}</button></Col>
+                                </Row>
+                                <Row gutter={8} style={{ width: "565px" }}> 
+                                    <Col span={10}><button value="3" onClick={this.onSelectChoice} className="bottonChoice">{choices[2]}</button></Col>
+                                    <Col span={10}><button value="4" onClick={this.onSelectChoice} className="bottonChoice">{choices[3]}</button></Col>
+                                </Row>
+                            </div>
+                        </div>
+                    var reasonOfChoice = 
+                        <div>
+                            <div className="box">
+                                {question}
+                            </div>
+                            {/* {correctChoice} */}
+                            <div style={{ marginTop: "10px" }}>
+                                <Row gutter={8} style={{ width: "565px" }}>
+                                    <Col span={10}>{reasons[0]}</Col>
+                                    <Col span={10}>{reasons[1]}</Col>
+                                </Row>
+                                <Row gutter={8} style={{ width: "565px" }}> 
+                                    <Col span={10}>{reasons[2]}</Col>
+                                    <Col span={10}>{reasons[3]}</Col>
+                                </Row>
+                            </div>
+                        </div>
+                    steps.push({
+                        content : reasonOfChoice
+                    })
                 })
                 this.setState({
                     visible: true,
@@ -130,6 +147,7 @@ class AllQuestion extends React.Component {
                 return <Tag color="cyan" key={index}>{tag}</Tag>
             })
 
+            
             var component =
                 <Card
                     hoverable
@@ -182,11 +200,11 @@ class AllQuestion extends React.Component {
                                 Done
                             </Button>
                         )}
-                        {/* {current > 0 && (
+                        {current > 0 && (
                             <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
                                 Previous
                             </Button>
-                        )} */}
+                        )}
                         <Button style={{ marginLeft: 8 }} onClick={this.showReason}>Show reason</Button>
                     </div>
                 </Modal>
