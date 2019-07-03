@@ -41,11 +41,8 @@ class InputQuestion extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
-<<<<<<< Updated upstream
         // console.log('values.questionObjs: ',values.questionObjs);
          
-=======
->>>>>>> Stashed changes
         createQuiz(values.topic, values.detail, values.type, this.props.tags, values.questionObjs);
         message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
       }
