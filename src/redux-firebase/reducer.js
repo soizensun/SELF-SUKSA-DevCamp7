@@ -5,14 +5,19 @@ const reducer = (initialState) => (state=initialState, action)  => {
                 ...state,
                 subject: action.payload 
             }
-            console.log(state);
+            
             
         case 'SET_TAGSINPUT':
             state={
                 ...state,
                 tagsInput: action.payload
             }
-            console.log(action.payload);
+        
+        case 'SET_VISIBLEINPUTDRAWER':
+            state={
+                ...state,
+                visibleInputDrawer: action.payload
+            }
             
         default:
             return state

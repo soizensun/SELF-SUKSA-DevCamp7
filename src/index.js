@@ -12,6 +12,7 @@ const { getQuestionType } = require('./redux-firebase/firebaseControl')
 const initialState = {
     subject: '',
     tagsInput: [],
+    visibleInputDrawer: false,
 }
 
 const store = createStore(reducer(initialState));

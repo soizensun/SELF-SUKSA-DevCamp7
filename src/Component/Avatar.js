@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Avatar, Popover } from 'antd';
+import { connect } from 'react-redux';
 const {fire} = require('../redux-firebase/firebaseControl');
 
 
@@ -8,11 +9,19 @@ class SignOut extends React.Component {
   logout() {
     fire.auth().signOut();
   }
+
+  showDrawer = () => {
+    this.props.dispatch({
+      type: 'SET_VISIBLEINPUTDRAWER',
+      payload: true
+    });
+  };
   
   render() {
+    
     const content = (
       <div>
-        <p><Button type="primary" >Create New Quiz</Button></p>
+        <p><Button type="primary" onClick={this.showDrawer}>Create New Quiz</Button></p>
         <p><Button type="primary" >My Created Quiz</Button></p>
         <p><Button type="primary" >Already Done Quiz</Button></p>
         <Button type="danger" onClick={this.logout}>Sign Out</Button>
@@ -22,7 +31,7 @@ class SignOut extends React.Component {
       <div>
         
           <Popover placement="bottom"  content={content} trigger="click" >
-          <Avatar  style={{ backgroundColor: '#87d068',padding: 8 }} size="large" icon="user"/>
+          <Avatar  style={{ backgroundColor: '#87d068'}} size="large" icon="user"/>
           </Popover>
         
         
@@ -32,4 +41,4 @@ class SignOut extends React.Component {
   }
 }
 
-export default SignOut;
+export default connect()(SignOut);

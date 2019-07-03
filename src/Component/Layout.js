@@ -8,16 +8,21 @@ import SubjectsMenu from './SubjectsMenu';
 import SignIn from './SignIn';
 import Avatar from './Avatar';
 import '../cssFile/Layout.css';
+import { connect } from 'react-redux';
 const {fire} = require('../redux-firebase/firebaseControl');
 
 const { Header, Content, Footer , Sider} = Layout;
+
+const mapStateToProps = (state) => {
+  return {
+    visibleInputDrawer: state.visibleInputDrawer 
+  }
+}
 
 export class SiderDemo extends Component {
   constructor() {
     super();
     this.state = {
-      visible: false,
-      tag: "",
       user:{},
     }
     this.authListener = this.authListener.bind(this);
@@ -27,14 +32,11 @@ export class SiderDemo extends Component {
   }
 
   //==================================== DrawerAction
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
-  };
+  
   onClose = () => {
-    this.setState({
-      visible: false,
+    this.props.dispatch({
+      type: 'SET_VISIBLEINPUTDRAWER',
+      payload: false
     });
   };
   //=================================================
@@ -86,9 +88,6 @@ export class SiderDemo extends Component {
               <div style={{ padding: 24, background: '#fff', minHeight: 1000 }}>
                 {/* <i class="fas fa-biohazard fa-5x"></i> */}
                 <AllQuestion />
-                <Button type="primary" onClick={this.showDrawer}>
-                  <Icon type="plus" /> add new question
-                </Button>
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>footer</Footer>
@@ -101,7 +100,7 @@ export class SiderDemo extends Component {
           title="Create a new account"
           width={'65%'}
           onClose={this.onClose}
-          visible={this.state.visible}
+          visible={this.props.visibleInputDrawer}
         >
           <InputQuestion />
           <div
@@ -124,4 +123,4 @@ export class SiderDemo extends Component {
   }
 }
 
-export default SiderDemo;
+export default connect(mapStateToProps)(SiderDemo);
