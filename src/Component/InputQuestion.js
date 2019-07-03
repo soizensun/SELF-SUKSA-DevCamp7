@@ -51,6 +51,8 @@ class InputQuestion extends React.Component {
         console.log("Received values of form: ", values);
         createQuiz(values.topic, values.detail, values.type, this.props.tags, values.questionObjs);
         message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
+      }else{
+        console.error(err)
       }
     })
   };
@@ -112,19 +114,15 @@ class InputQuestion extends React.Component {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "What is REASON of this choice !" }]
             })(
-              <div>
-                <TextArea
-                  autosize
-                  placeholder="Please enter a reason of this choice."
-                  style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
-                />
-
-                <Radio value={1} style={{ marginLeft: 22 }}>
-                  This choice is correct.
-                  </Radio>
-
-              </div>
+              <TextArea
+                autosize
+                placeholder="Please enter a reason of this choice."
+                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+              />
             )}
+            <Radio value={1} style={{ marginLeft: 22 }}>
+              This choice is correct.
+            </Radio>
             {getFieldDecorator(`questionObjs[${key}].choices[1]`, {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "Please select your CHOICE 2 !" }]
@@ -141,19 +139,15 @@ class InputQuestion extends React.Component {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "What is REASON of this choice !" }]
             })(
-              <div>
-                <TextArea
-                  autosize
-                  placeholder="Please enter a reason of this choice."
-                  style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
-                />
-
-                <Radio value={2} style={{ marginLeft: 22 }}>
-                  This choice is correct.
-                  </Radio>
-
-              </div>
+              <TextArea
+                autosize
+                placeholder="Please enter a reason of this choice."
+                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+              />
             )}
+            <Radio value={2} style={{ marginLeft: 22 }}>
+              This choice is correct.
+            </Radio>
             {getFieldDecorator(`questionObjs[${key}].choices[2]`, {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "Please select your CHOICE 3 !" }]
@@ -170,19 +164,15 @@ class InputQuestion extends React.Component {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "What is REASON of this choice !" }]
             })(
-              <div>
-                <TextArea
-                  autosize
-                  placeholder="Please enter a reason of this choice."
-                  style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
-                />
-
-                <Radio value={3} style={{ marginLeft: 22 }}>
-                  This choice is correct.
-                  </Radio>
-
-              </div>
+              <TextArea
+                autosize
+                placeholder="Please enter a reason of this choice."
+                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+              />
             )}
+            <Radio value={3} style={{ marginLeft: 22 }}>
+              This choice is correct.
+            </Radio>
             {getFieldDecorator(`questionObjs[${key}].choices[3]`, {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "Please select your CHOICE 4 !" }]
@@ -199,19 +189,15 @@ class InputQuestion extends React.Component {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "What is REASON of this choice !" }]
             })(
-              <div>
-                <TextArea
-                  autosize
-                  placeholder="Please enter a reason of this choice."
-                  style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
-                />
-
-                <Radio value={4} style={{ marginLeft: 22 }}>
-                  This choice is correct.
-                  </Radio>
-
-              </div>
-            )}
+              <TextArea
+                autosize
+                placeholder="Please enter a reason of this choice."
+                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+              />
+            )} 
+            <Radio value={4} style={{ marginLeft: 22 }}>
+              This choice is correct.
+            </Radio>
           </Radio.Group>
         )}
       </Form.Item>

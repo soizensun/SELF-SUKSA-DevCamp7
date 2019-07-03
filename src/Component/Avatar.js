@@ -3,8 +3,6 @@ import { Button, Avatar, Popover, Icon } from 'antd';
 import { connect } from 'react-redux';
 const {fire} = require('../redux-firebase/firebaseControl');
 
-
-
 class SignOut extends React.Component {
   state = { visible: false };
 
