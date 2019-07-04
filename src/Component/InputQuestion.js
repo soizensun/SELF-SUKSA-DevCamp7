@@ -57,6 +57,11 @@ class InputQuestion extends React.Component {
       }else{
         console.error(err)
       }
+      this.props.dispatch({
+        type: 'SET_TAGSINPUT',
+        payload: []
+      })
+      this.props.form.resetFields();
     })
   };
 
