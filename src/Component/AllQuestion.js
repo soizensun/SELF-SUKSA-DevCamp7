@@ -1,10 +1,9 @@
 import React from 'react';
 import { Tag, Card, Button, Modal, Steps, message, Row, Col, notification } from 'antd';
-// import 'antd/dist/antd.css';
 import '../cssFile/AllQuestion.css';
 import { connect } from 'react-redux';
 const { Step } = Steps;
-// import DoQuiz from './DoQuiz';
+
 
 const { fire } = require('../redux-firebase/firebaseControl');
 const db = fire.firestore();
@@ -37,9 +36,9 @@ class AllQuestion extends React.Component {
 
     componentDidMount() {
         this.getQuizs();
-    }  
-    componentWillReceiveProps(nextProps){
-        if (nextProps.typeSubject!=this.props.typeSubject) {
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.typeSubject != this.props.typeSubject) {
             this.getQuizs(nextProps.typeSubject)
         }
     }
@@ -59,10 +58,10 @@ class AllQuestion extends React.Component {
         }
         if (!typeSubject) {
             quizsRef.get()
-            .then((res) => { setStateQuizs(res) })
-        }else{
+                .then((res) => { setStateQuizs(res) })
+        } else {
             quizsRef.where('type', '==', typeSubject).get()
-            .then((res) => { setStateQuizs(res) })
+                .then((res) => { setStateQuizs(res) })
         }
     }
     /////////////////////////////////////////////
@@ -83,26 +82,28 @@ class AllQuestion extends React.Component {
         const current = this.state.current + 1;
         this.setState({
             isDisabledNextBtn: false,
-            checkOnSelectBtn : [false, false, false, false],
+            checkOnSelectBtn: [false, false, false, false],
+            isShow: true,
             current
-        } , () => {
+        }, () => {
             this.state.checkOnSelectBtn.map((value, index) => {
-                if(value){
-                    document.getElementById(`choice${index+1}`).className = "bottonChoiceSelected"
+                console.log(value);
+                
+                if (value) {
+                    document.getElementById(`choice${index + 1}`).className = "bottonChoiceSelected"
                 }
                 else {
-                    document.getElementById(`choice${index+1}`).className = "bottonChoice"
-                }    
+                    document.getElementById(`choice${index + 1}`).className = "bottonChoice"
+                }
             })
         })
-        
+
         // this.setState({ current });
     }
     prev() {
         const current = this.state.current - 1;
         this.setState({ current });
     }
-
     onSelectChoice1 = (val) => {
         notification.open({
             duration: 0,
@@ -141,36 +142,55 @@ class AllQuestion extends React.Component {
     }
 
 
+    showReasonWithShowReasonBtn = (index) => {
+        this.setState({
+            isDisabledNextBtn : true,
+            isShow: true,
+            // spacialNext: ,
+        })
+        console.log(index);
+        
+        this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
+        this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
+        this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
+        this.onSelectChoice4(this.state.currentQuestions[index].reasons[3])
+    }
 
-    showReason = (index, check ,selectChoice) => {
-        // console.log(selectChoice + 1);
-        // console.log(`choice${selectChoice+1}`);
+    showReasonWithChoice = (index, check, selectChoice) => {
         let temp = [false, false, false, false]
         this.setState({
+            isDisabledNextBtn : false,
             checkOnSelectBtn: temp,
             isShow: true,
+            // spacialNext: ,
         })
+        // , () => {
+        //     document.getElementById("choice1").disabled = true
+        //     document.getElementById("choice2").disabled = true
+        //     document.getElementById("choice3").disabled = true
+        //     document.getElementById("choice4").disabled = true
+        // })
         let temp1 = [false, false, false, false]
         temp1[selectChoice] = true
-        this.setState({checkOnSelectBtn : temp1, isShow: true} , () => {
+        this.setState({ checkOnSelectBtn: temp1, isShow: true }, () => {
             this.state.checkOnSelectBtn.map((value, index) => {
-                if(value){
-                    document.getElementById(`choice${index+1}`).className = "bottonChoiceSelected"
+                if (value) {
+                    document.getElementById(`choice${index + 1}`).className = "bottonChoiceSelected"
                 }
                 else {
-                    document.getElementById(`choice${index+1}`).className = "bottonChoice"
+                    document.getElementById(`choice${index + 1}`).className = "bottonChoice"
                 }
             })
         })
-
+        
         switch (check) {
             case true:
                 if (this.state.canConfirm === true) {
                     const key = `open${Date.now()}`;
-                    this.setState({ 
+                    this.setState({
                         canConfirm: false,
                         // notiKey: key
-                     })
+                    })
                     const onCancle = () => {
                         this.setState({ canConfirm: true })
                     }
@@ -205,12 +225,12 @@ class AllQuestion extends React.Component {
                     return
                 }
                 break
-            case false:
-                this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
-                this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
-                this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
-                this.onSelectChoice4(this.state.currentQuestions[index].reasons[3])
-                break
+            // case false:
+            //     this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
+            //     this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
+            //     this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
+            //     this.onSelectChoice4(this.state.currentQuestions[index].reasons[3])
+            //     break
         }
     }
 
@@ -227,22 +247,43 @@ class AllQuestion extends React.Component {
                     var correctChoice = item.correctChoice
                     var choices = item.choices
                     var reasons = item.reasons;
-
                     steps.push({
                         content:
                             <div>
-                                <div className="box" style={{fontSize: "25px"}}>
+                                <div className="box" style={{ fontSize: "25px" }}>
                                     {question}
                                 </div>
-
-                                <div style={{ marginTop: "10px", fontSize: "25px", color: "white"}}>
+                                <div style={{ marginTop: "10px", fontSize: "25px", color: "white" }}>
                                     <Row gutter={8} style={{ width: "565px" }}>
-                                        <Col span={10}><Button disabled={this.state.isShow} id="choice1" onClick={() => this.showReason(index, this.state.checkReasonBox, 0)} value={index} className="bottonChoice">{choices[0]}</Button></Col>
-                                        <Col span={10}><Button disabled={this.state.isShow} id="choice2" onClick={() => this.showReason(index, this.state.checkReasonBox, 1)} value={index} className="bottonChoice">{choices[1]}</Button></Col>
+                                        <Col span={10}>
+                                            <button id="choice1" value={index} className="bottonChoice"
+                                                    onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 0)} 
+                                            >
+                                                {choices[0]}
+                                            </button>
+                                        </Col>
+                                        <Col span={10}>
+                                            <button id="choice2" value={index} className="bottonChoice"
+                                                    onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 1)} 
+                                            >
+                                                {choices[1]}
+                                            </button>
+                                        </Col>
                                     </Row>
                                     <Row gutter={8} style={{ width: "565px" }}>
-                                        <Col span={10}><Button disabled={this.state.isShow} id="choice3" onClick={() => this.showReason(index, this.state.checkReasonBox, 2)} value={index} className="bottonChoice">{choices[2]}</Button></Col>
-                                        <Col span={10}><Button disabled={this.state.isShow} id="choice4" onClick={() => this.showReason(index, this.state.checkReasonBox, 3)} value={index} className="bottonChoice">{choices[3]}</Button></Col>
+                                        <Col span={10}>
+                                            <button id="choice3" value={index} className="bottonChoice"
+                                                    onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 2)} 
+                                            >
+                                                {choices[2]}
+                                            </button></Col>
+                                        <Col span={10}>
+                                            <button id="choice4" value={index} className="bottonChoice"
+                                                    onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 3)} 
+                                            >
+                                                {choices[3]}
+                                            </button>
+                                        </Col>
                                     </Row>
                                     {/* </form> */}
 
@@ -316,7 +357,7 @@ class AllQuestion extends React.Component {
                                     message.success('Loading finished', 2);
                                     notification.close('reason');
                                     this.setState({
-                                        checkOnSelectBtn :  [false, false, false, false],
+                                        checkOnSelectBtn: [false, false, false, false],
                                     })
 
                                 })}
@@ -324,7 +365,9 @@ class AllQuestion extends React.Component {
                                 Done
                             </Button>
                         )}
-                        <Button style={{ marginLeft: 8 }} onClick={() => this.showReason(current, !this.state.checkReasonBox)}>Show reason</Button>
+                        <Button style={{ marginLeft: 8 }} onClick={() => this.showReasonWithShowReasonBtn(current, !this.state.checkReasonBox)}>
+                            Show reason
+                        </Button>
                     </div>
                 </Modal>
                 <ul> {cardOfQuiz} </ul>
