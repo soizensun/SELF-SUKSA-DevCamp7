@@ -45,9 +45,9 @@ export class TagsInput extends Component {
                 {tags.map((tag, index) => {
                     const isLongTag = tag.length > 10;
                     const tagElem = (
-                        <Tag key={tag} closable={true} onClose={() => this.handleClose(tag)}>
-                            {isLongTag ? `${tag.slice(0, 10)}...` : tag}
-                        </Tag>
+                            <Tag key={tag} closable={true} onClose={() => this.handleClose(tag)}>
+                                        {isLongTag ? `${tag.slice(0, 10)}...` : tag}
+                            </Tag>
                     );
 
                     return isLongTag ?
@@ -60,7 +60,7 @@ export class TagsInput extends Component {
                         );
                 })}
                 {inputVisible && (
-                    <Input
+                    <Input 
                         ref={this.saveInputRef}
                         type="text"
                         size="small"
@@ -72,9 +72,9 @@ export class TagsInput extends Component {
                     />
                 )}
                 {!inputVisible && (
-                    <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-                        <Icon type="plus" /> New Tag
-                    </Tag>
+                        <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed', }}>
+                                <Icon type="plus" /> New Tag
+                        </Tag>
                 )}
             </div>
         )

@@ -206,7 +206,8 @@ class InputQuestion extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-        <TagsInput />
+        <TagsInput/>
+        
         <Form.Item label="TOPIC: " hasFeedback>
           {getFieldDecorator("topic", {
             rules: [{ required: true, message: "Please enter your TOPIC !" }]

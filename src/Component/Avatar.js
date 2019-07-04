@@ -46,7 +46,7 @@ class SignOut extends React.Component {
         <li><Button type="primary"  style={{margin:'5px',width: '95%'}}>
                 <Icon type="file-protect" />Already Done Quiz</Button></li>
         <li><Button type="danger"  style={{margin:'5px', width: '95%'}} onClick={this.logout}>
-                <Icon type="logout" />Sign Out</Button></li>
+                <Icon type="export" />Sign Out</Button></li>
       </ul>
     );
     return (

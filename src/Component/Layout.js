@@ -15,18 +15,20 @@ const { Header, Content, Footer , Sider} = Layout;
 
 const mapStateToProps = (state) => {
   return {
-    visibleInputDrawer: state.visibleInputDrawer,
-    user: state.user
+    visibleInputDrawer: state.visibleInputDrawer 
   }
 }
 
 export class SiderDemo extends Component {
-  // constructor() {
-  //   super();
-  //   // this.authListener = this.authListener.bind(this);
-  // }
+  constructor() {
+    super();
+    this.state = {
+      user:{},
+    }
+    this.authListener = this.authListener.bind(this);
+  }
   componentDidMount() {
-    // this.authListener();
+    this.authListener();
   }
 
   //==================================== DrawerAction
@@ -41,30 +43,34 @@ export class SiderDemo extends Component {
   };
   //=================================================
 
-  // authListener() {
-  //   fire.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       this.props.dispatch({ 
-  //         type: 'SET_USER',
-  //         payload: user
-  //       });
-  //       console.log('userID: ', user.uid);
-  //     }
-  //   })
-  // }
+  authListener() {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+        console.log('user: ', user);
+        
+      } else {
+        this.setState({ user: null });
+      }
+    })
+  }
+  logout() {
+    fire.auth().signOut();
+  }
 
   render() {
     return (
       
-    <div className= "header_tool">
-        <nav className= "header_bar">
-          <div className= "header_logo">
-              APP NAME
-          </div>
-          <div className= "logout">
-            { this.props.user ? <div><Avatar/></div> : ( <SignIn /> ) }
-          </div>
-        </nav>
+    <div >
+      <Header style={{backgroundColor: '#fff'}}>
+          <Content style={{backgroundColor: '#fff', fontSize: 25, display: 'flex', justifyContent:'space-between', marginRight: 30}}>
+              <div>APP NAME</div> 
+              <div >{ this.state.user ? <Avatar/> : ( <SignIn /> ) }</div>
+          </Content>
+              
+          
+          
+        </Header>
             
         <Layout>
           <Sider
