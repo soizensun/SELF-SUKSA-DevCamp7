@@ -19,11 +19,12 @@
     transition: 0.5s;
   }
 
-  .bottonChoice:hover{
-    background-color: #EEF819;
+  .bottonChoiceSelected{
+    background-color: RED;
     width: 233px;
     height: 100px;
   }
+
   .box {
     text-align: center;
     /* align-content: center; */
