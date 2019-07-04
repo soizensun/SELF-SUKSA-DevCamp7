@@ -45,11 +45,11 @@ const createAccount = (username, email, uid) => {
     email: email,
   })
 }
-const pushQuizToAlreadyDone = (userId, quizId) => {
+const pushQuizToAlreadyDone = (userId, quizId, score) => {
   const docRefUser = db.collection('Users').doc(`${userId}`)
   docRefUser.get().then((doc)=>{
     let arr = doc.data().alreadyDoneQuizzes;
-    arr.push(quizId);
+    arr.push({quizId: quizId, score: score });
     docRefUser.update({
       alreadyDoneQuizzes: arr
     })

@@ -53,9 +53,9 @@ export class SiderDemo extends Component {
     return (
       
     <div >
-      <Header style={{backgroundColor: '#fff'}}>
-          <Content style={{backgroundColor: '#fff', fontSize: 25, display: 'flex', justifyContent:'space-between', marginRight: 30}}>
-              <div>APP NAME</div> 
+      <Header style={{backgroundColor: '#1A2930'}}>
+          <Content style={{ fontSize: 25, display: 'flex', justifyContent:'space-between', marginRight: 30}}>
+              <div style={{color: '#F7ce3e'}}>APP NAME</div> 
               <div >{ this.props.user ? <Avatar/> : ( <SignIn /> ) }</div>
           </Content>
         </Header>
@@ -74,9 +74,9 @@ export class SiderDemo extends Component {
             <SubjectsMenu/>
           </Sider>
           
-          <Layout>
-            <Content style={{ margin: '24px 16px 0' }}>
-              <div style={{ padding: 24, background: '#fff', minHeight: 1000 }}>
+          <Layout style={{backgroundColor: 'black'}}>
+            <Content style={{ margin: '24px 16px 0'}}>
+              <div style={{ padding: 24, background: 'black', minHeight: 1000 }}>
                 {/* <i class="fas fa-biohazard fa-5x"></i> */}
                 <AllQuestion />
               </div>

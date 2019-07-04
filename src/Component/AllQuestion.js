@@ -310,7 +310,7 @@ class AllQuestion extends React.Component {
             var component =
                 <Card
                     hoverable
-                    style={{ width: '95%' }}
+                    style={{ width: '95%' , backgroundColor: '#f7cE3E'}}
                     title={topic}
                     extra={[
                         <Button type="primary" onClick={() => this.showModal(id)}>start doing !!</Button>
