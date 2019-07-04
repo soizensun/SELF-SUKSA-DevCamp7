@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 class SignOut extends React.Component {
   state = { visible: false };
 
-  logout() {
+  logout = () => {
     fire.auth().signOut();
     this.props.dispatch({
       type: 'SET_USER',
