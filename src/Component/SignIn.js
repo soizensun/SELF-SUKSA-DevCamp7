@@ -14,20 +14,20 @@ class Signin extends React.Component {
             visible: false,
             signUpVisible: false
         };
-        this.authListener = this.authListener.bind(this);
+        // this.authListener = this.authListener.bind(this);
     }
-    authListener() {
-        fire.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.props.dispatch({
-                    type: 'SET_USER',
-                    payload: user 
-                });
-            }
-        })
-    }
+    // authListener() {
+    //     fire.auth().onAuthStateChanged((user) => {
+    //         if (user) {
+    //             this.props.dispatch({
+    //                 type: 'SET_USER',
+    //                 payload: user 
+    //             });
+    //         }
+    //     })
+    // }
     componentDidMount() {
-        this.authListener();
+        // this.authListener();
     }
 
     
@@ -72,15 +72,6 @@ class Signin extends React.Component {
             signUpVisible: !this.state.signUpVisible,
         })
     }
-    // handleEmail = e => {
-    //     console.log(e.target.value)
-    //     this.setState({ email: e.target.value })
-    // }
-    // handlePassword = e => {
-    //     let temp = e.target.value
-    //     console.log(e.target.value)
-    //     this.setState({ password: temp })
-    // }
 
     render() {
         const { getFieldDecorator } = this.props.form;

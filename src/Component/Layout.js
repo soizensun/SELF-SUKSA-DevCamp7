@@ -15,20 +15,17 @@ const { Header, Content, Footer , Sider} = Layout;
 
 const mapStateToProps = (state) => {
   return {
-    visibleInputDrawer: state.visibleInputDrawer 
+    visibleInputDrawer: state.visibleInputDrawer,
+    user: state.user
   }
 }
 
 export class SiderDemo extends Component {
-  constructor() {
-    super();
-    this.state = {
-      user:{},
-    }
-    this.authListener = this.authListener.bind(this);
-  }
+  
+    // this.authListener = this.authListener.bind(this);
+  
   componentDidMount() {
-    this.authListener();
+    // this.authListener();
   }
 
   //==================================== DrawerAction
@@ -37,26 +34,20 @@ export class SiderDemo extends Component {
     this.props.dispatch({
       type: 'SET_VISIBLEINPUTDRAWER',
       payload: false
-    });
-    console.log(this.props.user);
-    
+    });    
   };
   //=================================================
 
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user });
-        console.log('user: ', user);
-        
-      } else {
-        this.setState({ user: null });
-      }
-    })
-  }
-  logout() {
-    fire.auth().signOut();
-  }
+  // authListener() {
+  //   fire.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       this.setState({ user });
+  //       console.log('user: ', user);
+  //     } else {
+  //       this.setState({ user: null });
+  //     }
+  //   })
+  // }
 
   render() {
     return (
@@ -65,7 +56,7 @@ export class SiderDemo extends Component {
       <Header style={{backgroundColor: '#fff'}}>
           <Content style={{backgroundColor: '#fff', fontSize: 25, display: 'flex', justifyContent:'space-between', marginRight: 30}}>
               <div>APP NAME</div> 
-              <div >{ this.state.user ? <Avatar/> : ( <SignIn /> ) }</div>
+              <div >{ this.props.user ? <Avatar/> : ( <SignIn /> ) }</div>
           </Content>
         </Header>
             

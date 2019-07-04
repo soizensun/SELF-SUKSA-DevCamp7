@@ -12,7 +12,7 @@ const initialState = {
     subject: '',
     tagsInput: [],
     visibleInputDrawer: false,
-    user: fire.auth().currentUser
+    user: null
 }
 
 const store = createStore(reducer(initialState));
