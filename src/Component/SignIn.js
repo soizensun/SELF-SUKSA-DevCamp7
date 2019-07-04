@@ -5,13 +5,17 @@ import '../cssFile/Layout.css';
 import SignUp from './SignUp';
 const { fire } = require('../redux-firebase/firebaseControl');
 
+const mapStateToProps = (state) => {
+    return{
+        visible: state.visibleSignIn
+    }
+}
 
 class Signin extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            visible: false,
             signUpVisible: false
         };
         // this.authListener = this.authListener.bind(this);
@@ -58,13 +62,15 @@ class Signin extends React.Component {
     };
 
     closeModal = () => {
-        this.setState({
-            visible: false,
+        this.props.dispatch({
+            type: 'SET_VISIBLESIGNIN',
+            payload: false,
         });
     }
     showModal = () => {
-        this.setState({
-            visible: true,
+        this.props.dispatch({
+            type: 'SET_VISIBLESIGNIN',
+            payload: true,
         });
     };
     toggleSignUp = () => {
@@ -82,7 +88,7 @@ class Signin extends React.Component {
                 </Button>
                 <Modal
                     title="Sign in"
-                    visible={this.state.visible && !this.state.signUpVisible}
+                    visible={this.props.visible && !this.state.signUpVisible}
                     onCancel={this.closeModal}
                     footer={null}
                     style={{display: 'flex', justifyContent: 'center'}}
@@ -144,4 +150,4 @@ class Signin extends React.Component {
 }
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Signin);
-export default connect()(WrappedNormalLoginForm);
+export default connect(mapStateToProps)(WrappedNormalLoginForm);

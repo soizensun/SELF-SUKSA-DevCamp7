@@ -2,6 +2,7 @@ import React from 'react';
 import { Tag, Card, Button, Modal, Steps, message, Row, Col, notification } from 'antd';
 import '../cssFile/AllQuestion.css';
 import { connect } from 'react-redux';
+import SignIn from './SignIn';
 const { Step } = Steps;
 
 let score = 0;
@@ -12,7 +13,8 @@ const db = fire.firestore();
 const mapStateToProps = (state) => {
     return {
         typeSubject: state.subject,
-        questionType: state.questionType
+        questionType: state.questionType,
+        user: state.user
     }
 }
 
@@ -235,6 +237,17 @@ class AllQuestion extends React.Component {
         }
     }
 
+    checkSignIn = (id) => {
+        if(this.props.user){
+            this.showModal(id)
+        } else {
+            this.props.dispatch({
+                type: 'SET_VISIBLESIGNIN',
+                payload: true
+            })
+        }
+    }
+
     showModal = (quizId) => {
         let questions = [];
         var temp = []
@@ -320,7 +333,7 @@ class AllQuestion extends React.Component {
                     style={{ width: '95%', backgroundColor: 'white', fontSize: '17px' }}
                     title={topic}
                     extra={[
-                        <Button className="startDoing" type="primary" onClick={() => this.showModal(id)}>start doing !!</Button>
+                        <Button type="primary" onClick={() => this.checkSignIn(id)}>start doing !!</Button>
                     ]}
                 >
                     {tag} <br /><br />

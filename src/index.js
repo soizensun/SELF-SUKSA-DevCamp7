@@ -12,7 +12,8 @@ const initialState = {
     subject: '',
     tagsInput: [],
     visibleInputDrawer: false,
-    user: null
+    user: null,
+    visibleSignIn: false
 }
 
 const store = createStore(reducer(initialState));
