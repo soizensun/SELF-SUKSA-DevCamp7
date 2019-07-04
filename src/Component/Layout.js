@@ -53,9 +53,9 @@ export class SiderDemo extends Component {
     return (
       
     <div >
-      <Header style={{backgroundColor: '#1A2930'}}>
+      <Header style={{backgroundColor: '#ABB2B9'}}>
           <Content style={{ fontSize: 25, display: 'flex', justifyContent:'space-between', marginRight: 30}}>
-              <div style={{color: '#F7ce3e'}}>APP NAME</div> 
+              <div style={{color: '#2C3E50'}}>Z E L F  S U K S A</div> 
               <div >{ this.props.user ? <Avatar/> : ( <SignIn /> ) }</div>
           </Content>
         </Header>

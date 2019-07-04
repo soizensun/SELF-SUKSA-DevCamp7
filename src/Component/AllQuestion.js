@@ -214,7 +214,10 @@ class AllQuestion extends React.Component {
                         this.onSelectChoice4(this.state.currentQuestions[index].reasons[3])
                     }
                     const btn = (
-                        <Button type="primary" size="small" onClick={() => notification.close(key)}>
+                        <Button type="primary" size="small" 
+                                onClick={() => notification.close(key)}
+                                // style={{margin:"10px"}}
+                        >
                             Confirm
                         </Button>
                     );
@@ -223,7 +226,7 @@ class AllQuestion extends React.Component {
                             duration: 0,
                             placement: "topRight",
                             message: "Are you sure to answer this choice",
-                            description: "Please confirm the choice that you cerect",
+                            // description: "Please confirm when you sure.",
                             btn,
                             key,
                             onClose: onCancle,
@@ -270,7 +273,7 @@ class AllQuestion extends React.Component {
                     steps.push({
                         content:
                             <div>
-                                <div className="box" style={{ fontSize: "25px" }}>
+                                <div className="box" style={{ fontSize: "20px" }}>
                                     {question}
                                 </div>
                                 <div style={{ marginTop: "10px", fontSize: "20px", color: "white" }}>
@@ -325,10 +328,11 @@ class AllQuestion extends React.Component {
             var topic = val.data.topic
             var detail = val.data.detail
             let tag = val.data.tags.map((tag, index) => {
-                return <Tag color="cyan" key={index}>{tag}</Tag>
+                return <Tag color="#76D7C4" key={index}>{tag}</Tag>
             })
             var component =
                 <Card
+                    bordered={false}
                     hoverable
                     style={{ width: '95%', backgroundColor: 'white', fontSize: '17px' }}
                     title={topic}
