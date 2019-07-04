@@ -3,6 +3,12 @@ import { Button, Avatar, Popover, Icon } from 'antd';
 import { connect } from 'react-redux';
 const {fire} = require('../redux-firebase/firebaseControl');
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
 class SignOut extends React.Component {
   state = { visible: false };
 
@@ -11,8 +17,8 @@ class SignOut extends React.Component {
     this.props.dispatch({
       type: 'SET_USER',
       payload: null
-    })
-  }
+    });
+  };
 
   showDrawer = () => {
     this.props.dispatch({
@@ -57,4 +63,4 @@ class SignOut extends React.Component {
   }
 }
 
-export default connect()(SignOut);
+export default connect(mapStateToProps)(SignOut);
