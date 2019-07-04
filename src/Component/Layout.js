@@ -15,20 +15,18 @@ const { Header, Content, Footer , Sider} = Layout;
 
 const mapStateToProps = (state) => {
   return {
-    visibleInputDrawer: state.visibleInputDrawer 
+    visibleInputDrawer: state.visibleInputDrawer,
+    user: state.user
   }
 }
 
 export class SiderDemo extends Component {
-  constructor() {
-    super();
-    this.state = {
-      user:{},
-    }
-    this.authListener = this.authListener.bind(this);
-  }
+  // constructor() {
+  //   super();
+  //   // this.authListener = this.authListener.bind(this);
+  // }
   componentDidMount() {
-    this.authListener();
+    // this.authListener();
   }
 
   //==================================== DrawerAction
@@ -41,20 +39,17 @@ export class SiderDemo extends Component {
   };
   //=================================================
 
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user });
-        console.log('user: ', user);
-        
-      } else {
-        this.setState({ user: null });
-      }
-    })
-  }
-  logout() {
-    fire.auth().signOut();
-  }
+  // authListener() {
+  //   fire.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       this.props.dispatch({ 
+  //         type: 'SET_USER',
+  //         payload: user
+  //       });
+  //       console.log('userID: ', user.uid);
+  //     }
+  //   })
+  // }
 
   render() {
     return (
@@ -65,7 +60,7 @@ export class SiderDemo extends Component {
               APP NAME
           </div>
           <div className= "logout">
-            { this.state.user ? <div><Avatar/></div> : ( <SignIn /> ) }
+            { this.props.user ? <div><Avatar/></div> : ( <SignIn /> ) }
           </div>
         </nav>
             

@@ -27,5 +27,11 @@ const createQuiz = (topic, detail, type, tags, questionObjs) => {
       })
     })
 }
+const createAccount = (username, email, uid) => {
+  db.collection('Users').doc(`${uid}`).set({
+    username: username,
+    email: email,
+  })
+}
 
-module.exports = { fire, createQuiz };
+module.exports = { fire, createQuiz, createAccount };

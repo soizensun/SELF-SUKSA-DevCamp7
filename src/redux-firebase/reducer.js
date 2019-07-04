@@ -6,7 +6,6 @@ const reducer = (initialState) => (state=initialState, action)  => {
                 subject: action.payload 
             }
             
-            
         case 'SET_TAGSINPUT':
             state={
                 ...state,
@@ -17,6 +16,12 @@ const reducer = (initialState) => (state=initialState, action)  => {
             state={
                 ...state,
                 visibleInputDrawer: action.payload
+            }
+
+        case 'SET_USER':
+            state={
+                ...state,
+                user: action.payload
             }
             
         default:

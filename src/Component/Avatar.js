@@ -8,6 +8,10 @@ class SignOut extends React.Component {
 
   logout() {
     fire.auth().signOut();
+    this.props.dispatch({
+      type: 'SET_USER',
+      payload: null
+    })
   }
 
   showDrawer = () => {
