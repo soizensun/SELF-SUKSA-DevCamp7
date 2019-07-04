@@ -74,9 +74,9 @@ export class SiderDemo extends Component {
             <SubjectsMenu/>
           </Sider>
           
-          <Layout style={{backgroundColor: '#808B96  '}}>
+          <Layout style={{backgroundColor: '#F4ECF7  '}}>
             <Content style={{ margin: '24px 16px 0'}}>
-              <div style={{ padding: 24, background: '#808B96', minHeight: 1000 }}>
+              <div style={{ padding: 24, background: '#F4ECF7', minHeight: 1000 }}>
                 {/* <i class="fas fa-biohazard fa-5x"></i> */}
                 <AllQuestion />
               </div>

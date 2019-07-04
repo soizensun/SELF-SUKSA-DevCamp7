@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 const { Step } = Steps;
 
 let score = 0;
-let quizId = "";
+// let quizId = "";
 const steps = [];
 const { fire, pushQuizToAlreadyDone } = require('../redux-firebase/firebaseControl');
 const db = fire.firestore();
@@ -260,8 +260,8 @@ class AllQuestion extends React.Component {
                                 <div className="box" style={{ fontSize: "25px" }}>
                                     {question}
                                 </div>
-                                <div style={{ marginTop: "10px", fontSize: "25px", color: "white" }}>
-                                    <Row gutter={8} style={{ width: "565px" }}>
+                                <div style={{ marginTop: "10px", fontSize: "20px", color: "white" }}>
+                                    <Row gutter={10} style={{ width: "567px" , padding: "1px"}}>
                                         <Col span={10}>
                                             <button id="choice1" value={index} className="bottonChoice"
                                                 onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 0)}
@@ -277,7 +277,7 @@ class AllQuestion extends React.Component {
                                             </button>
                                         </Col>
                                     </Row>
-                                    <Row gutter={8} style={{ width: "565px" }}>
+                                    <Row gutter={8} style={{ width: "567px" , padding: "1px"}}>
                                         <Col span={10}>
                                             <button id="choice3" value={index} className="bottonChoice"
                                                 onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 2)}

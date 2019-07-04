@@ -16,20 +16,24 @@
     background-color: #808B96;
     width: 233px;
     height: 100px;
-    transition: 0.5s;
+    transition: 0.5s;border: none;
   }
 
   .bottonChoiceSelected{
-    background-color: RED;
+    background-color: #FCF3CF;
+    color: black;
     width: 233px;
     height: 100px;
+    border: none;
   }
   
   .bottonCorrectChoice {
     background-color: greenyellow;
     width: 233px;
+    color: black;
     transition: 0.5s;
     height: 100px;
+    border: none;
   }
 
 
