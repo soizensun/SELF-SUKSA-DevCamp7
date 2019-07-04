@@ -4,10 +4,10 @@ import '../cssFile/AllQuestion.css';
 import { connect } from 'react-redux';
 const { Step } = Steps;
 
-
+let score = 0;
+const steps = [];
 const { fire } = require('../redux-firebase/firebaseControl');
 const db = fire.firestore();
-
 const mapStateToProps = (state) => {
     return {
         typeSubject: state.subject,
@@ -15,7 +15,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const steps = [];
 class AllQuestion extends React.Component {
     constructor(props) {
         super(props);
@@ -30,7 +29,8 @@ class AllQuestion extends React.Component {
             isDisabledNextBtn: false,
             checkOnSelectBtn: [false, false, false, false],
             // notiKey: ""
-            isShow: false
+            isShow: false,
+            correctChoiceArray : [],
         }
     }
 
@@ -42,7 +42,6 @@ class AllQuestion extends React.Component {
             this.getQuizs(nextProps.typeSubject)
         }
     }
-
     getQuizs = (typeSubject) => {
         let quizsRef = db.collection('Quizs');
         const setStateQuizs = (res) => {
@@ -64,7 +63,6 @@ class AllQuestion extends React.Component {
                 .then((res) => { setStateQuizs(res) })
         }
     }
-    /////////////////////////////////////////////
     handleCancel = e => {
         while (steps.length > 0) {
             steps.pop();
@@ -76,6 +74,7 @@ class AllQuestion extends React.Component {
             current: 0,
             isDisabledNextBtn: false,
         });
+        score = 0;
     };
     next() {
         notification.close('reason')
@@ -146,14 +145,18 @@ class AllQuestion extends React.Component {
         this.setState({
             isDisabledNextBtn : true,
             isShow: true,
-            // spacialNext: ,
         })
-        console.log(index);
+
         
         this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
         this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
         this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
         this.onSelectChoice4(this.state.currentQuestions[index].reasons[3])
+        console.log(this.state.correctChoiceArray[index]);
+        var greenCss = this.state.correctChoiceArray[index]
+        document.getElementById(`choice${greenCss}`).className = "bottonCorrectChoice"
+
+        
     }
 
     showReasonWithChoice = (index, check, selectChoice) => {
@@ -162,14 +165,8 @@ class AllQuestion extends React.Component {
             isDisabledNextBtn : false,
             checkOnSelectBtn: temp,
             isShow: true,
-            // spacialNext: ,
         })
-        // , () => {
-        //     document.getElementById("choice1").disabled = true
-        //     document.getElementById("choice2").disabled = true
-        //     document.getElementById("choice3").disabled = true
-        //     document.getElementById("choice4").disabled = true
-        // })
+
         let temp1 = [false, false, false, false]
         temp1[selectChoice] = true
         this.setState({ checkOnSelectBtn: temp1, isShow: true }, () => {
@@ -186,6 +183,7 @@ class AllQuestion extends React.Component {
         switch (check) {
             case true:
                 if (this.state.canConfirm === true) {
+
                     const key = `open${Date.now()}`;
                     this.setState({
                         canConfirm: false,
@@ -199,6 +197,14 @@ class AllQuestion extends React.Component {
                             canConfirm: true,
                             isDisabledNextBtn: true,
                         })
+                        var aCorrectChoice = this.state.correctChoiceArray[index]
+                        document.getElementById(`choice${aCorrectChoice}`).className = "bottonCorrectChoice"
+                        // console.log(this.state.correctChoiceArray[index]);
+                        // console.log(selectChoice + 1);
+                        
+                        if(aCorrectChoice == (selectChoice + 1)){
+                            score = score + 1
+                        }
                         this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
                         this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
                         this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
@@ -225,17 +231,12 @@ class AllQuestion extends React.Component {
                     return
                 }
                 break
-            // case false:
-            //     this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
-            //     this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
-            //     this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
-            //     this.onSelectChoice4(this.state.currentQuestions[index].reasons[3])
-            //     break
         }
     }
 
     showModal = (quizId) => {
         let questions = [];
+        var temp = []
         db.collection(`Quizs/${quizId}/Questions`).get()
             .then((res) => {
                 res.forEach(doc => {
@@ -247,6 +248,11 @@ class AllQuestion extends React.Component {
                     var correctChoice = item.correctChoice
                     var choices = item.choices
                     var reasons = item.reasons;
+
+                    console.log(correctChoice);
+                    
+                    temp.push(correctChoice)
+                    this.setState({correctChoiceArray : temp})
                     steps.push({
                         content:
                             <div>
@@ -357,10 +363,10 @@ class AllQuestion extends React.Component {
                                     message.success('Loading finished', 2);
                                     notification.close('reason');
                                     this.setState({
-                                        checkOnSelectBtn: [false, false, false, false],
-                                    })
-
-                                })}
+                                        checkOnSelectBtn: [false, false, false, false]})
+                                        console.log(score);
+                                        score = 0;
+                                    })}
                             >
                                 Done
                             </Button>

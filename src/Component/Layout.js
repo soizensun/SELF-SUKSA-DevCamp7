@@ -88,7 +88,7 @@ export class SiderDemo extends Component {
 
 
         <Drawer
-          title="Create a new account"
+          title="Create a new quiz"
           width={'65%'}
           onClose={this.onClose}
           visible={this.props.visibleInputDrawer}
