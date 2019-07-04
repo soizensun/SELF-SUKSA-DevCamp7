@@ -131,6 +131,7 @@ class SignUp extends React.Component {
                                 {
                                     required: true,
                                     message: 'Please input your password!',
+                                    min: 6
                                 },
                                 {
                                     validator: this.validateToNextPassword,
@@ -144,6 +145,7 @@ class SignUp extends React.Component {
                                 {
                                     required: true,
                                     message: 'Please confirm your password!',
+                                    min: 6
                                 },
                                 {
                                     validator: this.compareToFirstPassword,
