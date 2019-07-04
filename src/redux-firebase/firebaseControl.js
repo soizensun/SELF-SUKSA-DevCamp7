@@ -56,4 +56,4 @@ const pushQuizToAlreadyDone = (userId, quizId, score) => {
   })
 }
 
-module.exports = { fire, createQuiz, createAccount };
+module.exports = { fire, createQuiz, createAccount, pushQuizToAlreadyDone };

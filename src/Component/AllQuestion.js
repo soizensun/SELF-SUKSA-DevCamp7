@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 const { Step } = Steps;
 
 let score = 0;
+let quizId = "";
 const steps = [];
-const { fire } = require('../redux-firebase/firebaseControl');
+const { fire, pushQuizToAlreadyDone } = require('../redux-firebase/firebaseControl');
 const db = fire.firestore();
 const mapStateToProps = (state) => {
     return {
@@ -30,7 +31,7 @@ class AllQuestion extends React.Component {
             checkOnSelectBtn: [false, false, false, false],
             // notiKey: ""
             isShow: false,
-            correctChoiceArray : [],
+            correctChoiceArray: [],
         }
     }
 
@@ -87,7 +88,7 @@ class AllQuestion extends React.Component {
         }, () => {
             this.state.checkOnSelectBtn.map((value, index) => {
                 console.log(value);
-                
+
                 if (value) {
                     document.getElementById(`choice${index + 1}`).className = "bottonChoiceSelected"
                 }
@@ -143,11 +144,11 @@ class AllQuestion extends React.Component {
 
     showReasonWithShowReasonBtn = (index) => {
         this.setState({
-            isDisabledNextBtn : true,
+            isDisabledNextBtn: true,
             isShow: true,
         })
 
-        
+
         this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
         this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
         this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
@@ -156,13 +157,13 @@ class AllQuestion extends React.Component {
         var greenCss = this.state.correctChoiceArray[index]
         document.getElementById(`choice${greenCss}`).className = "bottonCorrectChoice"
 
-        
+
     }
 
     showReasonWithChoice = (index, check, selectChoice) => {
         let temp = [false, false, false, false]
         this.setState({
-            isDisabledNextBtn : false,
+            isDisabledNextBtn: false,
             checkOnSelectBtn: temp,
             isShow: true,
         })
@@ -179,7 +180,7 @@ class AllQuestion extends React.Component {
                 }
             })
         })
-        
+
         switch (check) {
             case true:
                 if (this.state.canConfirm === true) {
@@ -201,8 +202,8 @@ class AllQuestion extends React.Component {
                         document.getElementById(`choice${aCorrectChoice}`).className = "bottonCorrectChoice"
                         // console.log(this.state.correctChoiceArray[index]);
                         // console.log(selectChoice + 1);
-                        
-                        if(aCorrectChoice == (selectChoice + 1)){
+
+                        if (aCorrectChoice == (selectChoice + 1)) {
                             score = score + 1
                         }
                         this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
@@ -250,9 +251,9 @@ class AllQuestion extends React.Component {
                     var reasons = item.reasons;
 
                     console.log(correctChoice);
-                    
+
                     temp.push(correctChoice)
-                    this.setState({correctChoiceArray : temp})
+                    this.setState({ correctChoiceArray: temp })
                     steps.push({
                         content:
                             <div>
@@ -263,14 +264,14 @@ class AllQuestion extends React.Component {
                                     <Row gutter={8} style={{ width: "565px" }}>
                                         <Col span={10}>
                                             <button id="choice1" value={index} className="bottonChoice"
-                                                    onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 0)} 
+                                                onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 0)}
                                             >
                                                 {choices[0]}
                                             </button>
                                         </Col>
                                         <Col span={10}>
                                             <button id="choice2" value={index} className="bottonChoice"
-                                                    onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 1)} 
+                                                onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 1)}
                                             >
                                                 {choices[1]}
                                             </button>
@@ -279,13 +280,13 @@ class AllQuestion extends React.Component {
                                     <Row gutter={8} style={{ width: "565px" }}>
                                         <Col span={10}>
                                             <button id="choice3" value={index} className="bottonChoice"
-                                                    onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 2)} 
+                                                onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 2)}
                                             >
                                                 {choices[2]}
                                             </button></Col>
                                         <Col span={10}>
                                             <button id="choice4" value={index} className="bottonChoice"
-                                                    onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 3)} 
+                                                onClick={() => this.showReasonWithChoice(index, this.state.checkReasonBox, 3)}
                                             >
                                                 {choices[3]}
                                             </button>
@@ -316,14 +317,13 @@ class AllQuestion extends React.Component {
             var component =
                 <Card
                     hoverable
-                    style={{ width: '95%' , backgroundColor: '#f7cE3E'}}
+                    style={{ width: '95%', backgroundColor: 'white', fontSize: '17px' }}
                     title={topic}
                     extra={[
-                        <Button type="primary" onClick={() => this.showModal(id)}>start doing !!</Button>
+                        <Button className="startDoing" type="primary" onClick={() => this.showModal(id)}>start doing !!</Button>
                     ]}
                 >
-                    {tag} <br />
-                    type => {type}<br />
+                    {tag} <br /><br />
                     {detail}
                 </Card>
 
@@ -363,10 +363,14 @@ class AllQuestion extends React.Component {
                                     message.success('Loading finished', 2);
                                     notification.close('reason');
                                     this.setState({
-                                        checkOnSelectBtn: [false, false, false, false]})
-                                        console.log(score);
-                                        score = 0;
-                                    })}
+                                        checkOnSelectBtn: [false, false, false, false]
+                                    })
+                                    console.log(score);
+                                    console.log(this.state.quizs);
+                                    
+                                    // pushQuizToAlreadyDone(userId,  ,score)
+                                    score = 0;
+                                })}
                             >
                                 Done
                             </Button>

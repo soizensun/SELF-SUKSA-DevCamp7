@@ -43,3 +43,10 @@
     /* padding: 55px; */
     color: white;
   }
+
+  .startDoing{
+    background-color: #F5B041;
+    border-color: #F5B041;
+    margin: 10px;
+    height: 40px;
+  }
