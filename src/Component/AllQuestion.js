@@ -25,13 +25,16 @@ class AllQuestion extends React.Component {
             visible: false,
             current: 0,
             canShow: false,
-            currentQuestions: []
+            currentQuestions: [],
+            checkReasonBox: true,
+            canConfirm: true,
+            isDisabledNextBtn: false,
         }
     }
 
     componentDidMount() {
         this.getQuizs();
-    }  
+    }
 
     getQuizs = () => {
         let quizs = [];
@@ -47,7 +50,7 @@ class AllQuestion extends React.Component {
                 this.setState({ quizs: quizs })
             })
     }
-/////////////////////////////////////////////
+    /////////////////////////////////////////////
     handleCancel = e => {
         while (steps.length > 0) {
             steps.pop();
@@ -55,11 +58,14 @@ class AllQuestion extends React.Component {
         this.setState({
             visible: false,
             current: 0,
+            isDisabledNextBtn: false,
 
         });
     };
-
     next() {
+        this.setState({
+            isDisabledNextBtn: false
+        })
         const current = this.state.current + 1;
         this.setState({ current });
     }
@@ -93,26 +99,70 @@ class AllQuestion extends React.Component {
         })
     }
     onSelectChoice4 = (val) => {
-        const key = `open${Date.now()}`;
-        const btn = (
-            <Button type="primary" size="small" onClick={() => notification.close(key)}>
-              Confirm
-            </Button>
-          );
         notification.open({
             duration: 0,
             placement: "bottomRight",
             message: "choice 4's reason ",
             description: val,
-            btn,
         })
     }
 
-    showReason = (index) => {
-        this.onSelectChoice1(this.state.currentQuestions[index].reasons[0]);
-        this.onSelectChoice2(this.state.currentQuestions[index].reasons[1]);
-        this.onSelectChoice3(this.state.currentQuestions[index].reasons[2]);
-        this.onSelectChoice4(this.state.currentQuestions[index].reasons[3]);
+
+
+    showReason = (index, check) => {
+        switch (check) {
+            case true:
+                if(this.state.canConfirm === true){
+                    this.setState({canConfirm : false})
+                    const key = `open${Date.now()}`;
+
+                    const onCancle = () => {
+                        console.log('onClose');
+                        this.setState({canConfirm : true})
+                    }
+                    const onConfirm = () => {
+                        console.log("confirm");
+                        console.log(index);
+                        this.setState({
+                            canConfirm : true,
+                            isDisabledNextBtn : true,
+                        })
+                        this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
+                        this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
+                        this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
+                        this.onSelectChoice4(this.state.currentQuestions[index].reasons[3])
+                    }
+                    const btn = (
+                        <Button type="primary" size="small" onClick={() => notification.close(key)}>
+                            Confirm
+                        </Button>
+                    );
+                    notification.open
+                        ({
+                            duration: 0,
+                            placement: "topRight",
+                            message: "Are you sure to answer this choice",
+                            description: "Please confirm the choice that you cerect",
+                            btn,
+                            key,
+                            onClose: onCancle,
+                            onClick: onConfirm
+                        })
+                }
+                else if(this.state.canConfirm === false){
+                    return
+                }
+                
+
+                break
+
+            case false:
+                this.onSelectChoice1(this.state.currentQuestions[index].reasons[0])
+                this.onSelectChoice2(this.state.currentQuestions[index].reasons[1])
+                this.onSelectChoice3(this.state.currentQuestions[index].reasons[2])
+                this.onSelectChoice4(this.state.currentQuestions[index].reasons[3])
+                break
+        }
     }
 
     showModal = (quizId) => {
@@ -122,31 +172,33 @@ class AllQuestion extends React.Component {
                 res.forEach(doc => {
                     questions.push(doc.data())
                 })
-                this.setState({currentQuestions: questions})
+                this.setState({ currentQuestions: questions })
                 questions.map((item, index) => {
                     var question = item.question
                     var correctChoice = item.correctChoice
                     var choices = item.choices
                     var reasons = item.reasons;
-                    
+
                     steps.push({
-                        content :  
-                        <div>
-                            <div className="box">
-                                {question}
+                        content:
+                            <div>
+                                <div className="box">
+                                    {question}
+                                </div>
+
+                                <div style={{ marginTop: "10px" }}>
+                                    <Row gutter={8} style={{ width: "565px" }}>
+                                        <Col span={10}><button onClick={() => this.showReason(index, this.state.checkReasonBox, 0)} value={index} className="bottonChoice">{choices[0]}</button></Col>
+                                        <Col span={10}><button onClick={() => this.showReason(index, this.state.checkReasonBox, 1)} value={index} className="bottonChoice">{choices[1]}</button></Col>
+                                    </Row>
+                                    <Row gutter={8} style={{ width: "565px" }}>
+                                        <Col span={10}><button onClick={() => this.showReason(index, this.state.checkReasonBox, 2)} value={index} className="bottonChoice">{choices[2]}</button></Col>
+                                        <Col span={10}><button onClick={() => this.showReason(index, this.state.checkReasonBox, 3)} value={index} className="bottonChoice">{choices[3]}</button></Col>
+                                    </Row>
+                                    {/* </form> */}
+
+                                </div>
                             </div>
-                        
-                            <div style={{ marginTop: "10px" }}>
-                                <Row gutter={8} style={{ width: "565px" }}>
-                                    <Col span={10}><button value={index} onClick={() => this.showReason()} className="bottonChoice">{choices[0]}</button></Col>
-                                    <Col span={10}><button value={index} onClick={() => this.showReason()} className="bottonChoice">{choices[1]}</button></Col>
-                                </Row>
-                                <Row gutter={8} style={{ width: "565px" }}> 
-                                    <Col span={10}><button value={index} onClick={() => this.showReason()} className="bottonChoice">{choices[2]}</button></Col>
-                                    <Col span={10}><button value={index} onClick={() => this.showReason()} className="bottonChoice">{choices[3]}</button></Col>
-                                </Row>
-                            </div>
-                        </div> 
                     })
                 })
                 this.setState({
@@ -189,7 +241,7 @@ class AllQuestion extends React.Component {
                 <Modal
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
-                    footer={null}  
+                    footer={null}
                 >
                     <Steps current={current}>
                         {steps.map(item => (<Step key={item.title} title={item.title} />))}
@@ -204,12 +256,12 @@ class AllQuestion extends React.Component {
                     }
                     <div className="steps-action-button">
                         {current < steps.length - 1 && (
-                            <Button type="primary" onClick={() => this.next()}>
+                            <Button  disabled={!this.state.isDisabledNextBtn} type="primary" onClick={() => this.next()}>
                                 Next
                             </Button>
                         )}
                         {current === steps.length - 1 && (
-                            <Button type="primary" onClick={() => message
+                            <Button disabled={!this.state.isDisabledNextBtn} type="primary" onClick={() => message
                                 .loading('Saving your score', 1)
                                 .then(() => message.success('Loading finished', 2))}
                             >
@@ -221,7 +273,7 @@ class AllQuestion extends React.Component {
                                 Previous
                             </Button>
                         )} */}
-                        <Button style={{ marginLeft: 8 }} onClick={() => this.showReason(current)}>Show reason</Button>
+                        <Button style={{ marginLeft: 8 }} onClick={() => this.showReason(current, !this.state.checkReasonBox)}>Show reason</Button>
                     </div>
                 </Modal>
                 <ul> {cardOfQuiz} </ul>
