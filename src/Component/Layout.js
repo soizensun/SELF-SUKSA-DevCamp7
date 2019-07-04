@@ -67,9 +67,6 @@ export class SiderDemo extends Component {
               <div>APP NAME</div> 
               <div >{ this.state.user ? <Avatar/> : ( <SignIn /> ) }</div>
           </Content>
-              
-          
-          
         </Header>
             
         <Layout>
