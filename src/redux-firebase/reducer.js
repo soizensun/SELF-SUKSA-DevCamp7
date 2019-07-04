@@ -20,6 +20,13 @@ const reducer = (initialState) => (state=initialState, action)  => {
                 visibleInputDrawer: action.payload
             }
             return state
+
+        case 'SET_VISIBLESIGNIN':
+            state={
+                ...state,
+                visibleSignIn: action.payload
+            }
+            return state
             
         case 'SET_USER':
             console.log('payload user: ', action.payload);
