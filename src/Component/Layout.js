@@ -36,6 +36,8 @@ export class SiderDemo extends Component {
       type: 'SET_VISIBLEINPUTDRAWER',
       payload: false
     });
+    console.log(this.props.user);
+    
   };
   //=================================================
 

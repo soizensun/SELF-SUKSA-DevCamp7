@@ -14,20 +14,20 @@ class Signin extends React.Component {
             visible: false,
             signUpVisible: false
         };
-        // this.authListener = this.authListener.bind(this);
+        this.authListener = this.authListener.bind(this);
     }
-    // authListener() {
-    //     fire.auth().onAuthStateChanged((user) => {
-    //         if (user) {
-    //             this.props.dispatch({
-    //                 type: 'SET_USER',
-    //                 payload: user 
-    //             });
-    //         }
-    //     })
-    // }
+    authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.props.dispatch({
+                    type: 'SET_USER',
+                    payload: user 
+                });
+            }
+        })
+    }
     componentDidMount() {
-        // this.authListener();
+        this.authListener();
     }
 
     

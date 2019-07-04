@@ -74,12 +74,13 @@ class InputQuestion extends React.Component {
         label={`Questions ${index + 1}`}
         required={false}
         key={key}
+        
       >
         {getFieldDecorator(`questionObjs[${key}].correctChoice`, {
           validateTrigger: ["onChange", "onBlur"],
           rules: [{ required: true, message: "Please select your CORRECT CHOICE !" }]
         })(
-          <Radio.Group>
+          <Radio.Group style={{width: "100%"}}>
             {getFieldDecorator(`questionObjs[${key}].question`, {
               validateTrigger: ["onChange", "onBlur"],
               rules: [{ required: true, message: "Please select your QUESTION !" }]
@@ -87,7 +88,7 @@ class InputQuestion extends React.Component {
               <Input
                 allowClear
                 placeholder="Please enter a question."
-                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                style={{ marginRight: 8 }}
               />
             )}
             {keysOfQuestionObjs.length > 1 ? (
@@ -106,7 +107,7 @@ class InputQuestion extends React.Component {
                 <div>Choice 1</div>
                 <Input
                   placeholder="Please enter a choice."
-                  style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                  style={{ marginRight: 8}}
                 />
               </div>
             )}
@@ -117,10 +118,10 @@ class InputQuestion extends React.Component {
               <TextArea
                 autosize
                 placeholder="Please enter a reason of this choice."
-                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                style={{ marginRight: 8}}
               />
             )}
-            <Radio value={1} style={{ marginLeft: 22 }}>
+            <Radio value={1}>
               This choice is correct.
             </Radio>
             {getFieldDecorator(`questionObjs[${key}].choices[1]`, {
@@ -131,7 +132,7 @@ class InputQuestion extends React.Component {
                 <div>Choice 2</div>
                 <Input
                   placeholder="Please enter a choice."
-                  style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                  style={{ marginRight: 8}}
                 />
               </div>
             )}
@@ -142,10 +143,10 @@ class InputQuestion extends React.Component {
               <TextArea
                 autosize
                 placeholder="Please enter a reason of this choice."
-                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                style={{marginRight: 8}}
               />
             )}
-            <Radio value={2} style={{ marginLeft: 22 }}>
+            <Radio value={2}>
               This choice is correct.
             </Radio>
             {getFieldDecorator(`questionObjs[${key}].choices[2]`, {
@@ -156,7 +157,7 @@ class InputQuestion extends React.Component {
                 <div>Choice 3</div>
                 <Input
                   placeholder="Please enter a choice."
-                  style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                  style={{marginRight: 8}}
                 />
               </div>
             )}
@@ -167,10 +168,10 @@ class InputQuestion extends React.Component {
               <TextArea
                 autosize
                 placeholder="Please enter a reason of this choice."
-                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                style={{ marginRight: 8}}
               />
             )}
-            <Radio value={3} style={{ marginLeft: 22 }}>
+            <Radio value={3} >
               This choice is correct.
             </Radio>
             {getFieldDecorator(`questionObjs[${key}].choices[3]`, {
@@ -181,7 +182,7 @@ class InputQuestion extends React.Component {
                 <div>Choice 4</div>
                 <Input
                   placeholder="Please enter a choice."
-                  style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                  style={{ marginRight: 8}}
                 />
               </div>
             )}
@@ -192,10 +193,10 @@ class InputQuestion extends React.Component {
               <TextArea
                 autosize
                 placeholder="Please enter a reason of this choice."
-                style={{ width: "76%", marginRight: 8, marginLeft: 22 }}
+                style={{ marginRight: 8}}
               />
             )} 
-            <Radio value={4} style={{ marginLeft: 22 }}>
+            <Radio value={4}>
               This choice is correct.
             </Radio>
           </Radio.Group>
@@ -282,7 +283,7 @@ class InputQuestion extends React.Component {
           <Button
             type="dashed"
             onClick={this.handleAddQuestion}
-            style={{ width: "60%" }}
+            style={{ width: "100%" }}
           >
             <Icon type="plus" /> Add field
           </Button>
