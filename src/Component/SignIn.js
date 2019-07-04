@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import { Modal, Button, Form, Icon, Input, Checkbox, message } from 'antd';
 import '../cssFile/Layout.css';
 import SignUp from './SignUp';
@@ -10,79 +11,76 @@ class Signin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: null,
-            password: null,
             visible: false,
             signUpVisible: false
         };
-        this.authListener = this.authListener.bind(this);
+        // this.authListener = this.authListener.bind(this);
+    }
+    // authListener() {
+    //     fire.auth().onAuthStateChanged((user) => {
+    //         if (user) {
+    //             this.props.dispatch({
+    //                 type: 'SET_USER',
+    //                 payload: user 
+    //             });
+    //         }
+    //     })
+    // }
+    componentDidMount() {
+        // this.authListener();
     }
 
-    // signUp=()=> {
-    //     fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-    //         .then((u) => {
-    //             console.log('Successfully Signed Up');
-    //         })
-    //         .catch((err) => {
-    //             console.log('Error: ' + err.toString());
-    //         })
-    // }
-
-    login =()=> {
-        console.log(this.state)
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    
+    login =(email, password)=> {
+        // console.log(this.state)
+        fire.auth().signInWithEmailAndPassword(email, password)
             .then((data) => {
+                this.props.dispatch({
+                    type: 'SET_USER',
+                    payload: data.user
+                })
                 message.success('Login success');
-                console.log('Successfully Logged In: ', data.user.getIdToken());
+                console.log('Successfully Logged In: ', data.user.uid);
             })
             .catch((err) => {
                 message.error('Login Failed');
                 console.log('Error: ' + err.toString());
-                console.log('test')
             })
     }
-    componentDidMount() {
-        this.authListener();
-        console.log(this.state)
-    }
-
-    authListener() {
-        fire.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({ user });
-            } else {
-                // this.setState({ user: null });
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+                this.login(values.email, values.password);
             }
-        })
-    }
+        });
+    };
 
     closeModal = () => {
         this.setState({
             visible: false,
         });
     }
-
     showModal = () => {
         this.setState({
             visible: true,
         });
     };
-
     toggleSignUp = () => {
         this.setState({
             signUpVisible: !this.state.signUpVisible,
         })
     }
-
-    handleEmail = e => {
-        console.log(e.target.value)
-        this.setState({ email: e.target.value })
-    }
-    handlePassword = e => {
-        let temp = e.target.value
-        console.log(e.target.value)
-        this.setState({ password: temp })
-    }
+    // handleEmail = e => {
+    //     console.log(e.target.value)
+    //     this.setState({ email: e.target.value })
+    // }
+    // handlePassword = e => {
+    //     let temp = e.target.value
+    //     console.log(e.target.value)
+    //     this.setState({ password: temp })
+    // }
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -95,20 +93,14 @@ class Signin extends React.Component {
                     title="Sign in"
                     visible={this.state.visible && !this.state.signUpVisible}
                     onCancel={this.closeModal}
-                    footer={[
-                        <Button key="back" onClick={this.closeModal}>
-                            Cancel
-                        </Button>,
-                        <Button key="submit" type="primary" onClick={this.login}>
-                            Login
-                        </Button>,
-                    ]}
+                    footer={null}
+                    style={{display: 'flex', justifyContent: 'center'}}
                 >
-                    <Form className="login-form">
+                    <Form className="login-form" onSubmit={this.handleSubmit}>
                         <Form.Item>
-                            {getFieldDecorator('e-mail', {
+                            {getFieldDecorator('email', {
                                 rules: [{ required: true, message: 'Please input your email!' }],
-                                onChange: (e) => this.handleEmail(e),
+                                // onChange: (e) => this.handleEmail(e),
                             })(
                                 <Input
                                     prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -119,7 +111,7 @@ class Signin extends React.Component {
                         <Form.Item>
                             {getFieldDecorator('password', {
                                 rules: [{ required: true, message: 'Please input your Password!' }],
-                                onChange: (e) => this.handlePassword(e),
+                                // onChange: (e) => this.handlePassword(e),
                             })(
                                 <Input
                                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -136,9 +128,21 @@ class Signin extends React.Component {
 
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" onClick={() => this.toggleSignUp()}>
-                                Sign Up
-                            </Button>
+                            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <div>
+                                    <Button type="primary" onClick={() => this.toggleSignUp()}>
+                                        Sign Up
+                                    </Button>
+                                </div>
+                                <div>
+                                    <Button onClick={this.closeModal}>
+                                        Cancel
+                                    </Button>
+                                    <Button htmlType="submit" type="primary">
+                                        Login
+                                    </Button>
+                                </div>
+                            </div>
                         </Form.Item>
                     </Form>
                 </Modal>
@@ -149,4 +153,4 @@ class Signin extends React.Component {
 }
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Signin);
-export default WrappedNormalLoginForm;
+export default connect()(WrappedNormalLoginForm);

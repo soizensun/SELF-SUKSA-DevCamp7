@@ -1,152 +1,173 @@
 import React, { Component } from 'react'
-import { Modal, Button, Form, Icon, Input, Checkbox } from 'antd';
-const { fire } = require('../redux-firebase/firebaseControl');
+import {connect} from 'react-redux'
+import '../cssFile/Layout.css';
+import { Modal, Button, Form, Icon, Input, Tooltip } from 'antd';
+const { fire, createAccount } = require('../redux-firebase/firebaseControl');
 
 
 class SignUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: null,
-            password: null,
+            confirmDirty: false,
         };
-        this.authListener = this.authListener.bind(this);
+        // this.authListener = this.authListener.bind(this);
+    }
+    // authListener() {
+    //     fire.auth().onAuthStateChanged((user) => {
+    //         if (user) {
+    //             this.props.dispatch({
+    //                 type: 'SET_USER',
+    //                 payload: user
+    //             });
+    //         }
+    //     })
+    // }
+    componentDidMount() {
+        // this.authListener();
     }
 
-    signUp=()=> {
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => {
+    signUp = (username, email, password) => {
+        fire.auth().createUserWithEmailAndPassword(email, password)
+            .then((data) => {
+                this.props.dispatch({
+                    type: 'SET_USER',
+                    payload: data.user
+                })
                 console.log('Successfully Signed Up');
+                return data.user
+            }).then((user) => {
+                createAccount(username, email, user.uid);
             })
             .catch((err) => {
-                
                 console.log('Error: ' + err.toString());
             })
-            this.props.closeModal();
-    
-    }
+        this.props.closeModal();
 
-    componentDidMount() {
-        this.authListener();
-        console.log(this.state)
     }
-
-    authListener() {
-        fire.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({ user });
-            } else {
-                // this.setState({ user: null });
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+                this.signUp(values.username, values.email, values.password);
             }
-        })
-    }
+        });
+    };
 
-    handleEmail = e => {
-        console.log(e.target.value)
-        this.setState({ email: e.target.value })
-    }
-    handlePassword = e => {
-        let temp = e.target.value
-        console.log(e.target.value)
-        this.setState({ password: temp })
-    }
-    validateToNextPassword = (rule, value, callback) => {
-        const { form } = this.props;
-        if (value && this.state.confirmDirty) {
-          form.validateFields(['confirm'], { force: true });
-        }
-        callback();
-    }
+    handleConfirmBlur = e => {
+        const { value } = e.target;
+        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    };
     compareToFirstPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && value !== form.getFieldValue('password')) {
-          callback("The passwords you entered don't match!");
+            callback('Two passwords that you enter is inconsistent!');
         } else {
-          callback();
+            callback();
         }
-    }
+    };
+    validateToNextPassword = (rule, value, callback) => {
+        const { form } = this.props;
+        if (value && this.state.confirmDirty) {
+            form.validateFields(['confirm'], { force: true });
+        }
+        callback();
+    };
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        return (
-            <div>
-                <Modal
-                    title="Sign Up"
-                    visible={this.props.signUpVisible}
-                    onCancel={()=>{this.props.closeModal(); this.props.toggleSignUp()}}
-                    footer={[
-                        <Button key="back" onClick={()=>this.props.toggleSignUp()}>
-                            Cancel
-                        </Button>,
-                        <Button key="submit" type="primary" onClick={()=>this.signUp()}>
-                            Sign up
-                        </Button>
-                    ]}
-                >
-                    <Form className="login-form">
-                        <Form.Item>
-                            {getFieldDecorator('username', {
-                                rules: [{ required: true, 
-                                message: 'Please input your Username!' }],
-                            })(
-                                <Input
-                                    prefix={<Icon type="user" 
-                                    style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    type="username"
-                                    placeholder="Username"
-                                />,
-                            )}
-                        </Form.Item>
-                        <Form.Item>
-                            {getFieldDecorator('e-mail', {
-                                rules: [{ required: true, 
-                                message: 'Please input your email!' }],
-                                onChange: (e) => this.handleEmail(e),
-                            })(
-                                <Input
-                                    prefix={<Icon type="mail" 
-                                    style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    placeholder="E-mail"
-                                />,
-                            )}
-                        </Form.Item>
-                        <Form.Item>
-                            {getFieldDecorator('password', {
-                                rules: [{ required: true, 
-                                message: 'Please input your Password!' },
-                                {validator: this.validateToNextPassword,},
-                                ],
-                                onChange: (e) => this.handlePassword(e),
-                                
-                            })(
-                                <Input
-                                    onBlur={this.handleConfirmBlur}
-                                    prefix={<Icon type="lock" 
-                                    style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    type="password"
-                                    placeholder="Password"
-                                />,
-                            )}
-                        </Form.Item>
-                        <Form.Item >
-                            {getFieldDecorator('confirm-password', {
-                                rules: [{required: true,
-                                message: 'Please confirm your password!',},
-                                {validator: this.compareToFirstPassword},
-                                ],})
-                                (<Input 
-                                    prefix={<Icon type="lock" 
-                                    style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    type="password"
-                                    placeholder="Confirm-Password"/>)}
-                        </Form.Item>
-                    </Form>
 
-                </Modal>
-            </div>
+        const formItemLayout = {
+            labelCol: { xs: { span: 24 }, sm: { span: 8 }, },
+            wrapperCol: { xs: { span: 24 }, sm: { span: 16 }, },
+        };
+        const tailFormItemLayout = {
+            wrapperCol: {
+                xs: { span: 24, offset: 0, }, sm: { span: 16, offset: 8, },
+            },
+        };
+
+        return (
+            <Modal
+                title="Create a new account"
+                visible={this.props.signUpVisible}
+                onCancel={() => { this.props.closeModal(); this.props.toggleSignUp() }}
+                footer={null}
+                style={{display: 'flex', justifyContent: 'center'}}
+            >
+                <Form {...formItemLayout} onSubmit={this.handleSubmit} className='signup-form'>
+                    <Form.Item
+                        label={
+                            <span>
+                                Username&nbsp;
+                                <Tooltip title="What do you want others to call you?">
+                                    <Icon type="question-circle-o" />
+                                </Tooltip>
+                            </span>
+                        }
+                    >
+                        {getFieldDecorator('username', {
+                            rules: [{ required: true, message: 'Please input your username!', whitespace: true }],
+                        })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="E-mail">
+                        {getFieldDecorator('email', {
+                            rules: [
+                                {
+                                    type: 'email',
+                                    message: 'The input is not valid E-mail!',
+                                },
+                                {
+                                    required: true,
+                                    message: 'Please input your E-mail!',
+                                },
+                            ],
+                        })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Password" hasFeedback>
+                        {getFieldDecorator('password', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Please input your password!',
+                                },
+                                {
+                                    validator: this.validateToNextPassword,
+                                },
+                            ],
+                        })(<Input.Password />)}
+                    </Form.Item>
+                    <Form.Item label="Confirm Password" hasFeedback>
+                        {getFieldDecorator('confirm', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Please confirm your password!',
+                                },
+                                {
+                                    validator: this.compareToFirstPassword,
+                                },
+                            ],
+                        })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+                    </Form.Item>
+                    
+                    <Form.Item {...tailFormItemLayout}>
+                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                            <Button onClick={() => this.props.toggleSignUp()}>
+                                Cancel
+                            </Button>
+                            <Button type="primary" htmlType="submit">
+                                Register
+                            </Button>
+                        </div>
+                    </Form.Item>
+                </Form>
+            </Modal>
         );
     }
+
 }
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(SignUp);
-export default WrappedNormalLoginForm;
+export default connect()(WrappedNormalLoginForm);
