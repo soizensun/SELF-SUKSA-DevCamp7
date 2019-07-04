@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag, Card, Button, Modal, Steps, message, Row, Col } from 'antd';
+import { Tag, Card, Button, Modal, Steps, message, Row, Col, notification } from 'antd';
 // import 'antd/dist/antd.css';
 import '../cssFile/AllQuestion.css';
 import { connect } from 'react-redux';
@@ -24,7 +24,8 @@ class AllQuestion extends React.Component {
             quizs: [],
             visible: false,
             current: 0,
-            a: true,
+            canShow: false,
+            currentQuestions: []
         }
     }
 
@@ -67,8 +68,51 @@ class AllQuestion extends React.Component {
         this.setState({ current });
     }
 
-    onSelectChoice = (e) => {
-        console.log(e.target.value);
+    onSelectChoice1 = (val) => {
+        notification.open({
+            duration: 0,
+            placement: "topLeft",
+            message: "choice 1's reason ",
+            description: val,
+        })
+    }
+    onSelectChoice2 = (val) => {
+        notification.open({
+            duration: 0,
+            placement: "topRight",
+            message: "choice 2's reason ",
+            description: val,
+        })
+    }
+    onSelectChoice3 = (val) => {
+        notification.open({
+            duration: 0,
+            placement: "bottomLeft",
+            message: "choice 3's reason ",
+            description: val,
+        })
+    }
+    onSelectChoice4 = (val) => {
+        const key = `open${Date.now()}`;
+        const btn = (
+            <Button type="primary" size="small" onClick={() => notification.close(key)}>
+              Confirm
+            </Button>
+          );
+        notification.open({
+            duration: 0,
+            placement: "bottomRight",
+            message: "choice 4's reason ",
+            description: val,
+            btn,
+        })
+    }
+
+    showReason = (index) => {
+        this.onSelectChoice1(this.state.currentQuestions[index].reasons[0]);
+        this.onSelectChoice2(this.state.currentQuestions[index].reasons[1]);
+        this.onSelectChoice3(this.state.currentQuestions[index].reasons[2]);
+        this.onSelectChoice4(this.state.currentQuestions[index].reasons[3]);
     }
 
     showModal = (quizId) => {
@@ -78,49 +122,31 @@ class AllQuestion extends React.Component {
                 res.forEach(doc => {
                     questions.push(doc.data())
                 })
-                questions.map((item) => {
+                this.setState({currentQuestions: questions})
+                questions.map((item, index) => {
                     var question = item.question
-                    // var correctChoice = item.correctChoice
+                    var correctChoice = item.correctChoice
                     var choices = item.choices
                     var reasons = item.reasons;
-                    console.log(item.reasons);
                     
-                    var choicesButton = 
-                        <div>
-                            <div className="box">
-                                {question}
-                            </div>
-                            {/* {correctChoice} */}
-                            <div style={{ marginTop: "10px" }}>
-                                <Row gutter={8} style={{ width: "565px" }}>
-                                    <Col span={10}><button value="1" onClick={this.onSelectChoice} className="bottonChoice">{choices[0]}</button></Col>
-                                    <Col span={10}><button value="2" onClick={this.onSelectChoice} className="bottonChoice">{choices[1]}</button></Col>
-                                </Row>
-                                <Row gutter={8} style={{ width: "565px" }}> 
-                                    <Col span={10}><button value="3" onClick={this.onSelectChoice} className="bottonChoice">{choices[2]}</button></Col>
-                                    <Col span={10}><button value="4" onClick={this.onSelectChoice} className="bottonChoice">{choices[3]}</button></Col>
-                                </Row>
-                            </div>
-                        </div>
-                    var reasonOfChoice = 
-                        <div>
-                            <div className="box">
-                                {question}
-                            </div>
-                            {/* {correctChoice} */}
-                            <div style={{ marginTop: "10px" }}>
-                                <Row gutter={8} style={{ width: "565px" }}>
-                                    <Col span={10}>{reasons[0]}</Col>
-                                    <Col span={10}>{reasons[1]}</Col>
-                                </Row>
-                                <Row gutter={8} style={{ width: "565px" }}> 
-                                    <Col span={10}>{reasons[2]}</Col>
-                                    <Col span={10}>{reasons[3]}</Col>
-                                </Row>
-                            </div>
-                        </div>
                     steps.push({
-                        content : reasonOfChoice
+                        content :  
+                        <div>
+                            <div className="box">
+                                {question}
+                            </div>
+                        
+                            <div style={{ marginTop: "10px" }}>
+                                <Row gutter={8} style={{ width: "565px" }}>
+                                    <Col span={10}><button value={index} onClick={() => this.showReason()} className="bottonChoice">{choices[0]}</button></Col>
+                                    <Col span={10}><button value={index} onClick={() => this.showReason()} className="bottonChoice">{choices[1]}</button></Col>
+                                </Row>
+                                <Row gutter={8} style={{ width: "565px" }}> 
+                                    <Col span={10}><button value={index} onClick={() => this.showReason()} className="bottonChoice">{choices[2]}</button></Col>
+                                    <Col span={10}><button value={index} onClick={() => this.showReason()} className="bottonChoice">{choices[3]}</button></Col>
+                                </Row>
+                            </div>
+                        </div> 
                     })
                 })
                 this.setState({
@@ -129,16 +155,9 @@ class AllQuestion extends React.Component {
             })
     };
 
-    showReason = () => {
-        console.log("show question");
-        
-    }
-
-  
     render() {
         const { current } = this.state;
         var cardOfQuiz = this.state.quizs.map((val, index) => {
-            // console.log(val[0]);
             var id = val.id
             var type = val.data.type
             var topic = val.data.topic
@@ -146,8 +165,6 @@ class AllQuestion extends React.Component {
             let tag = val.data.tags.map((tag, index) => {
                 return <Tag color="cyan" key={index}>{tag}</Tag>
             })
-
-            
             var component =
                 <Card
                     hoverable
@@ -157,7 +174,7 @@ class AllQuestion extends React.Component {
                         <Button type="primary" onClick={() => this.showModal(id)}>start doing !!</Button>
                     ]}
                 >
-                    {/* {tag} <br /> */}
+                    {tag} <br />
                     type => {type}<br />
                     {detail}
                 </Card>
@@ -172,8 +189,7 @@ class AllQuestion extends React.Component {
                 <Modal
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
-                    footer={null}
-                    style={{ right: this.state.a ? "0" : "28%" }}
+                    footer={null}  
                 >
                     <Steps current={current}>
                         {steps.map(item => (<Step key={item.title} title={item.title} />))}
@@ -200,12 +216,12 @@ class AllQuestion extends React.Component {
                                 Done
                             </Button>
                         )}
-                        {current > 0 && (
+                        {/* {current > 0 && (
                             <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
                                 Previous
                             </Button>
-                        )}
-                        <Button style={{ marginLeft: 8 }} onClick={this.showReason}>Show reason</Button>
+                        )} */}
+                        <Button style={{ marginLeft: 8 }} onClick={() => this.showReason(current)}>Show reason</Button>
                     </div>
                 </Modal>
                 <ul> {cardOfQuiz} </ul>
