@@ -10,10 +10,10 @@ const { Search } = Input;
 
 export class SubjectsMenu extends Component {
 
-    handleButon = (tag) => {
+    handleButon = (typeSubject) => {
         this.props.dispatch({
             type: 'SET_SUBJECT',
-            payload: tag.key
+            payload: typeSubject.key
         })
       }
 

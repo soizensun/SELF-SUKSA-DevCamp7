@@ -11,7 +11,7 @@ const db = fire.firestore();
 
 const mapStateToProps = (state) => {
     return {
-        test: state.subject,
+        typeSubject: state.subject,
         questionType: state.questionType
     }
 }
@@ -34,21 +34,33 @@ class AllQuestion extends React.Component {
 
     componentDidMount() {
         this.getQuizs();
+    }  
+    componentWillReceiveProps(nextProps){
+        if (nextProps.typeSubject!=this.props.typeSubject) {
+            this.getQuizs(nextProps.typeSubject)
+        }
     }
 
-    getQuizs = () => {
-        let quizs = [];
-        db.collection('Quizs').get()
-            .then((res) => {
-                res.forEach(doc => {
-                    var quiz = {
-                        id: doc.id,
-                        data: doc.data()
-                    }
-                    quizs.push(quiz)
-                });
-                this.setState({ quizs: quizs })
-            })
+    getQuizs = (typeSubject) => {
+        let quizsRef = db.collection('Quizs');
+        const setStateQuizs = (res) => {
+            let quizs = [];
+            res.forEach(doc => {
+                var quiz = {
+                    id: doc.id,
+                    data: doc.data()
+                }
+                quizs.push(quiz)
+            });
+            this.setState({ quizs: quizs })
+        }
+        if (!typeSubject) {
+            quizsRef.get()
+            .then((res) => { setStateQuizs(res) })
+        }else{
+            quizsRef.where('type', '==', typeSubject).get()
+            .then((res) => { setStateQuizs(res) })
+        }
     }
     /////////////////////////////////////////////
     handleCancel = e => {
