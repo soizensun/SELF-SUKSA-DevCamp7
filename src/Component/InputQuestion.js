@@ -10,7 +10,8 @@ const { Option, OptGroup } = Select;
 
 const mapStateToProps = (state) => {
   return {
-    tags: state.tagsInput
+    tags: state.tagsInput,
+    user: state.user
   }
 }
 
@@ -49,7 +50,9 @@ class InputQuestion extends React.Component {
 
       if (!err) {
         console.log("Received values of form: ", values);
-        createQuiz(values.topic, values.detail, values.type, this.props.tags, values.questionObjs);
+        console.log('user: ',this.props.user);
+        
+        createQuiz(values.topic, values.detail, values.type, this.props.tags, this.props.user, values.questionObjs);
         message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
       }else{
         console.error(err)
