@@ -5,41 +5,61 @@ import AllQuestion from './AllQuestion';
 import InputQuestion from './InputQuestion';
 import { Layout, Icon, Drawer, Button } from 'antd';
 import SubjectsMenu from './SubjectsMenu';
+import SignIn from './SignIn';
+import Avatar from './Avatar';
+import '../cssFile/Layout.css';
+import { connect } from 'react-redux';
+const {fire} = require('../redux-firebase/firebaseControl');
 
 const { Header, Content, Footer , Sider} = Layout;
 
-export class SiderDemo extends Component {
-  constructor() {
-    super();
-    this.state = {
-      visible: false,
-
-      tag: ""
-    }
+const mapStateToProps = (state) => {
+  return {
+    visibleInputDrawer: state.visibleInputDrawer,
+    user: state.user
   }
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
-  };
+}
 
+export class SiderDemo extends Component {
+  
+    // this.authListener = this.authListener.bind(this);
+  
+  componentDidMount() {
+    // this.authListener();
+  }
+
+  //==================================== DrawerAction
+  
   onClose = () => {
-    this.setState({
-      visible: false,
-    });
+    this.props.dispatch({
+      type: 'SET_VISIBLEINPUTDRAWER',
+      payload: false
+    });    
   };
+  //=================================================
 
+  // authListener() {
+  //   fire.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       this.setState({ user });
+  //       console.log('user: ', user);
+  //     } else {
+  //       this.setState({ user: null });
+  //     }
+  //   })
+  // }
 
   render() {
     return (
-      <div>
-        <Header style={{ background: '#fff', padding: 0, marginLeft: 0 }} >
-          <div style={{ marginLeft: 20, fontSize: 20 }}>
-            APP NAME
-          </div>
+      
+    <div >
+      <Header style={{backgroundColor: '#ABB2B9'}}>
+          <Content style={{ fontSize: 25, display: 'flex', justifyContent:'space-between', marginRight: 30}}>
+              <div style={{color: '#2C3E50'}}>Z E L F  S U K S A</div> 
+              <div >{ this.props.user ? <Avatar/> : ( <SignIn /> ) }</div>
+          </Content>
         </Header>
-
-
+            
         <Layout>
           <Sider
             breakpoint="lg"
@@ -54,18 +74,13 @@ export class SiderDemo extends Component {
             <SubjectsMenu/>
           </Sider>
           
-          <Layout>
-            
-            <Content style={{ margin: '24px 16px 0' }}>
-              <div style={{ padding: 24, background: '#fff', minHeight: 1000 }}>
+          <Layout style={{backgroundColor: '#F4ECF7  '}}>
+            <Content style={{ margin: '24px 16px 0'}}>
+              <div style={{ padding: 24, background: '#F4ECF7', minHeight: 1000 }}>
                 {/* <i class="fas fa-biohazard fa-5x"></i> */}
                 <AllQuestion />
-                <Button type="primary" onClick={this.showDrawer}>
-                  <Icon type="plus" /> add new question
-                      </Button>
               </div>
             </Content>
-
             <Footer style={{ textAlign: 'center' }}>footer</Footer>
           </Layout>
 
@@ -73,10 +88,10 @@ export class SiderDemo extends Component {
 
 
         <Drawer
-          title="Create a new account"
-          width={500}
+          title="Create a new quiz"
+          width={'65%'}
           onClose={this.onClose}
-          visible={this.state.visible}
+          visible={this.props.visibleInputDrawer}
         >
           <InputQuestion />
           <div
@@ -99,4 +114,4 @@ export class SiderDemo extends Component {
   }
 }
 
-export default SiderDemo;
+export default connect(mapStateToProps)(SiderDemo);

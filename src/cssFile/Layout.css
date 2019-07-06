@@ -1,0 +1,10 @@
+
+.signout{
+    justify-content: space-around;
+}
+.login-form {
+    min-width: 300px;
+}
+.signup-form {
+    min-width: 500px;
+}

@@ -1,205 +1,313 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
-import { message, Input, Tag, Tooltip, Icon, Form, Select, Button } from 'antd';
-import fire from '../Config';
+import { message, Input, Icon, Form, Select, Button, Radio } from 'antd';
+import TagsInput from './TagsInput';
 
+const { createQuiz } = require('../redux-firebase/firebaseControl');
 const { TextArea } = Input;
-const { Option } = Select;
+const { Option, OptGroup } = Select;
+
+const mapStateToProps = (state) => {
+  return {
+    tags: state.tagsInput,
+    user: state.user
+  }
+}
 
 class InputQuestion extends React.Component {
   constructor(){
-    super();    
+    super();
     this.state = {
-      topic: '',
-      detail: '',
-      type: '',
-      allData: [],
-
-      tags: [],
-      inputVisible: false,
-      inputValue: '',
+      isAddQuestionHandle: true,
     }
   }
 
-  updateInput = e => {
-    this.setState({
-      [e.target.name]: e.target.value
+  handleAddQuestion = () => {
+    this.setState({isAddQuestionHandle: false})
+    const { form } = this.props;
+    let keysQuestionArr = form.getFieldValue('keysOfQuestionObjs');
+    keysQuestionArr = keysQuestionArr.concat(keysQuestionArr.length)
+
+    form.setFieldsValue({
+      keysOfQuestionObjs: keysQuestionArr,
     });
-  }
-
-  handleDropdown = e =>{
-    this.setState({
-      type : e
-    })
-  }
-
-  handleSubmit = e => {
-
-    console.log(
-      "topic : " + this.state.topic + " detail : " + this.state.detail + " type : " + this.state.type
-    )
-
-    e.preventDefault();
-    const db = fire.firestore();
-    db.settings({
-      timestampsInSnapshots: true
+  };
+  handleRemoveQuestion = k => {
+    const { form } = this.props;
+    const keys = form.getFieldValue('keysOfQuestionObjs');
+    if (keys.length === 1) {
+      return;
+    }
+    form.setFieldsValue({
+      keysOfQuestionObjs: keys.filter(key => key !== k),
     });
-    if ( this.state.topic !== "" && this.state.detail !== "" && this.state.type !== ""){
-      message.loading('saving your question', 1.0).then(() => message.success('already ask', 2.5))
-      db.collection('question').add({
-        topic: this.state.topic,
-        detail: this.state.detail,
-        tag : this.state.tags,
-        type : this.state.type,
-      });
-      this.setState({
-        topic: '',
-        detail: '',
-        tag: '',
-        type: this.state.type,
-      });
-    }
-    else {
-      message.error('Please fill in all of form');
-    }
-
-    
   };
 
-////////////////////// TAG CONTROL ///////////////////
-    handleClose = removedTag => {
-      const tags = this.state.tags.filter(tag => tag !== removedTag);
-      console.log(tags);
-      this.setState({ tags });
-    };
-  
-    showInput = () => {
-      this.setState({ inputVisible: true }, () => this.input.focus());
-    };
-  
-    handleInputChange = e => {
-      this.setState({ inputValue: e.target.value });
-    };
-  
-    handleInputConfirm = () => {
-      const { inputValue } = this.state;
-      let { tags } = this.state;
-      if (inputValue && tags.indexOf(inputValue) === -1) {
-        tags = [...tags, inputValue];
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+
+      if (!err) {
+        console.log("Received values of form: ", values);
+        console.log('user: ',this.props.user);
+        
+        createQuiz(values.topic, values.detail, values.type, this.props.tags, this.props.user, values.questionObjs);
+        message.loading('saving your question', 1.0).then(() => message.success('already submit', 2.5))
+      }else{
+        console.error(err)
       }
-      console.log(tags);
-      this.setState({
-        tags,
-        inputVisible: false,
-        inputValue: '',
-      });
+      this.props.dispatch({
+        type: 'SET_TAGSINPUT',
+        payload: []
+      })
+      this.props.form.resetFields();
+    })
+  };
+
+  render() {
+    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const formItemLayout = {
+      labelCol: { xs: { span: 24 }, sm: { span: 4 } },
+      wrapperCol: { xs: { span: 24 }, sm: { span: 20 } }
+    };
+    const formItemLayoutWithOutLabel = {
+      wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 20, offset: 4 } }
     };
 
-    saveInputRef = input => (this.input = input);
-////////////////////////////////////////////////////////
-
-    render(){
-      const { tags, inputVisible, inputValue } = this.state;
-      const { getFieldDecorator } = this.props.form;
-
-        return (
-          <div>
-            <div>
-              {tags.map((tag, index) => {
-                const isLongTag = tag.length > 10;
-                const tagElem = (
-                  <Tag key={tag} closable={index !== -1} onClose={() => this.handleClose(tag)}>
-                    {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-                  </Tag>
-                );
-                return isLongTag ? (
-                  <Tooltip title={tag} key={tag}>
-                    {tagElem}
-                  </Tooltip>
-                ) : (
-                  tagElem
-                );
-              })}
-              {inputVisible && (
+    getFieldDecorator("keysOfQuestionObjs", { initialValue: [] });
+    const keysOfQuestionObjs = getFieldValue("keysOfQuestionObjs");
+    const questionForm = keysOfQuestionObjs.map((key, index) => (
+      <Form.Item
+        label={`Questions ${index + 1}`}
+        required={false}
+        key={key}
+        
+      >
+        {getFieldDecorator(`questionObjs[${key}].correctChoice`, {
+          validateTrigger: ["onChange", "onBlur"],
+          rules: [{ required: true, message: "Please select your CORRECT CHOICE !" }]
+        })(
+          <Radio.Group style={{width: "100%"}}>
+            {getFieldDecorator(`questionObjs[${key}].question`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "Please select your QUESTION !" }]
+            })(
+              <Input
+                allowClear
+                placeholder="Please enter a question."
+                style={{ marginRight: 8 }}
+              />
+            )}
+            {keysOfQuestionObjs.length > 1 ? (
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                onClick={() => this.handleRemoveQuestion(key)}
+                style={{ alignSelf: 'flex-start' }}
+              />
+            ) : null}
+            {getFieldDecorator(`questionObjs[${key}].choices[0]`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "Please select your CHOICE 1 !" }]
+            })(
+              <div>
+                <div>Choice 1</div>
                 <Input
-                  ref={this.saveInputRef}
-                  type="text"
-                  size="small"
-                  style={{ width: 78 }}
-                  value={inputValue}
-                  onChange={this.handleInputChange}
-                  onBlur={this.handleInputConfirm}
-                  onPressEnter={this.handleInputConfirm}
+                  placeholder="Please enter a choice."
+                  style={{ marginRight: 8}}
                 />
-              )}
-              {!inputVisible && (
-                <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-                  <Icon type="plus" /> New Tag
-                </Tag>
-              )}
-            </div>
+              </div>
+            )}
+            {getFieldDecorator(`questionObjs[${key}].reasons[0]`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "What is REASON of this choice !" }]
+            })(
+              <TextArea
+                autosize
+                placeholder="Please enter a reason of this choice."
+                style={{ marginRight: 8}}
+              />
+            )}
+            <Radio value={1}>
+              This choice is correct.
+            </Radio>
+            {getFieldDecorator(`questionObjs[${key}].choices[1]`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "Please select your CHOICE 2 !" }]
+            })(
+              <div>
+                <div>Choice 2</div>
+                <Input
+                  placeholder="Please enter a choice."
+                  style={{ marginRight: 8}}
+                />
+              </div>
+            )}
+            {getFieldDecorator(`questionObjs[${key}].reasons[1]`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "What is REASON of this choice !" }]
+            })(
+              <TextArea
+                autosize
+                placeholder="Please enter a reason of this choice."
+                style={{marginRight: 8}}
+              />
+            )}
+            <Radio value={2}>
+              This choice is correct.
+            </Radio>
+            {getFieldDecorator(`questionObjs[${key}].choices[2]`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "Please select your CHOICE 3 !" }]
+            })(
+              <div>
+                <div>Choice 3</div>
+                <Input
+                  placeholder="Please enter a choice."
+                  style={{marginRight: 8}}
+                />
+              </div>
+            )}
+            {getFieldDecorator(`questionObjs[${key}].reasons[2]`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "What is REASON of this choice !" }]
+            })(
+              <TextArea
+                autosize
+                placeholder="Please enter a reason of this choice."
+                style={{ marginRight: 8}}
+              />
+            )}
+            <Radio value={3} >
+              This choice is correct.
+            </Radio>
+            {getFieldDecorator(`questionObjs[${key}].choices[3]`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "Please select your CHOICE 4 !" }]
+            })(
+              <div>
+                <div>Choice 4</div>
+                <Input
+                  placeholder="Please enter a choice."
+                  style={{ marginRight: 8}}
+                />
+              </div>
+            )}
+            {getFieldDecorator(`questionObjs[${key}].reasons[3]`, {
+              validateTrigger: ["onChange", "onBlur"],
+              rules: [{ required: true, message: "What is REASON of this choice !" }]
+            })(
+              <TextArea
+                autosize
+                placeholder="Please enter a reason of this choice."
+                style={{ marginRight: 8}}
+              />
+            )} 
+            <Radio value={4}>
+              This choice is correct.
+            </Radio>
+          </Radio.Group>
+        )}
+      </Form.Item>
+    ));
 
-            <Form labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} onSubmit={this.handleSubmit} >
+    return (
+      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <TagsInput/>
+        
+        <Form.Item label="TOPIC: " hasFeedback>
+          {getFieldDecorator("topic", {
+            rules: [{ required: true, message: "Please enter your TOPIC !" }]
+          })(<Input allowClear placeholder="Please enter a TOPIC." />)}
+        </Form.Item>
+        <Form.Item label="DETAIL: " hasFeedback>
+          {getFieldDecorator("detail", {
+            rules: [{ required: true, message: "Please enter your DETAIL !" }]
+          })(<TextArea allowClear placeholder="Please enter a DETAIL." />)}
+        </Form.Item>
+        <Form.Item label="TYPE: " hasFeedback>
+          {getFieldDecorator("type", {
+            rules: [{ required: true, message: "Please select your TYPE !" }]
+          })(
+            <Select placeholder="Please select a TYPE.">
+              <OptGroup label="Prepare-Exam">
+                <Option value="PAT1">
+                  <Icon type="file-text" />
+                  <span className="nav-text"> PAT1 </span>
+                </Option>
+                <Option value="PAT2">
+                  <Icon type="file-text" />
+                  <span className="nav-text"> PAT2 </span>
+                </Option>
+                <Option value="GAT">
+                  <Icon type="file-text" />
+                  <span className="nav-text"> GAT </span>
+                </Option>
+                <Option value="O-NET">
+                  <Icon type="code" />
+                  <span className="nav-text"> O-NET </span>
+                </Option>
+                <Option value="Self-Evaluation">
+                  <Icon type="file-search" />
+                  <span className="nav-text"> Self-Evaluation </span>
+                </Option>
+              </OptGroup>
+              <OptGroup label="Practice">
+                <Option value="Math">
+                  <Icon type="line-chart" />
+                  <span className="nav-text"> Math </span>
+                </Option>
+                <Option value="Physics">
+                  <Icon type="thunderbolt" />
+                  <span className="nav-text"> Physics </span>
+                </Option>
+                <Option value="Chemistry">
+                  <Icon type="experiment" />
+                  <span className="nav-text"> Chemistry </span>
+                </Option>
+                <Option value="Biology">
+                  <Icon type="cluster" />
+                  <span className="nav-text"> Biology </span>
+                </Option>
+                <Option value="Language">
+                  <Icon type="flag" />
+                  <span className="nav-text"> Language </span>
+                </Option>
+                <Option value="History">
+                  <Icon type="search" />
+                  <span className="nav-text"> History </span>
+                </Option>
+                <Option value="Programming">
+                  <Icon type="code" />
+                  <span className="nav-text"> Programming </span>
+                </Option>
+              </OptGroup>
+            </Select>
+          )}
+        </Form.Item>
+        <hr />
+        {questionForm}
+        <Form.Item {...formItemLayoutWithOutLabel}>
+          <Button
+            type="dashed"
+            onClick={this.handleAddQuestion}
+            style={{ width: "100%" }}
+          >
+            <Icon type="plus" /> Add field
+          </Button>
+        </Form.Item>
 
-               <Form.Item label="TOPIC" style = {{margin: 0}}>
-                    <Input allowClear 
-                      placeholder="your topic" 
-                      onChange={this.updateInput} 
-                      value={this.state.topic} 
-                      name="topic"
-                    />
-               </Form.Item>
-
-               <Form.Item label="DETAIL" style = {{margin: 0}}>
-                    <TextArea autosize
-                      name="detail"
-                      placeholder="detail"
-                      onChange={this.updateInput}
-                      value={this.state.detail}
-                    />
-               </Form.Item>
-
-               <Form.Item label="TYPE" style = {{margin: 0}}>
-                 {getFieldDecorator('gender', {
-                   rules: [{ required: false, message: 'Please select your type!' }],
-                 })(
-                   <Select
-                     placeholder="Select your type of question"
-                     onChange={this.handleDropdown}
-                     value={this.state.type}
-                  >
-                    <Option value="PAT1" style={{backgroundColor: 'gray'}}>  
-                      <Icon type="file-excel" />
-                      <span className="nav-text">    PAT1</span>
-                     </Option>
-                    <Option value="PAT2">
-                      <Icon type="thunderbolt" />
-                      <span className="nav-text">    PAT2</span>
-                    </Option>
-                    <Option value="GAT">
-                        <Icon type="flag" />
-                        <span className="nav-text">    GAT</span>
-                    </Option>
-                    <Option value="O-NET">
-                        <Icon type="code" />
-                        <span className="nav-text">    O-NET</span>
-                    </Option>    
-
-                  </Select>,
-                )}
-              </Form.Item>
-
-              <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        );
-    }
+        <Form.Item {...formItemLayoutWithOutLabel}>
+          <Button type="primary" onClick={this.handleSubmit} disabled={this.state.isAddQuestionHandle}>
+            Submit quiz
+          </Button>
+        </Form.Item>
+      </Form>
+    );
+  }
 }
 
-const InputQuestion1 = Form.create({ name: 'coordinated' })(InputQuestion);
+const InputQuestion1 = Form.create({ name: 'dynamic_form_item' })(InputQuestion);
 
-export default InputQuestion1;
+export default connect(mapStateToProps)(InputQuestion1);

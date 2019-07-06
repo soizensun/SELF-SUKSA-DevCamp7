@@ -1,0 +1,50 @@
+/* For demo */
+.ant-carousel .slick-slide {
+    padding: 0px;
+    text-align: center;
+    height: 300px;
+    /* line-height: 30px; */
+    background: #f3955f;
+    overflow: hidden;
+  }
+  
+  .ant-carousel .slick-slide h3 {
+    color: #fff;
+  }
+
+  .bottonChoice{
+    background-color: #808B96;
+    width: 233px;
+    height: 100px;
+    transition: 0.5s;border: none;
+  }
+
+  .bottonChoiceSelected{
+    background-color: #FCF3CF;
+    color: black;
+    width: 233px;
+    height: 100px;
+    border: none;
+  }
+  
+  .bottonCorrectChoice {
+    background-color: greenyellow;
+    width: 233px;
+    color: black;
+    transition: 0.5s;
+    height: 100px;
+    border: none;
+  }
+
+
+  .box {
+    text-align: center;
+    /* align-content: center; */
+    width: 468px;
+    height: 105px;
+    background-color: #566573;
+    margin-top: 15px;
+    /* padding: 55px; */
+    color: white;
+  }
+
